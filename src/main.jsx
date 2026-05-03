@@ -11,22 +11,31 @@ import {
   Gamepad2,
   Music,
   TreePine,
-  PartyPopper,
+  Wine,
+  Trophy,
+  BookOpen,
   ArrowRight,
   Sparkles,
   MessageCircle,
-  Dumbbell,
   BadgeCheck,
+  UserCheck,
+  CheckCircle2,
+  LockKeyhole,
+  Globe2,
+  Plus,
 } from "lucide-react";
 import "./styles.css";
 
 const categories = [
-  { key: "all", label: "Todos", icon: Sparkles },
-  { key: "cafe", label: "VIBE Café", icon: Coffee },
-  { key: "juegos", label: "VIBE Juegos", icon: Gamepad2 },
-  { key: "musica", label: "VIBE Música", icon: Music },
-  { key: "outdoor", label: "VIBE Outdoor", icon: TreePine },
-  { key: "fiesta", label: "VIBE Fiesta", icon: PartyPopper },
+  { key: "all", label: "Todos", icon: Sparkles, interests: ["Panoramas", "Nuevos intereses", "Planes cerca"] },
+  { key: "cafe", label: "VIBE Café", icon: Coffee, interests: ["Café de especialidad", "Tasting", "Conversación"] },
+  { key: "juegos", label: "VIBE Juegos", icon: Gamepad2, interests: ["Juegos de mesa", "PS5 / Switch", "Cartas / Trivia"] },
+  { key: "musica", label: "VIBE Música", icon: Music, interests: ["Tocatas", "Festivales", "Música en vivo"] },
+  { key: "outdoor", label: "VIBE Outdoor", icon: TreePine, interests: ["Caminatas", "Fotos urbanas", "Cerros / parques"] },
+  { key: "previa", label: "VIBE La previa", icon: Wine, interests: ["Traguitos", "Antes de salir", "Buena conversación"] },
+  { key: "fiesta", label: "VIBE Fiesta", icon: Sparkles, interests: ["Carrete", "Baile", "Eventos"] },
+  { key: "deporte", label: "VIBE Deporte", icon: Trophy, interests: ["Básquetbol", "Fútbol", "Running / Pádel"] },
+  { key: "estudio", label: "VIBE Estudio", icon: BookOpen, interests: ["Grupo de lectura", "Grupo de estudio", "Aprender algo"] },
 ];
 
 const plans = [
@@ -34,25 +43,27 @@ const plans = [
     id: 1,
     category: "juegos",
     title: "Mesa abierta de juegos de mesa",
-    subtitle: "Aprender, jugar y conversar sin presión",
+    subtitle: "Aprender, jugar y conversar sin tener que organizarlo todo",
     date: "Hoy · 19:30",
     place: "Providencia",
-    host: "Anfitrión verificado",
+    host: "Host verificado",
     seats: "6 cupos",
+    access: "Ubicación pública",
     image: "https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?auto=format&fit=crop&w=1200&q=80",
-    vibe: "Ideal si te cuesta encontrar con quién jugar",
+    vibe: "Ideal si te gustan los juegos de mesa, cartas, estrategia o incluso quieres partir aprendiendo desde cero.",
   },
   {
     id: 2,
     category: "cafe",
-    title: "Café para conversar de música y ciudad",
-    subtitle: "Un plan simple para cortar la rutina",
+    title: "Tasting de café + conversación",
+    subtitle: "Café de especialidad, sabores nuevos y grupo chico",
     date: "Mañana · 18:00",
     place: "Ñuñoa",
-    host: "Anfitrión visible al sumarte",
+    host: "Host visible al sumarte",
     seats: "4 cupos",
-    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
-    vibe: "Perfecto si quieres salir pero no sabes con quién",
+    access: "Dirección al confirmar",
+    image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1200&q=80",
+    vibe: "Para quienes quieren salir de casa, probar café rico y conversar sin convertirlo en trámite.",
   },
   {
     id: 3,
@@ -61,66 +72,103 @@ const plans = [
     subtitle: "Moverse, mirar la ciudad y compartir interés",
     date: "Sábado · 10:30",
     place: "Lastarria",
-    host: "Anfitrión verificado",
+    host: "Host verificado",
     seats: "8 cupos",
+    access: "Ubicación pública",
     image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
-    vibe: "Para quienes quieren hacer algo distinto sin organizarlo todo",
+    vibe: "Para quienes quieren hacer algo distinto sin partir desde cero ni convencer al grupo de siempre.",
   },
   {
     id: 4,
     category: "musica",
-    title: "Listening session + recomendaciones",
-    subtitle: "Música, conversación y buena vibra",
+    title: "Acompáñame a una tocata",
+    subtitle: "Música en vivo, conversación y buena vibra",
     date: "Viernes · 20:00",
     place: "Bellavista",
-    host: "Anfitrión verificado",
+    host: "Host verificado",
     seats: "5 cupos",
+    access: "Ubicación pública",
     image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=80",
-    vibe: "Para descubrir música con personas afines",
+    vibe: "Para quienes quieren ir a una tocata, festival o show, pero no siempre tienen con quién.",
   },
   {
     id: 5,
-    category: "fiesta",
-    title: "After relax para conocer gente",
-    subtitle: "Un panorama simple para cortar el aburrimiento",
+    category: "previa",
+    title: "La previa: traguitos y buena conversación",
+    subtitle: "Un punto de partida antes de salir",
     date: "Jueves · 21:00",
     place: "El Golf",
-    host: "Anfitrión visible al sumarte",
+    host: "Host visible al sumarte",
     seats: "10 cupos",
-    image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80",
-    vibe: "Más panorama que trámite",
+    access: "Dirección al confirmar",
+    image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80",
+    vibe: "Para partir el carrete sin llegar solo, con un plan simple y un grupo acotado.",
   },
   {
     id: 6,
-    category: "cafe",
-    title: "Desayuno de domingo + lectura libre",
-    subtitle: "Café, libros y conversación amable",
+    category: "estudio",
+    title: "Grupo de lectura sobre IA y futuro",
+    subtitle: "Comparte un libro, una idea o un tema de estudio",
     date: "Domingo · 10:00",
     place: "Barrio Italia",
-    host: "Anfitrión verificado",
+    host: "Host verificado",
     seats: "7 cupos",
-    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=80",
-    vibe: "Para salir de casa y compartir un interés real",
+    access: "Ubicación pública",
+    image: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=1200&q=80",
+    vibe: "Para compartir lectura, estudio o curiosidad intelectual sin hacerlo solemne.",
+  },
+  {
+    id: 7,
+    category: "deporte",
+    title: "VIBE Básquetbol: equipo mixto casual",
+    subtitle: "Armar partido, moverse y conocer gente",
+    date: "Miércoles · 20:30",
+    place: "Las Condes",
+    host: "Host verificado",
+    seats: "10 cupos",
+    access: "Ubicación pública",
+    image: "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80",
+    vibe: "Ejemplo de cómo una persona puede crear su propia VIBE específica dentro de una categoría.",
+  },
+  {
+    id: 8,
+    category: "fiesta",
+    title: "VIBE Fiesta: grupo para festival urbano",
+    subtitle: "Coordinar llegada, entrada y previa liviana",
+    date: "Sábado · 22:00",
+    place: "Parque O'Higgins",
+    host: "Host visible al sumarte",
+    seats: "12 cupos",
+    access: "Ubicación pública",
+    image: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=1200&q=80",
+    vibe: "Para ir a un evento con grupo, no quedar botado y coordinar mejor la experiencia.",
   },
 ];
 
-const useCases = [
+const moments = [
   {
     title: "Cuando nadie se organiza",
     text: "Crea un plan y deja que otros se sumen. Menos chat eterno, más acción.",
   },
   {
-    title: "Cuando quieres salir",
-    text: "Encuentra personas cerca con ganas de hacer algo, sin depender del grupo de siempre.",
+    title: "Cuando quieres pasarlo bien",
+    text: "Y te falta con quién. Crea un plan o súmate a uno que ya exista.",
   },
   {
     title: "Cuando tienes un interés específico",
-    text: "Juegos de mesa, café, música, deporte o conversación: encuentra con quién compartirlo.",
+    text: "Juegos, café, música, deporte, lectura o estudio: encuentra con quién compartirlo.",
   },
   {
-    title: "Cuando te pega el aburrimiento o la soledad",
-    text: "VIBE transforma ganas sueltas en experiencias reales y concretas.",
+    title: "Cuando te falta con quién",
+    text: "VIBE convierte ganas sueltas en experiencias reales, pequeñas y posibles.",
   },
+];
+
+const steps = [
+  { title: "Elige una vibra", text: "Parte por una categoría o interés: café, juegos, música, deporte, estudio o previa." },
+  { title: "Explora planes", text: "Mira fecha, cupos, comuna, host y si la ubicación es pública o se libera al confirmar." },
+  { title: "Abre el detalle", text: "Revisa contexto, señales del host y cómo se coordina el encuentro." },
+  { title: "Súmate o crea", text: "Puedes sumarte a un plan o crear tu propia VIBE: fútbol, básquetbol, libro, tocata o lo que te mueva." },
 ];
 
 function App() {
@@ -128,6 +176,11 @@ function App() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [notice, setNotice] = useState("");
+  const [showCreate, setShowCreate] = useState(false);
+  const [customVibe, setCustomVibe] = useState("VIBE Básquetbol");
+  const [customInterest, setCustomInterest] = useState("Partido casual mixto");
+
+  const activeCategoryInfo = categories.find((c) => c.key === activeCategory) || categories[0];
 
   const filteredPlans = useMemo(() => {
     if (activeCategory === "all") return plans;
@@ -137,10 +190,6 @@ function App() {
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
     setMenuOpen(false);
-  };
-
-  const openPlan = (plan) => {
-    setSelectedPlan(plan);
   };
 
   const joinPlan = (plan) => {
@@ -162,13 +211,13 @@ function App() {
 
           <nav className="desktop-nav">
             <button onClick={() => scrollTo("planes")}>Planes</button>
-            <button onClick={() => scrollTo("usos")}>Usos reales</button>
-            <button onClick={() => scrollTo("confianza")}>Confianza</button>
+            <button onClick={() => scrollTo("momentos")}>Momentos</button>
+            <button onClick={() => scrollTo("como-funciona")}>Cómo funciona</button>
           </nav>
 
           <div className="desktop-actions">
             <button className="btn btn-ghost" onClick={() => scrollTo("planes")}>Explorar</button>
-            <button className="btn btn-primary" onClick={() => scrollTo("hero-categories")}>Crear un plan</button>
+            <button className="btn btn-primary" onClick={() => setShowCreate(true)}>Crear un plan</button>
           </div>
 
           <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menú">
@@ -179,9 +228,9 @@ function App() {
         {menuOpen && (
           <div className="mobile-menu">
             <button onClick={() => scrollTo("planes")}>Planes</button>
-            <button onClick={() => scrollTo("usos")}>Usos reales</button>
-            <button onClick={() => scrollTo("confianza")}>Confianza</button>
-            <button onClick={() => scrollTo("hero-categories")}>Crear un plan</button>
+            <button onClick={() => scrollTo("momentos")}>Momentos</button>
+            <button onClick={() => scrollTo("como-funciona")}>Cómo funciona</button>
+            <button onClick={() => setShowCreate(true)}>Crear un plan</button>
           </div>
         )}
       </header>
@@ -190,23 +239,26 @@ function App() {
         <div className="hero-overlay"></div>
         <div className="container hero-grid">
           <div className="hero-copy">
-            <p className="eyebrow">VIBE no es una app de citas románticas</p>
-            <h1>Planes reales con gente que vibra parecido.</h1>
+            <p className="eyebrow">Personas, panoramas y experiencias en tu misma frecuencia</p>
+            <h1>¿Qué haces hoy?</h1>
             <p className="hero-text">
+              Planes reales con gente que vibra parecido.
+            </p>
+            <p className="hero-support">
               Cuando quieres salir, aprender o compartir un interés, pero no sabes con quién.
             </p>
             <div className="hero-actions">
               <button className="btn btn-primary" onClick={() => scrollTo("planes")}>
                 Ver planes cerca <ArrowRight size={17} />
               </button>
-              <button className="btn btn-ghost" onClick={() => scrollTo("usos")}>
-                Cómo funciona
+              <button className="btn btn-ghost" onClick={() => setShowCreate(true)}>
+                Crear mi VIBE
               </button>
             </div>
 
             <div className="hero-points">
-              <div><BadgeCheck size={18} /> Ubicación visible</div>
-              <div><ShieldCheck size={18} /> Anfitrión identificado</div>
+              <div><UserCheck size={18} /> Host visible</div>
+              <div><LockKeyhole size={18} /> Ubicación según tipo de plan</div>
               <div><Users size={18} /> Planes pequeños y concretos</div>
             </div>
           </div>
@@ -219,14 +271,18 @@ function App() {
             <div className="hero-card-content">
               <span className="hero-badge">Hook real</span>
               <h3>Cuando nadie se organiza, crea un plan.</h3>
-              <p>Cuando quieres salir, pero no sabes con quién, VIBE te ayuda a partir.</p>
+              <p>Con VIBE transformas un deseo o una intención en una acción concreta.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="category-strip" id="hero-categories">
+      <section className="category-strip" id="categorias">
         <div className="container">
+          <div className="mini-head">
+            <span>Parte por lo que te mueve</span>
+            <p>Cada categoría puede abrir intereses específicos: VIBE Básquetbol, VIBE Fútbol, grupo de lectura, tasting de café, tocata o lo que quieras crear.</p>
+          </div>
           <div className="category-row">
             {categories.map(({ key, label, icon: Icon }) => (
               <button
@@ -242,23 +298,49 @@ function App() {
               </button>
             ))}
           </div>
+
+          <div className="interest-pills">
+            {activeCategoryInfo.interests.map((interest) => (
+              <span key={interest}>{interest}</span>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="section" id="usos">
+      <section className="section" id="momentos">
         <div className="container">
           <div className="section-head">
-            <span>Usos reales</span>
-            <h2>¿Para cuándo sirve VIBE?</h2>
-            <p>No es “hacer match”. Es encontrar un plan que te haga sentido y sumarte.</p>
+            <span>Para esos momentos</span>
+            <h2>Cuando tienes ganas de hacer algo, pero falta el con quién.</h2>
+            <p>VIBE no necesita explicarse como manual: parte desde situaciones cotidianas que todos reconocemos.</p>
           </div>
 
           <div className="use-grid">
-            {useCases.map((item) => (
+            {moments.map((item) => (
               <article className="use-card" key={item.title}>
                 <div className="use-icon"><Sparkles size={18} /></div>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section how-section" id="como-funciona">
+        <div className="container">
+          <div className="section-head">
+            <span>Cómo funciona</span>
+            <h2>Del interés al plan en cuatro pasos.</h2>
+            <p>Esto aparece como segundo nivel para quien ya se interesó y quiere entender cómo se usa.</p>
+          </div>
+
+          <div className="steps-grid">
+            {steps.map((step, index) => (
+              <article className="step-card" key={step.title}>
+                <div className="step-number">{index + 1}</div>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
               </article>
             ))}
           </div>
@@ -271,7 +353,7 @@ function App() {
             <div>
               <span>Cerca de ti</span>
               <h2>Planes para partir hoy</h2>
-              <p>Cards más compactas, visuales y útiles.</p>
+              <p>Elige una vibra, abre el detalle y súmate.</p>
             </div>
             <button className="btn btn-ghost small" onClick={() => setActiveCategory("all")}>Ver todos</button>
           </div>
@@ -282,6 +364,9 @@ function App() {
                 <div className="plan-image">
                   <img src={plan.image} alt={plan.title} />
                   <span className="plan-tag">{categories.find(c => c.key === plan.category)?.label || "Plan"}</span>
+                  {plan.host === "Host verificado" && (
+                    <span className="verified-badge"><CheckCircle2 size={14} /> Host verificado</span>
+                  )}
                 </div>
                 <div className="plan-body">
                   <h3>{plan.title}</h3>
@@ -291,11 +376,12 @@ function App() {
                     <li><CalendarDays size={15} /> {plan.date}</li>
                     <li><MapPin size={15} /> {plan.place}</li>
                     <li><ShieldCheck size={15} /> {plan.host}</li>
+                    <li>{plan.access === "Ubicación pública" ? <Globe2 size={15} /> : <LockKeyhole size={15} />} {plan.access}</li>
                     <li><Users size={15} /> {plan.seats}</li>
                   </ul>
 
                   <div className="plan-actions">
-                    <button className="btn btn-ghost small full" onClick={() => openPlan(plan)}>Ver detalle</button>
+                    <button className="btn btn-ghost small full" onClick={() => setSelectedPlan(plan)}>Ver detalle</button>
                     <button className="btn btn-primary small full" onClick={() => joinPlan(plan)}>Sumarme</button>
                   </div>
                 </div>
@@ -305,41 +391,14 @@ function App() {
         </div>
       </section>
 
-      <section className="section" id="confianza">
-        <div className="container">
-          <div className="section-head">
-            <span>Confianza</span>
-            <h2>Lo mínimo para que la experiencia se sienta segura.</h2>
-          </div>
-
-          <div className="trust-grid">
-            <article className="trust-card">
-              <ShieldCheck size={22} />
-              <h3>Ubicación visible</h3>
-              <p>Antes de sumarte, sabes dónde ocurre el plan.</p>
-            </article>
-            <article className="trust-card">
-              <BadgeCheck size={22} />
-              <h3>Anfitrión identificado</h3>
-              <p>Siempre hay una persona responsable detrás de la experiencia.</p>
-            </article>
-            <article className="trust-card">
-              <MessageCircle size={22} />
-              <h3>Contacto después de validar</h3>
-              <p>El siguiente paso puede ser habilitar contacto y verificación de identidad.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
       <section className="section cta-section">
         <div className="container">
           <div className="cta-box">
             <h2>Menos scroll. Más vida real.</h2>
-            <p>VIBE busca resolver un problema simple pero potente: aburrimiento, desconexión y ganas de hacer algo sin saber con quién.</p>
+            <p>VIBE busca resolver algo simple: ganas de hacer algo, intereses que no siempre calzan con tu grupo y planes que podrían pasar si alguien los activa.</p>
             <div className="hero-actions centered">
               <button className="btn btn-primary" onClick={() => scrollTo("planes")}>Explorar planes</button>
-              <button className="btn btn-ghost" onClick={() => scrollTo("inicio")}>Volver arriba</button>
+              <button className="btn btn-ghost" onClick={() => setShowCreate(true)}>Crear mi VIBE</button>
             </div>
           </div>
         </div>
@@ -350,17 +409,69 @@ function App() {
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
             <img src={selectedPlan.image} alt={selectedPlan.title} />
             <div className="modal-content">
+              <div className="modal-topline">
+                <span><CheckCircle2 size={15} /> {selectedPlan.host}</span>
+                <span>{selectedPlan.access === "Ubicación pública" ? <Globe2 size={15} /> : <LockKeyhole size={15} />} {selectedPlan.access}</span>
+              </div>
               <h3>{selectedPlan.title}</h3>
               <p className="modal-vibe">{selectedPlan.vibe}</p>
               <ul className="plan-meta modal-meta">
                 <li><CalendarDays size={15} /> {selectedPlan.date}</li>
                 <li><MapPin size={15} /> {selectedPlan.place}</li>
                 <li><ShieldCheck size={15} /> {selectedPlan.host}</li>
+                <li>{selectedPlan.access === "Ubicación pública" ? <Globe2 size={15} /> : <LockKeyhole size={15} />} {selectedPlan.access}</li>
                 <li><Users size={15} /> {selectedPlan.seats}</li>
               </ul>
               <div className="plan-actions">
                 <button className="btn btn-ghost full" onClick={() => setSelectedPlan(null)}>Cerrar</button>
                 <button className="btn btn-primary full" onClick={() => joinPlan(selectedPlan)}>Sumarme</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showCreate && (
+        <div className="modal-backdrop" onClick={() => setShowCreate(false)}>
+          <div className="modal-card create-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-content">
+              <div className="modal-topline">
+                <span><Plus size={15} /> Crear una VIBE</span>
+                <span><UserCheck size={15} /> Tú eres el host</span>
+              </div>
+              <h3>Crea tu propio plan</h3>
+              <p className="modal-vibe">
+                Esta parte sería clave para el éxito de la app: que el usuario sienta que puede transformar su interés en un plan concreto.
+              </p>
+
+              <label className="fake-label">
+                Nombre de tu VIBE
+                <input value={customVibe} onChange={(e) => setCustomVibe(e.target.value)} />
+              </label>
+
+              <label className="fake-label">
+                Interés o intención
+                <input value={customInterest} onChange={(e) => setCustomInterest(e.target.value)} />
+              </label>
+
+              <div className="preview-vibe">
+                <span>Preview</span>
+                <strong>{customVibe}</strong>
+                <p>{customInterest}</p>
+              </div>
+
+              <div className="plan-actions">
+                <button className="btn btn-ghost full" onClick={() => setShowCreate(false)}>Cerrar</button>
+                <button
+                  className="btn btn-primary full"
+                  onClick={() => {
+                    setNotice(`Crearías: ${customVibe}`);
+                    setShowCreate(false);
+                    setTimeout(() => setNotice(""), 2600);
+                  }}
+                >
+                  Crear preview
+                </button>
               </div>
             </div>
           </div>
