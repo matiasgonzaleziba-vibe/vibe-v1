@@ -98,14 +98,14 @@ button, input { font: inherit; }
 .interest-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .interest-pills span { font-size: 13px; padding: 7px 10px; border-radius: 999px; background: rgba(255,255,255,0.055); border: 1px solid var(--stroke); color: var(--muted); }
 
-.section { padding: 72px 0 0; }
+.section { padding: 82px 0 0; }
 .section-head { margin-bottom: 22px; }
 .section-head.row { display:flex; justify-content: space-between; align-items: end; gap: 16px; }
 .section-head span { display:block; text-transform: uppercase; letter-spacing: 0.22em; color: #ffd0b2; font-size: 12px; font-weight: 900; margin-bottom: 10px; }
 .section-head h2 { margin: 0 0 10px; font-size: clamp(32px, 4vw, 54px); line-height: 0.98; letter-spacing: -0.05em; }
 .section-head p { margin: 0; color: var(--muted-2); }
 
-.use-grid, .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.use-grid, .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .use-card, .step-card {
   background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
   border: 1px solid var(--stroke); border-radius: 24px; padding: 22px; min-height: 220px; box-shadow: var(--shadow);
@@ -181,4 +181,58 @@ button, input { font: inherit; }
   .category-row { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; }
   .category-chip { flex: 0 0 auto; }
   .use-card, .step-card, .plan-card { border-radius: 20px; min-height: auto; }
+}
+
+
+.visual-break { padding: 74px 0 0; }
+.visual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+.visual-grid img {
+  width: 100%;
+  height: 330px;
+  object-fit: cover;
+  border-radius: 24px;
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow);
+}
+.visual-copy {
+  min-height: 330px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 24px;
+  border: 1px solid var(--stroke);
+  background:
+    radial-gradient(circle at 10% 10%, rgba(255,122,48,0.22), transparent 16rem),
+    linear-gradient(135deg, rgba(124,58,237,0.22), rgba(255,255,255,0.045));
+  padding: 28px;
+}
+.visual-copy span {
+  display:block;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: #ffd0b2;
+  font-size: 12px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+.visual-copy h2 {
+  margin: 0 0 12px;
+  font-size: clamp(30px, 3.3vw, 46px);
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+.visual-copy p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+@media (max-width: 980px) {
+  .visual-grid { grid-template-columns: 1fr; }
+  .visual-grid img, .visual-copy { height: auto; min-height: 260px; }
 }

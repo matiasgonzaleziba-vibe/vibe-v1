@@ -1,3 +1,3 @@
-# VIBE v3.3
+# VIBE v3.4
 
-Ajuste de momento emocional: Cuando quieres pasarlo bien y te falta con quién.
+Reordena la landing para mostrar panoramas antes que explicaciones, simplifica el paso a paso a 3, usa categorías VIBE más generales y agrega VIBE Literario / VIBE Negocios.
