@@ -15,6 +15,11 @@ import {
   BookOpen,
   BriefcaseBusiness,
   PartyPopper,
+  Megaphone,
+  DoorClosed,
+  Shuffle,
+  MapPinned,
+  Navigation,
   ArrowRight,
   Sparkles,
   UserCheck,
@@ -173,6 +178,10 @@ function App() {
   const [showCreate, setShowCreate] = useState(false);
   const [customVibe, setCustomVibe] = useState("VIBE Básquetbol");
   const [customPlan, setCustomPlan] = useState("Partido casual mixto este jueves");
+  const [creationMode, setCreationMode] = useState("definido");
+  const [callType, setCallType] = useState("abierta");
+  const [locationType, setLocationType] = useState("publica");
+  const [zone, setZone] = useState("Providencia / Ñuñoa");
 
   const activeCategoryInfo = categories.find((c) => c.key === activeCategory) || categories[0];
 
@@ -447,8 +456,29 @@ function App() {
               </div>
               <h3>Crea tu propia VIBE</h3>
               <p className="modal-vibe">
-                La VIBE es el territorio o interés. El plan es la actividad concreta que otros pueden ver y sumarse.
+                La VIBE es el territorio o interés. El panorama es la actividad concreta que otros pueden ver y sumarse.
               </p>
+
+              <div className="choice-block">
+                <span className="choice-title">¿Qué tan armado está tu panorama?</span>
+                <div className="choice-grid three">
+                  <button className={`choice-card ${creationMode === "definido" ? "active" : ""}`} onClick={() => setCreationMode("definido")}>
+                    <MapPinned size={18} />
+                    <strong>Panorama definido</strong>
+                    <small>Ya sabes qué, cuándo y dónde.</small>
+                  </button>
+                  <button className={`choice-card ${creationMode === "abierto" ? "active" : ""}`} onClick={() => setCreationMode("abierto")}>
+                    <Megaphone size={18} />
+                    <strong>Idea abierta</strong>
+                    <small>Tienes la vibra, pero falta cerrarla.</small>
+                  </button>
+                  <button className={`choice-card ${creationMode === "random" ? "active" : ""}`} onClick={() => setCreationMode("random")}>
+                    <Shuffle size={18} />
+                    <strong>Panorama random</strong>
+                    <small>Ganas de hacer algo y ver quién prende.</small>
+                  </button>
+                </div>
+              </div>
 
               <label className="fake-label">
                 Nombre de tu VIBE
@@ -460,10 +490,58 @@ function App() {
                 <input value={customPlan} onChange={(e) => setCustomPlan(e.target.value)} />
               </label>
 
+              <div className="choice-block">
+                <span className="choice-title">Tipo de convocatoria</span>
+                <div className="choice-grid two">
+                  <button className={`choice-card ${callType === "abierta" ? "active" : ""}`} onClick={() => setCallType("abierta")}>
+                    <Megaphone size={18} />
+                    <strong>Convocatoria abierta</strong>
+                    <small>Las personas pueden pedir sumarse.</small>
+                  </button>
+                  <button className={`choice-card ${callType === "cerrada" ? "active" : ""}`} onClick={() => setCallType("cerrada")}>
+                    <DoorClosed size={18} />
+                    <strong>Evento cerrado</strong>
+                    <small>El host confirma antes de liberar detalles.</small>
+                  </button>
+                </div>
+              </div>
+
+              <div className="choice-block">
+                <span className="choice-title">Ubicación</span>
+                <div className="choice-grid three">
+                  <button className={`choice-card ${locationType === "publica" ? "active" : ""}`} onClick={() => setLocationType("publica")}>
+                    <Globe2 size={18} />
+                    <strong>Ubicación pública</strong>
+                    <small>Café, bar, parque, cancha, tocata.</small>
+                  </button>
+                  <button className={`choice-card ${locationType === "confirmar" ? "active" : ""}`} onClick={() => setLocationType("confirmar")}>
+                    <LockKeyhole size={18} />
+                    <strong>Dirección al confirmar</strong>
+                    <small>Se libera cuando el host da el vamos.</small>
+                  </button>
+                  <button className={`choice-card ${locationType === "sin_fija" ? "active" : ""}`} onClick={() => setLocationType("sin_fija")}>
+                    <Navigation size={18} />
+                    <strong>Sin ubicación fija</strong>
+                    <small>Ideal para panorama random.</small>
+                  </button>
+                </div>
+              </div>
+
+              <label className="fake-label">
+                Zona o comuna sugerida
+                <input value={zone} onChange={(e) => setZone(e.target.value)} />
+              </label>
+
               <div className="preview-vibe">
                 <span>Preview</span>
                 <strong>{customVibe}</strong>
                 <p>{customPlan}</p>
+                <div className="preview-meta">
+                  <em>{creationMode === "definido" ? "Panorama definido" : creationMode === "abierto" ? "Idea abierta" : "Panorama random"}</em>
+                  <em>{callType === "abierta" ? "Convocatoria abierta" : "Evento cerrado"}</em>
+                  <em>{locationType === "publica" ? "Ubicación pública" : locationType === "confirmar" ? "Dirección al confirmar" : "Sin ubicación fija"}</em>
+                  <em>{zone}</em>
+                </div>
               </div>
 
               <div className="plan-actions">

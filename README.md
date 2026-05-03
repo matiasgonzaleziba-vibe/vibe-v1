@@ -1,3 +1,3 @@
-# VIBE v3.4
+# VIBE v3.5
 
-Reordena la landing para mostrar panoramas antes que explicaciones, simplifica el paso a paso a 3, usa categorías VIBE más generales y agrega VIBE Literario / VIBE Negocios.
+Agrega flujo de creación: panorama definido, idea abierta, panorama random, convocatoria abierta/cerrada, tipo de ubicación y zona sugerida.
