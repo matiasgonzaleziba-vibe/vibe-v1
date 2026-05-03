@@ -1,6 +1,6 @@
-# VIBE v0
+# VIBE v2
 
-Landing mobile-first para VIBE.
+Versión corregida de la landing VIBE con CSS propio, mejor desktop/mobile y menos dependencia de Tailwind.
 
 ## Local
 ```bash
