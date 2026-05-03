@@ -151,23 +151,23 @@ const plans = [
 
 const moments = [
   {
-    title: "Cuando nadie se organiza",
-    text: "Crea un plan y deja que otros se sumen. Menos chat eterno, más acción.",
+    title: "Nadie prende",
+    text: "Crea un plan y deja que otros se sumen.",
   },
   {
-    title: "Cuando quieres pasarlo bien",
-    text: "Y te falta con quién. Crea un plan o súmate a uno que ya exista.",
+    title: "Quieres pasarlo bien",
+    text: "Y te falta con quién. Súmate a algo que ya exista.",
   },
   {
-    title: "Cuando tienes un interés específico",
-    text: "Juegos, café, música, deporte, lectura o negocios: encuentra con quién compartirlo.",
+    title: "Tienes un interés",
+    text: "Encuentra gente para compartirlo en la vida real.",
   },
 ];
 
 const steps = [
-  { title: "Elige tu VIBE", text: "Parte por una categoría general y explora intereses sugeridos." },
-  { title: "Revisa el panorama", text: "Mira fecha, comuna, cupos, host y si la ubicación es pública o se libera al confirmar." },
-  { title: "Súmate o crea", text: "Puedes sumarte a un panorama existente o crear tu propia VIBE con un plan concreto." },
+  { title: "Elige tu VIBE", text: "Parte por una categoría o interés." },
+  { title: "Revisa el panorama", text: "Mira fecha, zona, cupos y host." },
+  { title: "Súmate o crea", text: "Únete a uno o arma el tuyo." },
 ];
 
 function App() {
@@ -361,8 +361,8 @@ function App() {
             <img src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=900&q=80" alt="Personas en un evento" />
             <div className="visual-copy">
               <span>La idea</span>
-              <h2>Primero el panorama. Después la explicación.</h2>
-              <p>VIBE debería sentirse rápido: ves algo que te tinca, entiendes quién lo organiza y decides si te sumas.</p>
+              <h2>Armemos un plan.</h2>
+              <p>Elige una VIBE, encuentra algo que te tinca y súmate con gente que está en la misma.</p>
             </div>
           </div>
         </div>
@@ -372,7 +372,7 @@ function App() {
         <div className="container">
           <div className="section-head">
             <span>Para esos momentos</span>
-            <h2>Cuando tienes ganas de hacer algo, pero falta el con quién.</h2>
+            <h2>Cuando quieres hacer algo y falta el con quién.</h2>
           </div>
 
           <div className="use-grid">
@@ -391,7 +391,7 @@ function App() {
         <div className="container">
           <div className="section-head">
             <span>Cómo funciona</span>
-            <h2>Simple: eliges, revisas y te sumas.</h2>
+            <h2>Elige, revisa y súmate.</h2>
           </div>
 
           <div className="steps-grid">

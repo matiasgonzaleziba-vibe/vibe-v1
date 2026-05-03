@@ -1,3 +1,3 @@
-# VIBE v3.5
+# VIBE v3.6
 
-Agrega flujo de creación: panorama definido, idea abierta, panorama random, convocatoria abierta/cerrada, tipo de ubicación y zona sugerida.
+Pulido de secciones explicativas: copy más ondero, menos texto junto, visual break con “Armemos un plan” y momentos/cómo funciona más compactos.

@@ -98,7 +98,7 @@ button, input { font: inherit; }
 .interest-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .interest-pills span { font-size: 13px; padding: 7px 10px; border-radius: 999px; background: rgba(255,255,255,0.055); border: 1px solid var(--stroke); color: var(--muted); }
 
-.section { padding: 82px 0 0; }
+.section { padding: 70px 0 0; }
 .section-head { margin-bottom: 22px; }
 .section-head.row { display:flex; justify-content: space-between; align-items: end; gap: 16px; }
 .section-head span { display:block; text-transform: uppercase; letter-spacing: 0.22em; color: #ffd0b2; font-size: 12px; font-weight: 900; margin-bottom: 10px; }
@@ -108,7 +108,7 @@ button, input { font: inherit; }
 .use-grid, .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .use-card, .step-card {
   background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-  border: 1px solid var(--stroke); border-radius: 24px; padding: 22px; min-height: 220px; box-shadow: var(--shadow);
+  border: 1px solid var(--stroke); border-radius: 24px; padding: 20px; min-height: 170px; box-shadow: var(--shadow);
 }
 .use-icon { width: 42px; height: 42px; border-radius: 14px; display:grid; place-items:center; background: linear-gradient(135deg, var(--orange), var(--pink)); margin-bottom: 16px; }
 .use-card h3, .step-card h3 { margin: 0 0 10px; font-size: 22px; line-height: 1.1; }
@@ -184,7 +184,7 @@ button, input { font: inherit; }
 }
 
 
-.visual-break { padding: 74px 0 0; }
+.visual-break { padding: 64px 0 0; }
 .visual-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1.1fr;
@@ -193,14 +193,14 @@ button, input { font: inherit; }
 }
 .visual-grid img {
   width: 100%;
-  height: 330px;
+  height: 300px;
   object-fit: cover;
   border-radius: 24px;
   border: 1px solid var(--stroke);
   box-shadow: var(--shadow);
 }
 .visual-copy {
-  min-height: 330px;
+  min-height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -296,4 +296,36 @@ button, input { font: inherit; }
 @media (max-width: 720px) {
   .choice-grid.two, .choice-grid.three { grid-template-columns: 1fr; }
   .choice-card { min-height: auto; }
+}
+
+
+/* v3.6: compact explanatory sections so product cards keep the lead */
+#momentos .section-head h2,
+#como-funciona .section-head h2 {
+  max-width: 860px;
+}
+
+#momentos .use-grid,
+#como-funciona .steps-grid {
+  max-width: 1060px;
+}
+
+#momentos .use-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+}
+
+#momentos .use-card h3,
+#como-funciona .step-card h3 {
+  font-size: 20px;
+}
+
+#momentos .use-card p,
+#como-funciona .step-card p {
+  font-size: 15px;
+}
+
+.visual-copy h2 {
+  font-size: clamp(42px, 5vw, 70px);
 }
