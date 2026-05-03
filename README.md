@@ -1,6 +1,12 @@
-# VIBE v2
+# VIBE v3
 
-Versión corregida de la landing VIBE con CSS propio, mejor desktop/mobile y menos dependencia de Tailwind.
+Versión más ordenada y estable de la landing:
+- menú corregido
+- VIBE bien escrito
+- filtros interactivos
+- cards más compactas
+- secciones más limpias
+- botones funcionales
 
 ## Local
 ```bash
@@ -8,7 +14,7 @@ npm install
 npm run dev
 ```
 
-## Build
+## Deploy
 ```bash
 npm run build
 ```
