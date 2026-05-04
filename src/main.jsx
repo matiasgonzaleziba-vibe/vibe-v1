@@ -59,27 +59,27 @@ const plans = [
   {
     id: 2,
     category: "cafe",
-    title: "Tasting de café + conversación",
-    subtitle: "Café de especialidad, sabores nuevos y grupo chico",
+    title: "Degustación de café y conversación",
+    subtitle: "Café de especialidad, sabores nuevos y degustación",
     date: "Mañana · 18:00",
     place: "Ñuñoa",
-    host: "Host visible al sumarte",
+    host: "Host visible al unirte",
     seats: "4 cupos",
     access: "Dirección al confirmar",
     image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1200&q=80",
-    vibe: "Para quienes quieren salir de casa, probar café rico y conversar sin convertirlo en trámite.",
+    vibe: "Para quienes quieren salir de casa, probar café rico y conversar sobre café.",
   },
   {
     id: 3,
     category: "outdoor",
-    title: "Caminata suave + fotos urbanas",
-    subtitle: "Moverse, mirar la ciudad y compartir interés",
+    title: "Armémonos para ir al cerro",
+    subtitle: "Compartamos los mejores spots en la cordillera",
     date: "Sábado · 10:30",
-    place: "Lastarria",
+    place: "Cerro Manquehue",
     host: "Host verificado",
     seats: "8 cupos",
     access: "Ubicación pública",
-    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+    image: "https://www.outlife.cl/wp-content/uploads/2020/07/2.jpg",
     vibe: "Para quienes quieren hacer algo distinto sin partir desde cero ni convencer al grupo de siempre.",
   },
   {
@@ -111,23 +111,23 @@ const plans = [
   {
     id: 6,
     category: "literario",
-    title: "VIBE Literario: lectura libre + café",
-    subtitle: "Trae un libro, una idea o algo que quieras compartir",
+    title: "VIBE Literario: Grupo de lectura libre",
+    subtitle: "Comparte un libro, un género o un tema que quieras compartir",
     date: "Domingo · 10:00",
     place: "Barrio Italia",
     host: "Host verificado",
     seats: "7 cupos",
     access: "Ubicación pública",
     image: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=1200&q=80",
-    vibe: "Para compartir lectura, escritura o curiosidad intelectual sin hacerlo solemne.",
+    vibe: "Para compartir lectura, escritura o curiosidad intelectual.",
   },
   {
     id: 7,
     category: "deporte",
     title: "VIBE Básquetbol: partido casual",
-    subtitle: "Armar equipo, moverse y jugar sin tanta logística",
+    subtitle: "Armar equipo, moverse y jugar",
     date: "Miércoles · 20:30",
-    place: "Las Condes",
+    place: "Parque Araucano",
     host: "Host verificado",
     seats: "10 cupos",
     access: "Ubicación pública",
@@ -166,7 +166,7 @@ const moments = [
 
 const steps = [
   { title: "Elige tu VIBE", text: "Parte por una categoría o interés." },
-  { title: "Revisa el panorama", text: "Mira fecha, zona, cupos y host." },
+  { title: "Revisa el panorama", text: "Mira fecha, zona y cupos." },
   { title: "Súmate o crea", text: "Únete a uno o arma el tuyo." },
 ];
 
@@ -214,7 +214,7 @@ function App() {
 
           <nav className="desktop-nav">
             <button onClick={() => scrollTo("planes")}>Planes</button>
-            <button onClick={() => scrollTo("categorias")}>VIBEs</button>
+            <button onClick={() => scrollTo("categorias")}>VIBE</button>
             <button onClick={() => scrollTo("como-funciona")}>Cómo funciona</button>
           </nav>
 
