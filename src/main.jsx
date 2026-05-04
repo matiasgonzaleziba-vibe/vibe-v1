@@ -59,8 +59,8 @@ const plans = [
   {
     id: 2,
     category: "cafe",
-    title: "Degustación de café y conversación",
-    subtitle: "Café de especialidad, sabores nuevos y degustación",
+    title: "Café turismo",
+    subtitle: "Café de especialidad, degustación y buena conversación",
     date: "Mañana · 18:00",
     place: "Ñuñoa",
     host: "Host visible al unirte",
@@ -111,8 +111,8 @@ const plans = [
   {
     id: 6,
     category: "literario",
-    title: "VIBE Literario: Grupo de lectura libre",
-    subtitle: "Comparte un libro, un género o un tema que quieras compartir",
+    title: "VIBE Literario: Crea tu grupo de lectura",
+    subtitle: "Comparte un libro, un género o un tema literario",
     date: "Domingo · 10:00",
     place: "Barrio Italia",
     host: "Host verificado",
