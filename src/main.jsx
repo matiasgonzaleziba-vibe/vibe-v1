@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { createClient } from "@supabase/supabase-js";
 import {
   Menu,
   X,
@@ -30,6 +31,64 @@ import {
 } from "lucide-react";
 import "./styles.css";
 
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "https://dpdogxovqqcnfdvxeeoo.supabase.co";
+const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || "sb_publishable_-BYrCmc-NLWqiyFarIWxwg_FUhI94uz";
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+const formatDate = (value) => {
+  if (!value) return "Fecha por confirmar";
+  const originalDate = new Date(value);
+  if (Number.isNaN(originalDate.getTime())) return "Fecha por confirmar";
+
+  const today = new Date();
+  const dateOnly = new Date(originalDate);
+  dateOnly.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+
+  const diffDays = Math.round((dateOnly - today) / 86400000);
+  const label = diffDays === 0 ? "Hoy" : diffDays === 1 ? "Mañana" : originalDate.toLocaleDateString("es-CL", { weekday: "long" });
+  const time = originalDate.toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit" });
+  return `${label} · ${time}`;
+};
+
+const accessLabel = (locationType) => {
+  if (locationType === "confirmar") return "Dirección al confirmar";
+  if (locationType === "sin_fija") return "Sin ubicación fija";
+  return "Ubicación pública";
+};
+
+const mapPanoramaFromDb = (row) => ({
+  id: row.id,
+  source: "supabase",
+  category: row.category_key || "all",
+  title: row.title || "Panorama sin título",
+  subtitle: row.subtitle || "Panorama creado por la comunidad",
+  date: formatDate(row.starts_at),
+  place: row.zone || row.public_location || "Zona por definir",
+  host: row.host_id ? "Host verificado" : "Host visible al unirte",
+  seats: `${row.seats_available ?? row.seats_total ?? 0} cupos`,
+  access: accessLabel(row.location_type),
+  image: row.image_url || "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80",
+  vibe: row.description || "Panorama creado en VIBE.",
+  callType: row.call_type || "abierta",
+  locationType: row.location_type || "publica",
+  panoramaType: row.panorama_type || "definido",
+});
+
+const defaultImageByCategory = {
+  cafe: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1200&q=80",
+  juegos: "https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?auto=format&fit=crop&w=1200&q=80",
+  musica: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=80",
+  outdoor: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+  deporte: "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80",
+  fiesta: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80",
+  literario: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=1200&q=80",
+  negocios: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80",
+  custom: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80",
+};
+
+
 const categories = [
   { key: "all", label: "Todos", icon: Sparkles, interests: ["Panoramas cerca", "Planes para hoy", "Nuevas VIBEs"] },
   { key: "cafe", label: "VIBE Café", icon: Coffee, interests: ["Café de especialidad", "Tasting", "Brunch", "Conversación"] },
@@ -42,7 +101,20 @@ const categories = [
   { key: "negocios", label: "VIBE Negocios", icon: BriefcaseBusiness, interests: ["Idea de negocio", "Networking", "Founder coffee", "Colegas"] },
 ];
 
-const plans = [
+
+const quickVibes = [
+  { label: "VIBE Café", key: "cafe", icon: Coffee, plan: "Café de especialidad + conversación", hint: "Tasting, brunch o café tranquilo" },
+  { label: "VIBE Trekking", key: "outdoor", icon: TreePine, plan: "Caminata suave este fin de semana", hint: "Cerro, parque o ruta urbana" },
+  { label: "VIBE Otaku", key: "custom", icon: Sparkles, plan: "Junta otaku, anime o manga", hint: "Anime, manga, cosplay o gaming" },
+  { label: "VIBE Negocios", key: "negocios", icon: BriefcaseBusiness, plan: "Café para compartir una idea de negocio", hint: "Ideas, colegas o founder coffee" },
+  { label: "VIBE Juegos", key: "juegos", icon: Gamepad2, plan: "Mesa abierta de juegos", hint: "Mesa, consola, trivia o cartas" },
+  { label: "VIBE Música", key: "musica", icon: Music, plan: "Acompáñame a una tocata", hint: "Tocata, festival o música en vivo" },
+  { label: "VIBE Deporte", key: "deporte", icon: Trophy, plan: "Partido casual esta semana", hint: "Fútbol, básquetbol, pádel o running" },
+  { label: "VIBE Literario", key: "literario", icon: BookOpen, plan: "Lectura libre + conversación", hint: "Libro, escritura o poesía" },
+  { label: "Otro VIBE", key: "custom", icon: Plus, plan: "Armar un panorama distinto", hint: "Crea tu propia categoría" },
+];
+
+const demoPlans = [
   {
     id: 1,
     category: "juegos",
@@ -182,6 +254,114 @@ function App() {
   const [callType, setCallType] = useState("abierta");
   const [locationType, setLocationType] = useState("publica");
   const [zone, setZone] = useState("Providencia / Ñuñoa");
+  const [eventDate, setEventDate] = useState("");
+  const [eventTime, setEventTime] = useState("");
+  const [dbPlans, setDbPlans] = useState([]);
+  const [loadingPlans, setLoadingPlans] = useState(true);
+  const [supabaseError, setSupabaseError] = useState("");
+
+
+  useEffect(() => {
+    const fetchPanoramas = async () => {
+      setLoadingPlans(true);
+      setSupabaseError("");
+
+      const { data, error } = await supabase
+        .from("panoramas")
+        .select("*")
+        .eq("status", "published")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching panoramas:", error);
+        setSupabaseError("No pude cargar panoramas desde Supabase. Mostrando ejemplos locales.");
+        setDbPlans([]);
+      } else {
+        setDbPlans((data || []).map(mapPanoramaFromDb));
+      }
+
+      setLoadingPlans(false);
+    };
+
+    fetchPanoramas();
+  }, []);
+
+  const plans = dbPlans.length > 0 ? dbPlans : demoPlans;
+
+  const selectQuickVibe = (vibe) => {
+    setCustomVibe(vibe.label === "Otro VIBE" ? "VIBE " : vibe.label);
+    setCustomPlan(vibe.plan);
+    setActiveCategory(vibe.key === "custom" ? "all" : vibe.key);
+  };
+
+  const createPanorama = async () => {
+    const categoryKey = activeCategory === "all" ? "custom" : activeCategory;
+    const locationLabel = locationType === "publica" ? zone : null;
+
+    setNotice("Creando panorama...");
+
+    const { data: vibeData, error: vibeError } = await supabase
+      .from("vibes")
+      .insert({
+        name: customVibe,
+        description: customPlan,
+        category_key: categoryKey,
+        is_public: true,
+      })
+      .select()
+      .single();
+
+    if (vibeError) {
+      console.error("Error creating VIBE:", vibeError);
+      setNotice("No pude crear la VIBE. Revisa las políticas de Supabase.");
+      setTimeout(() => setNotice(""), 3200);
+      return;
+    }
+
+    const startsAt = eventDate
+      ? new Date(`${eventDate}T${eventTime || "19:00"}`).toISOString()
+      : new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+
+    const { data: panoramaData, error: panoramaError } = await supabase
+      .from("panoramas")
+      .insert({
+        vibe_id: vibeData?.id,
+        title: customPlan,
+        subtitle: creationMode === "random"
+          ? "Panorama random para ver quién prende"
+          : creationMode === "abierto"
+            ? "Idea abierta para cerrar con quienes se sumen"
+            : "Panorama definido creado en VIBE",
+        description: `${customVibe}: ${customPlan}`,
+        category_key: categoryKey,
+        image_url: defaultImageByCategory[categoryKey] || defaultImageByCategory.custom,
+        panorama_type: creationMode,
+        call_type: callType,
+        location_type: locationType,
+        zone,
+        public_location: locationLabel,
+        starts_at: startsAt,
+        seats_total: 6,
+        seats_available: 6,
+        status: "published",
+      })
+      .select()
+      .single();
+
+    if (panoramaError) {
+      console.error("Error creating panorama:", panoramaError);
+      setNotice("No pude crear el panorama. Revisa las políticas de Supabase.");
+      setTimeout(() => setNotice(""), 3200);
+      return;
+    }
+
+    const created = mapPanoramaFromDb(panoramaData);
+    setDbPlans((prev) => [created, ...prev]);
+    setSelectedPlan(created);
+    setShowCreate(false);
+    setNotice(`Creaste: ${customPlan}`);
+    setTimeout(() => setNotice(""), 2600);
+  };
 
   const activeCategoryInfo = categories.find((c) => c.key === activeCategory) || categories[0];
 
@@ -195,9 +375,44 @@ function App() {
     setMenuOpen(false);
   };
 
-  const joinPlan = (plan) => {
-    setNotice(`Te sumarías a: ${plan.title}`);
-    setTimeout(() => setNotice(""), 2600);
+  const joinPlan = async (plan) => {
+    if (plan.source !== "supabase") {
+      setNotice(`Te sumarías a: ${plan.title}`);
+      setTimeout(() => setNotice(""), 2600);
+      return;
+    }
+
+    setNotice("Procesando solicitud...");
+
+    if (plan.callType === "cerrada") {
+      const { error } = await supabase.from("join_requests").insert({
+        panorama_id: plan.id,
+        message: "Solicitud creada desde el MVP de VIBE.",
+        status: "pending",
+      });
+
+      if (error) {
+        console.error("Error creating request:", error);
+        setNotice("No pude enviar la solicitud. Revisa permisos en Supabase.");
+      } else {
+        setNotice("Solicitud enviada al host.");
+      }
+    } else {
+      const { error } = await supabase.from("participants").insert({
+        panorama_id: plan.id,
+        role: "participant",
+        status: "confirmed",
+      });
+
+      if (error) {
+        console.error("Error joining panorama:", error);
+        setNotice("No pude sumarte. Revisa permisos en Supabase.");
+      } else {
+        setNotice(`Te sumaste a: ${plan.title}`);
+      }
+    }
+
+    setTimeout(() => setNotice(""), 3200);
   };
 
   return (
@@ -317,6 +532,8 @@ function App() {
               <span>Cerca de ti</span>
               <h2>Panoramas para partir hoy</h2>
               <p>Elige una VIBE, revisa el panorama y súmate.</p>
+              {loadingPlans && <p className="data-note">Cargando panoramas desde Supabase...</p>}
+              {supabaseError && <p className="data-note warning">{supabaseError}</p>}
             </div>
             <button className="btn btn-ghost small" onClick={() => setActiveCategory("all")}>Ver todos</button>
           </div>
@@ -448,114 +665,115 @@ function App() {
 
       {showCreate && (
         <div className="modal-backdrop" onClick={() => setShowCreate(false)}>
-          <div className="modal-card create-card" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-card create-card simple-create-card" onClick={(e) => e.stopPropagation()}>
             <div className="modal-content">
               <div className="modal-topline">
                 <span><Plus size={15} /> Crear una VIBE</span>
                 <span><UserCheck size={15} /> Tú eres el host</span>
               </div>
-              <h3>Crea tu propia VIBE</h3>
+
+              <h3>Armemos un plan</h3>
               <p className="modal-vibe">
-                La VIBE es el territorio o interés. El panorama es la actividad concreta que otros pueden ver y sumarse.
+                Elige una VIBE, define lo básico y publica un panorama al que otros puedan sumarse.
               </p>
 
-              <div className="choice-block">
-                <span className="choice-title">¿Qué tan armado está tu panorama?</span>
-                <div className="choice-grid three">
-                  <button className={`choice-card ${creationMode === "definido" ? "active" : ""}`} onClick={() => setCreationMode("definido")}>
-                    <MapPinned size={18} />
-                    <strong>Panorama definido</strong>
-                    <small>Ya sabes qué, cuándo y dónde.</small>
-                  </button>
-                  <button className={`choice-card ${creationMode === "abierto" ? "active" : ""}`} onClick={() => setCreationMode("abierto")}>
-                    <Megaphone size={18} />
-                    <strong>Idea abierta</strong>
-                    <small>Tienes la vibra, pero falta cerrarla.</small>
-                  </button>
-                  <button className={`choice-card ${creationMode === "random" ? "active" : ""}`} onClick={() => setCreationMode("random")}>
-                    <Shuffle size={18} />
-                    <strong>Panorama random</strong>
-                    <small>Ganas de hacer algo y ver quién prende.</small>
-                  </button>
+              <div className="quick-vibe-section">
+                <span className="choice-title">Parte rápido con una VIBE</span>
+                <div className="quick-vibe-grid">
+                  {quickVibes.map((vibe) => {
+                    const Icon = vibe.icon;
+                    const active = customVibe.trim() === vibe.label;
+                    return (
+                      <button
+                        key={vibe.label}
+                        className={`quick-vibe-card ${active ? "active" : ""}`}
+                        onClick={() => selectQuickVibe(vibe)}
+                      >
+                        <Icon size={18} />
+                        <strong>{vibe.label}</strong>
+                        <small>{vibe.hint}</small>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
-              <label className="fake-label">
-                Nombre de tu VIBE
-                <input value={customVibe} onChange={(e) => setCustomVibe(e.target.value)} />
-              </label>
+              <div className="create-form-grid">
+                <label className="fake-label">
+                  Nombre de tu VIBE
+                  <input value={customVibe} onChange={(e) => setCustomVibe(e.target.value)} placeholder="VIBE Café, VIBE Trekking, VIBE Otaku..." />
+                </label>
 
-              <label className="fake-label">
-                Plan o panorama concreto
-                <input value={customPlan} onChange={(e) => setCustomPlan(e.target.value)} />
-              </label>
+                <label className="fake-label">
+                  ¿Qué van a hacer?
+                  <input value={customPlan} onChange={(e) => setCustomPlan(e.target.value)} placeholder="Ej: Café de especialidad + conversación" />
+                </label>
 
-              <div className="choice-block">
-                <span className="choice-title">Tipo de convocatoria</span>
-                <div className="choice-grid two">
-                  <button className={`choice-card ${callType === "abierta" ? "active" : ""}`} onClick={() => setCallType("abierta")}>
-                    <Megaphone size={18} />
-                    <strong>Convocatoria abierta</strong>
-                    <small>Las personas pueden pedir sumarse.</small>
-                  </button>
-                  <button className={`choice-card ${callType === "cerrada" ? "active" : ""}`} onClick={() => setCallType("cerrada")}>
-                    <DoorClosed size={18} />
-                    <strong>Evento cerrado</strong>
-                    <small>El host confirma antes de liberar detalles.</small>
-                  </button>
+                <label className="fake-label">
+                  Fecha
+                  <input type="date" value={eventDate} onChange={(e) => setEventDate(e.target.value)} />
+                </label>
+
+                <label className="fake-label">
+                  Hora
+                  <input type="time" value={eventTime} onChange={(e) => setEventTime(e.target.value)} />
+                </label>
+
+                <label className="fake-label wide">
+                  Lugar, comuna o zona
+                  <input value={zone} onChange={(e) => setZone(e.target.value)} placeholder="Ej: Providencia, Ñuñoa, Parque Araucano..." />
+                </label>
+              </div>
+
+              <div className="compact-options">
+                <div className="choice-block compact">
+                  <span className="choice-title">Participación</span>
+                  <div className="segmented-control">
+                    <button className={callType === "abierta" ? "active" : ""} onClick={() => setCallType("abierta")}>
+                      Convocatoria abierta
+                    </button>
+                    <button className={callType === "cerrada" ? "active" : ""} onClick={() => setCallType("cerrada")}>
+                      Evento cerrado
+                    </button>
+                  </div>
+                </div>
+
+                <div className="choice-block compact">
+                  <span className="choice-title">Ubicación</span>
+                  <div className="segmented-control">
+                    <button className={locationType === "publica" ? "active" : ""} onClick={() => setLocationType("publica")}>
+                      Pública
+                    </button>
+                    <button className={locationType === "confirmar" ? "active" : ""} onClick={() => setLocationType("confirmar")}>
+                      Al confirmar
+                    </button>
+                  </div>
                 </div>
               </div>
 
-              <div className="choice-block">
-                <span className="choice-title">Ubicación</span>
-                <div className="choice-grid three">
-                  <button className={`choice-card ${locationType === "publica" ? "active" : ""}`} onClick={() => setLocationType("publica")}>
-                    <Globe2 size={18} />
-                    <strong>Ubicación pública</strong>
-                    <small>Café, bar, parque, cancha, tocata.</small>
-                  </button>
-                  <button className={`choice-card ${locationType === "confirmar" ? "active" : ""}`} onClick={() => setLocationType("confirmar")}>
-                    <LockKeyhole size={18} />
-                    <strong>Dirección al confirmar</strong>
-                    <small>Se libera cuando el host da el vamos.</small>
-                  </button>
-                  <button className={`choice-card ${locationType === "sin_fija" ? "active" : ""}`} onClick={() => setLocationType("sin_fija")}>
-                    <Navigation size={18} />
-                    <strong>Sin ubicación fija</strong>
-                    <small>Ideal para panorama random.</small>
-                  </button>
+              <details className="advanced-create-options">
+                <summary>Más opciones</summary>
+                <div className="segmented-control three">
+                  <button className={creationMode === "definido" ? "active" : ""} onClick={() => setCreationMode("definido")}>Panorama definido</button>
+                  <button className={creationMode === "abierto" ? "active" : ""} onClick={() => setCreationMode("abierto")}>Idea abierta</button>
+                  <button className={creationMode === "random" ? "active" : ""} onClick={() => setCreationMode("random")}>Random</button>
                 </div>
-              </div>
+              </details>
 
-              <label className="fake-label">
-                Zona o comuna sugerida
-                <input value={zone} onChange={(e) => setZone(e.target.value)} />
-              </label>
-
-              <div className="preview-vibe">
+              <div className="preview-vibe compact-preview">
                 <span>Preview</span>
-                <strong>{customVibe}</strong>
-                <p>{customPlan}</p>
+                <strong>{customVibe || "VIBE"}</strong>
+                <p>{customPlan || "Tu panorama"}</p>
                 <div className="preview-meta">
-                  <em>{creationMode === "definido" ? "Panorama definido" : creationMode === "abierto" ? "Idea abierta" : "Panorama random"}</em>
                   <em>{callType === "abierta" ? "Convocatoria abierta" : "Evento cerrado"}</em>
-                  <em>{locationType === "publica" ? "Ubicación pública" : locationType === "confirmar" ? "Dirección al confirmar" : "Sin ubicación fija"}</em>
+                  <em>{locationType === "publica" ? "Ubicación pública" : "Dirección al confirmar"}</em>
                   <em>{zone}</em>
                 </div>
               </div>
 
               <div className="plan-actions">
                 <button className="btn btn-ghost full" onClick={() => setShowCreate(false)}>Cerrar</button>
-                <button
-                  className="btn btn-primary full"
-                  onClick={() => {
-                    setNotice(`Crearías: ${customVibe}`);
-                    setShowCreate(false);
-                    setTimeout(() => setNotice(""), 2600);
-                  }}
-                >
-                  Crear preview
-                </button>
+                <button className="btn btn-primary full" onClick={createPanorama}>Publicar VIBE</button>
               </div>
             </div>
           </div>

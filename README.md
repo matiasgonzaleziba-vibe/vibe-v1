@@ -1,3 +1,3 @@
-# VIBE v3.6
+# VIBE v3.8 Supabase MVP
 
-Pulido de secciones explicativas: copy más ondero, menos texto junto, visual break con “Armemos un plan” y momentos/cómo funciona más compactos.
+Simplifica el flujo de creación con quick actions, formulario corto, participación, ubicación y opciones avanzadas colapsadas. Mantiene la conexión Supabase.
