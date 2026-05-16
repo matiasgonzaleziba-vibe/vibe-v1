@@ -928,3 +928,40 @@ button, input { font: inherit; }
     max-height: 92vh;
   }
 }
+
+
+/* v5.1 profile wording + more homogeneous interests */
+.selected-interest-list {
+  min-height: 78px;
+}
+
+.profile-summary-grid.three {
+  grid-template-columns: 1.45fr 0.8fr 0.8fr;
+}
+
+.profile-summary-grid.three strong {
+  word-break: break-word;
+  font-size: 14px;
+}
+
+.interest-tile-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.interest-tile {
+  min-height: 74px;
+}
+
+@media (max-width: 860px) {
+  .profile-summary-grid.three,
+  .interest-tile-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .profile-summary-grid.three,
+  .interest-tile-grid {
+    grid-template-columns: 1fr;
+  }
+}

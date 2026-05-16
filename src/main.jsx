@@ -50,17 +50,25 @@ const profileInterestOptions = [
   "Café",
   "Viajes",
   "Negocios",
+  "Comida",
   "Outdoor",
   "Deporte",
-  "Juegos",
+  "Juegos de mesa",
+  "Gaming",
   "Música",
   "Fiesta",
-  "Literario",
+  "Literatura",
+  "Cine",
+  "Danza",
   "Otaku",
   "Cultura",
   "Bienestar",
   "Mascotas",
-  "Foodie",
+  "Fotografía",
+  "Arte",
+  "Idiomas",
+  "Voluntariado",
+  "Otros",
 ];
 
 const formatDate = (value) => {
@@ -1166,14 +1174,14 @@ function App() {
                       <p>{profileBio || "Aún no agregas una descripción breve."}</p>
                     </div>
                     <div className="summary-side">
-                      <span>Zona habitual</span>
+                      <span>Ciudad</span>
                       <strong>{profileZone || "Por definir"}</strong>
                     </div>
                   </section>
 
                   <section className="profile-section compact-profile-section">
                     <div className="profile-section-head">
-                      <span>Mis intereses VIBE</span>
+                      <span>Mis intereses</span>
                       <small>Estos intereses ayudan a sugerirte panoramas más afines.</small>
                     </div>
 
@@ -1197,11 +1205,15 @@ function App() {
 
                   <section className="profile-section compact-profile-section">
                     <div className="profile-section-head">
-                      <span>Datos y alertas</span>
-                      <small>Los datos de contacto quedan privados y sirven para coordinación del host.</small>
+                      <span>Mis datos</span>
+                      <small>Tus datos básicos y preferencias de contacto quedan privados.</small>
                     </div>
 
-                    <div className="profile-summary-grid">
+                    <div className="profile-summary-grid three">
+                      <div>
+                        <span>Mi correo</span>
+                        <strong>{session?.user?.email || "Configurado"}</strong>
+                      </div>
                       <div>
                         <span>WhatsApp</span>
                         <strong>{profileWhatsapp ? "Configurado" : "No configurado"}</strong>
@@ -1227,8 +1239,8 @@ function App() {
 
                   <section className="profile-section featured-interests">
                     <div className="profile-section-head">
-                      <span>Elige tus intereses VIBE</span>
-                      <small>Toca una o más opciones. Después podrás crear VIBEs más específicas, como VIBE Básquetbol o VIBE Café de especialidad.</small>
+                      <span>Elige tus intereses</span>
+                      <small>Toca una o más opciones. Después podrás crear VIBEs más específicas, como básquetbol, café de especialidad o un grupo de negocios.</small>
                     </div>
 
                     <div className="interest-tile-grid">
@@ -1271,11 +1283,11 @@ function App() {
                       </label>
 
                       <label className="fake-label">
-                        Zona habitual
+                        Ciudad
                         <input
                           value={profileZone}
                           onChange={(e) => setProfileZone(e.target.value)}
-                          placeholder="Ej: Providencia, Ñuñoa, Las Condes"
+                          placeholder="Ej: Santiago, Ñuñoa, Providencia"
                         />
                       </label>
 
@@ -1292,7 +1304,7 @@ function App() {
                   </section>
 
                   <details className="profile-contact-details">
-                    <summary>Datos de contacto y alertas</summary>
+                    <summary>Mis datos y alertas</summary>
 
                     <div className="contact-explain">
                       <strong>¿Por qué pedimos WhatsApp?</strong>
@@ -1303,6 +1315,15 @@ function App() {
                     </div>
 
                     <div className="profile-form-grid">
+                      <label className="fake-label wide">
+                        Mi correo
+                        <input
+                          value={session?.user?.email || ""}
+                          readOnly
+                        />
+                        <small className="field-hint">Este es el correo con el que iniciaste sesión.</small>
+                      </label>
+
                       <label className="fake-label wide">
                         WhatsApp
                         <input

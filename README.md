@@ -1,14 +1,15 @@
-# VIBE v5.0
+# VIBE v5.1
 
-Ajustes de usabilidad de modales:
+Ajustes en Mi perfil:
 
-- El modal de Crear VIBE ahora tiene X arriba a la derecha.
-- El modal de Inicio de sesión también tiene X arriba a la derecha.
-- Se mantiene X arriba a la derecha en Mi perfil y Mis VIBEs.
-- Mi perfil abre como resumen compacto, no como formulario completo.
-- El formulario de edición queda detrás del botón “Editar perfil”.
-- El resumen de perfil se compacta para caber mejor en una ventana de navegador.
-- Todos los modales principales limitan su alto para evitar ventanas interminables.
+- “Zona habitual” cambia a “Ciudad”.
+- “Mis intereses VIBE” cambia a “Mis intereses”.
+- Las opciones de intereses quedan sin prefijo VIBE para evitar mezcla visual.
+- Se amplían intereses: Café, Viajes, Negocios, Comida, Outdoor, Deporte, Juegos de mesa, Gaming, Música, Fiesta, Literatura, Cine, Danza, Otaku, Cultura, Bienestar, Mascotas, Fotografía, Arte, Idiomas, Voluntariado y Otros.
+- “Datos y alertas” cambia a “Mis datos”.
+- Se agrega ítem “Mi correo”.
+- El correo aparece como dato visible del perfil/resumen y como campo de solo lectura en edición.
+- Mantiene el resumen compacto, X arriba a la derecha y edición solo por botón.
 
 ## SQL
 
