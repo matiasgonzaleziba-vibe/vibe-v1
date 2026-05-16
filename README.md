@@ -4,7 +4,7 @@ Optimización del menú:
 
 - Menú principal simplificado:
   - Explorar
-  - Mis VIBEs
+  - Mis VIBE´s
   - Mi perfil / Iniciar sesión
   - Crear una VIBE
 - Se elimina la redundancia de “Planes”, “VIBE” y “Cómo funciona” en la barra superior.
