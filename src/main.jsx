@@ -47,18 +47,20 @@ const appRedirectUrl =
 const pendingCreateDraftKey = "vibe_pending_create_draft";
 
 const profileInterestOptions = [
-  "VIBE Café",
-  "VIBE Viajes",
-  "VIBE Negocios",
-  "VIBE Outdoor",
-  "VIBE Deporte",
-  "VIBE Juegos",
-  "VIBE Música",
-  "VIBE Fiesta",
-  "VIBE Literario",
-  "VIBE Otaku",
-  "VIBE Cultura",
-  "VIBE Bienestar",
+  "Café",
+  "Viajes",
+  "Negocios",
+  "Outdoor",
+  "Deporte",
+  "Juegos",
+  "Música",
+  "Fiesta",
+  "Literario",
+  "Otaku",
+  "Cultura",
+  "Bienestar",
+  "Mascotas",
+  "Foodie",
 ];
 
 const formatDate = (value) => {
@@ -1136,6 +1138,7 @@ function App() {
             <button className="modal-close-top-right" onClick={() => setShowProfile(false)} aria-label="Cerrar perfil">
               <X size={20} />
             </button>
+
             <div className="modal-content">
               <div className="modal-topline">
                 <span><UserCircle size={15} /> Mi perfil</span>
@@ -1144,13 +1147,42 @@ function App() {
 
               <h3>Quién soy y qué me interesa</h3>
               <p className="modal-vibe">
-                Tu perfil ayuda a que otros entiendan tu onda y a que VIBE pueda recomendarte mejores panoramas.
+                Selecciona tus gustos VIBE para recibir mejores sugerencias y mostrar mejor tu onda.
               </p>
 
-              <div className="profile-section">
+              <section className="profile-section featured-interests">
+                <div className="profile-section-head">
+                  <span>Elige tus intereses VIBE</span>
+                  <small>Toca una o más opciones. Después podrás crear VIBEs más específicas, como VIBE Básquetbol o VIBE Café de especialidad.</small>
+                </div>
+
+                <div className="interest-tile-grid">
+                  {profileInterestOptions.map((interest) => {
+                    const selected = profileInterests
+                      .split(",")
+                      .map((item) => item.trim())
+                      .filter(Boolean)
+                      .includes(interest);
+
+                    return (
+                      <button
+                        type="button"
+                        key={interest}
+                        className={`interest-tile ${selected ? "selected" : ""}`}
+                        onClick={() => toggleProfileInterest(interest)}
+                      >
+                        <strong>{interest}</strong>
+                        <small>{selected ? "Seleccionado" : "Seleccionar"}</small>
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
+
+              <section className="profile-section">
                 <div className="profile-section-head">
                   <span>Quién soy</span>
-                  <small>Visible para facilitar confianza cuando creas o te sumas a una VIBE.</small>
+                  <small>Información simple para facilitar confianza cuando creas o te sumas a una VIBE.</small>
                 </div>
 
                 <div className="profile-form-grid">
@@ -1182,34 +1214,7 @@ function App() {
                     />
                   </label>
                 </div>
-              </div>
-
-              <div className="profile-section">
-                <div className="profile-section-head">
-                  <span>Qué me interesa</span>
-                  <small>Selecciona intereses para recibir mejores sugerencias.</small>
-                </div>
-
-                <div className="interest-chip-grid">
-                  {profileInterestOptions.map((interest) => {
-                    const selected = profileInterests
-                      .split(",")
-                      .map((item) => item.trim())
-                      .filter(Boolean)
-                      .includes(interest);
-
-                    return (
-                      <button
-                        key={interest}
-                        className={`interest-chip ${selected ? "selected" : ""}`}
-                        onClick={() => toggleProfileInterest(interest)}
-                      >
-                        {interest}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
+              </section>
 
               <details className="profile-contact-details">
                 <summary>Datos de contacto y alertas</summary>

@@ -1,14 +1,13 @@
-# VIBE v4.7
+# VIBE v4.8
 
-Mejora de experiencia de perfil:
+Corrección visual del perfil:
 
-- El perfil se reorganiza como “Quién soy” y “Qué me interesa”.
-- Los intereses se eligen con chips/rectángulos seleccionables.
-- WhatsApp y alertas quedan dentro de “Datos de contacto y alertas”, colapsado para no saturar.
-- Se explica por qué se pide WhatsApp.
-- Mantiene X arriba a la derecha, “Guardar cambios” y funcionalidades previas.
+- Intereses VIBE ahora aparecen como accesos rápidos visibles en rectángulos/tarjetas.
+- Opciones: Café, Viajes, Negocios, Outdoor, Deporte, Juegos, Música, Fiesta, Literario, Otaku, Cultura, Bienestar, Mascotas y Foodie.
+- La selección queda como primera sección del perfil.
+- WhatsApp y alertas siguen colapsadas en “Datos de contacto y alertas”.
+- Mantiene X arriba a la derecha y “Guardar cambios”.
 
 ## SQL
 
-Mantiene el SQL de v4.6:
-`supabase/profile_interests_alerts.sql`
+No requiere SQL nuevo si ya corriste v4.6.

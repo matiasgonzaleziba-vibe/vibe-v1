@@ -703,3 +703,63 @@ button, input { font: inherit; }
   margin: 6px 0 0;
   line-height: 1.45;
 }
+
+
+/* v4.8 visible interest quick-selection tiles in profile */
+.featured-interests {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255,122,48,0.18), transparent 36%),
+    radial-gradient(circle at 90% 20%, rgba(124,58,237,0.22), transparent 40%),
+    rgba(255,255,255,0.04);
+}
+
+.interest-tile-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.interest-tile {
+  min-height: 82px;
+  border-radius: 18px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.055);
+  color: #fff;
+  padding: 13px;
+  text-align: left;
+  display: grid;
+  align-content: space-between;
+  cursor: pointer;
+}
+
+.interest-tile strong {
+  font-size: 15px;
+  line-height: 1.1;
+}
+
+.interest-tile small {
+  color: var(--muted-2);
+  font-size: 12px;
+}
+
+.interest-tile.selected {
+  border-color: rgba(255,255,255,0.30);
+  background: linear-gradient(135deg, rgba(255,122,48,0.35), rgba(124,58,237,0.35));
+  box-shadow: 0 16px 34px rgba(124,58,237,0.18);
+}
+
+.interest-tile.selected small {
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .interest-tile-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 620px) {
+  .interest-tile-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
