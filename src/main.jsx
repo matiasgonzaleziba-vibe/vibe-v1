@@ -28,6 +28,10 @@ import {
   LockKeyhole,
   Globe2,
   Plus,
+  Mail,
+  Trash2,
+  LogOut,
+  UserCircle,
 } from "lucide-react";
 import "./styles.css";
 
@@ -242,6 +246,20 @@ const steps = [
   { title: "Súmate o crea", text: "Únete a uno o arma el tuyo." },
 ];
 
+
+const ensureUserProfile = async (user, fullName = "") => {
+  if (!user) return;
+  await supabase.from("profiles").upsert(
+    {
+      id: user.id,
+      email: user.email,
+      full_name: fullName || user.user_metadata?.full_name || user.email?.split("@")[0] || "Usuario VIBE",
+      is_host: true,
+    },
+    { onConflict: "id" }
+  );
+};
+
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("all");
@@ -259,7 +277,35 @@ function App() {
   const [dbPlans, setDbPlans] = useState([]);
   const [loadingPlans, setLoadingPlans] = useState(true);
   const [supabaseError, setSupabaseError] = useState("");
+  const [session, setSession] = useState(null);
+  const [authEmail, setAuthEmail] = useState("");
+  const [profileName, setProfileName] = useState("");
+  const [showAuth, setShowAuth] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const [showMyEvents, setShowMyEvents] = useState(false);
+  const [myEvents, setMyEvents] = useState([]);
+  const [loadingMyEvents, setLoadingMyEvents] = useState(false);
 
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session || null);
+      if (data.session?.user) {
+        ensureUserProfile(data.session.user);
+        setAuthEmail(data.session.user.email || "");
+      }
+    });
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      setSession(nextSession || null);
+      if (nextSession?.user) {
+        ensureUserProfile(nextSession.user);
+        setAuthEmail(nextSession.user.email || "");
+      }
+    });
+
+    return () => authListener.subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     const fetchPanoramas = async () => {
@@ -288,6 +334,113 @@ function App() {
 
   const plans = dbPlans.length > 0 ? dbPlans : demoPlans;
 
+  const sendMagicLink = async () => {
+    if (!authEmail.trim()) {
+      setNotice("Ingresa tu correo para iniciar sesión.");
+      setTimeout(() => setNotice(""), 2600);
+      return;
+    }
+
+    const { error } = await supabase.auth.signInWithOtp({
+      email: authEmail.trim(),
+      options: {
+        emailRedirectTo: window.location.origin,
+      },
+    });
+
+    if (error) {
+      console.error("Auth error:", error);
+      setNotice("No pude enviar el link de acceso.");
+    } else {
+      setNotice("Te envié un link de acceso al correo.");
+    }
+
+    setTimeout(() => setNotice(""), 3600);
+  };
+
+  const saveProfile = async () => {
+    if (!session?.user) {
+      setShowAuth(true);
+      return;
+    }
+
+    const { error } = await supabase.from("profiles").upsert(
+      {
+        id: session.user.id,
+        email: session.user.email,
+        full_name: profileName || session.user.email?.split("@")[0] || "Usuario VIBE",
+        is_host: true,
+      },
+      { onConflict: "id" }
+    );
+
+    if (error) {
+      console.error("Profile error:", error);
+      setNotice("No pude guardar el perfil.");
+    } else {
+      setNotice("Perfil guardado.");
+      setShowProfile(false);
+    }
+
+    setTimeout(() => setNotice(""), 2600);
+  };
+
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    setSession(null);
+    setMyEvents([]);
+    setNotice("Sesión cerrada.");
+    setTimeout(() => setNotice(""), 2200);
+  };
+
+  const openMyEvents = async () => {
+    if (!session?.user) {
+      setShowAuth(true);
+      return;
+    }
+
+    setShowMyEvents(true);
+    setLoadingMyEvents(true);
+
+    const { data, error } = await supabase
+      .from("panoramas")
+      .select("*")
+      .eq("host_id", session.user.id)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("My events error:", error);
+      setNotice("No pude cargar tus eventos.");
+      setMyEvents([]);
+    } else {
+      setMyEvents((data || []).map(mapPanoramaFromDb));
+    }
+
+    setLoadingMyEvents(false);
+    setTimeout(() => setNotice(""), 2600);
+  };
+
+  const deleteMyEvent = async (planId) => {
+    if (!session?.user) return;
+
+    const { error } = await supabase
+      .from("panoramas")
+      .update({ status: "cancelled" })
+      .eq("id", planId)
+      .eq("host_id", session.user.id);
+
+    if (error) {
+      console.error("Delete event error:", error);
+      setNotice("No pude eliminar el evento.");
+    } else {
+      setMyEvents((prev) => prev.filter((event) => event.id !== planId));
+      setDbPlans((prev) => prev.filter((event) => event.id !== planId));
+      setNotice("Evento eliminado.");
+    }
+
+    setTimeout(() => setNotice(""), 2600);
+  };
+
   const selectQuickVibe = (vibe) => {
     setCustomVibe(vibe.label === "Otro VIBE" ? "VIBE " : vibe.label);
     setCustomPlan(vibe.plan);
@@ -295,6 +448,15 @@ function App() {
   };
 
   const createPanorama = async () => {
+    if (!session?.user) {
+      setShowAuth(true);
+      setNotice("Inicia sesión para publicar una VIBE.");
+      setTimeout(() => setNotice(""), 2600);
+      return;
+    }
+
+    await ensureUserProfile(session.user, profileName);
+
     const categoryKey = activeCategory === "all" ? "custom" : activeCategory;
     const locationLabel = locationType === "publica" ? zone : null;
 
@@ -306,6 +468,7 @@ function App() {
         name: customVibe,
         description: customPlan,
         category_key: categoryKey,
+        created_by: session.user.id,
         is_public: true,
       })
       .select()
@@ -326,6 +489,7 @@ function App() {
       .from("panoramas")
       .insert({
         vibe_id: vibeData?.id,
+        host_id: session.user.id,
         title: customPlan,
         subtitle: creationMode === "random"
           ? "Panorama random para ver quién prende"
@@ -376,6 +540,15 @@ function App() {
   };
 
   const joinPlan = async (plan) => {
+    if (!session?.user) {
+      setShowAuth(true);
+      setNotice("Inicia sesión para sumarte.");
+      setTimeout(() => setNotice(""), 2600);
+      return;
+    }
+
+    await ensureUserProfile(session.user, profileName);
+
     if (plan.source !== "supabase") {
       setNotice(`Te sumarías a: ${plan.title}`);
       setTimeout(() => setNotice(""), 2600);
@@ -387,6 +560,7 @@ function App() {
     if (plan.callType === "cerrada") {
       const { error } = await supabase.from("join_requests").insert({
         panorama_id: plan.id,
+        requester_id: session.user.id,
         message: "Solicitud creada desde el MVP de VIBE.",
         status: "pending",
       });
@@ -400,6 +574,7 @@ function App() {
     } else {
       const { error } = await supabase.from("participants").insert({
         panorama_id: plan.id,
+        profile_id: session.user.id,
         role: "participant",
         status: "confirmed",
       });
@@ -435,6 +610,12 @@ function App() {
 
           <div className="desktop-actions">
             <button className="btn btn-ghost" onClick={() => scrollTo("planes")}>Explorar</button>
+            {session?.user && <button className="btn btn-ghost" onClick={openMyEvents}>Mis eventos</button>}
+            {session?.user ? (
+              <button className="btn btn-ghost" onClick={() => setShowProfile(true)}>Perfil</button>
+            ) : (
+              <button className="btn btn-ghost" onClick={() => setShowAuth(true)}>Entrar</button>
+            )}
             <button className="btn btn-primary" onClick={() => setShowCreate(true)}>Crear un plan</button>
           </div>
 
@@ -448,6 +629,9 @@ function App() {
             <button onClick={() => scrollTo("planes")}>Planes</button>
             <button onClick={() => scrollTo("categorias")}>VIBEs</button>
             <button onClick={() => scrollTo("como-funciona")}>Cómo funciona</button>
+            {session?.user && <button onClick={openMyEvents}>Mis eventos</button>}
+            <button onClick={() => setShowProfile(true)}>Perfil</button>
+            <button onClick={() => setShowAuth(true)}>Entrar</button>
             <button onClick={() => setShowCreate(true)}>Crear un plan</button>
           </div>
         )}
@@ -638,7 +822,10 @@ function App() {
 
       {selectedPlan && (
         <div className="modal-backdrop" onClick={() => setSelectedPlan(null)}>
-          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-card event-detail-card" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close-top-left" onClick={() => setSelectedPlan(null)} aria-label="Cerrar detalle del evento">
+              <X size={20} />
+            </button>
             <img src={selectedPlan.image} alt={selectedPlan.title} />
             <div className="modal-content">
               <div className="modal-topline">
@@ -774,6 +961,117 @@ function App() {
               <div className="plan-actions">
                 <button className="btn btn-ghost full" onClick={() => setShowCreate(false)}>Cerrar</button>
                 <button className="btn btn-primary full" onClick={createPanorama}>Publicar VIBE</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+      {showAuth && (
+        <div className="modal-backdrop" onClick={() => setShowAuth(false)}>
+          <div className="modal-card auth-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-content">
+              <div className="modal-topline">
+                <span><Mail size={15} /> Acceso VIBE</span>
+              </div>
+              <h3>Entra para crear y gestionar tus panoramas</h3>
+              <p className="modal-vibe">
+                Te enviaremos un link mágico al correo. No necesitas contraseña.
+              </p>
+
+              <label className="fake-label">
+                Correo
+                <input
+                  type="email"
+                  value={authEmail}
+                  onChange={(e) => setAuthEmail(e.target.value)}
+                  placeholder="tu@email.com"
+                />
+              </label>
+
+              <div className="plan-actions">
+                <button className="btn btn-ghost full" onClick={() => setShowAuth(false)}>Cerrar</button>
+                <button className="btn btn-primary full" onClick={sendMagicLink}>Enviar link</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showProfile && (
+        <div className="modal-backdrop" onClick={() => setShowProfile(false)}>
+          <div className="modal-card auth-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-content">
+              <div className="modal-topline">
+                <span><UserCircle size={15} /> Mi perfil</span>
+                {session?.user && <span>{session.user.email}</span>}
+              </div>
+              <h3>Tu perfil de host</h3>
+              <p className="modal-vibe">
+                Por ahora guardamos lo mínimo para que puedas crear panoramas y ver tus eventos.
+              </p>
+
+              <label className="fake-label">
+                Nombre visible
+                <input
+                  value={profileName}
+                  onChange={(e) => setProfileName(e.target.value)}
+                  placeholder="Ej: Matías"
+                />
+              </label>
+
+              <div className="plan-actions">
+                <button className="btn btn-ghost full" onClick={signOut}><LogOut size={16} /> Cerrar sesión</button>
+                <button className="btn btn-primary full" onClick={saveProfile}>Guardar perfil</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showMyEvents && (
+        <div className="modal-backdrop" onClick={() => setShowMyEvents(false)}>
+          <div className="modal-card my-events-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-content">
+              <div className="modal-topline">
+                <span><CalendarDays size={15} /> Mis eventos</span>
+                <span>{session?.user?.email}</span>
+              </div>
+              <h3>Panoramas que creaste</h3>
+              <p className="modal-vibe">
+                Desde aquí puedes revisar y eliminar tus panoramas publicados.
+              </p>
+
+              {loadingMyEvents && <p className="data-note">Cargando tus eventos...</p>}
+
+              {!loadingMyEvents && myEvents.length === 0 && (
+                <div className="empty-state">
+                  <strong>No tienes eventos creados todavía.</strong>
+                  <p>Crea una VIBE y aparecerá en esta sección.</p>
+                </div>
+              )}
+
+              <div className="my-events-list">
+                {myEvents.map((event) => (
+                  <article className="my-event-item" key={event.id}>
+                    <img src={event.image} alt={event.title} />
+                    <div>
+                      <span>{event.category}</span>
+                      <h4>{event.title}</h4>
+                      <p>{event.date} · {event.place}</p>
+                      <small>{event.access}</small>
+                    </div>
+                    <button className="delete-btn" onClick={() => deleteMyEvent(event.id)}>
+                      <Trash2 size={16} />
+                      Eliminar
+                    </button>
+                  </article>
+                ))}
+              </div>
+
+              <div className="plan-actions one">
+                <button className="btn btn-primary full" onClick={() => setShowMyEvents(false)}>Listo</button>
               </div>
             </div>
           </div>
