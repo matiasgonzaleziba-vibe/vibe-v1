@@ -492,3 +492,67 @@ button, input { font: inherit; }
   min-height: 44px;
   padding: 0 18px;
 }
+
+
+/* v4.3 explicit CTA inside empty Mis eventos */
+.empty-state-with-cta,
+.empty-state {
+  display: grid;
+  gap: 8px;
+}
+
+.empty-state-action {
+  margin-top: 12px;
+  width: fit-content;
+  min-height: 44px;
+  padding: 0 20px;
+}
+
+@media (max-width: 720px) {
+  .empty-state-action {
+    width: 100%;
+  }
+}
+
+
+/* v4.4 My Events: close with X top-right, not footer */
+.modal-close-top-right {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 4;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(9, 6, 17, 0.72);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.28);
+}
+
+.modal-close-top-right:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+
+/* v4.5 simplified menu */
+.compact-nav {
+  gap: 8px;
+}
+
+.compact-nav button {
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.055);
+  border-radius: 999px;
+  min-height: 42px;
+  padding: 0 18px;
+  font-weight: 850;
+}
+
+.compact-nav button:hover {
+  background: rgba(255,255,255,0.1);
+}

@@ -661,21 +661,18 @@ function App() {
             </span>
           </button>
 
-          <nav className="desktop-nav">
-            <button onClick={() => scrollTo("planes")}>Planes</button>
-            <button onClick={() => scrollTo("categorias")}>VIBE</button>
-            <button onClick={() => scrollTo("como-funciona")}>Cómo funciona</button>
+          <nav className="desktop-nav compact-nav">
+            <button onClick={() => scrollTo("planes")}>Explorar</button>
+            {session?.user && <button onClick={openMyEvents}>Mis VIBEs</button>}
+            {session?.user ? (
+              <button onClick={() => setShowProfile(true)}>Mi perfil</button>
+            ) : (
+              <button onClick={() => setShowAuth(true)}>Iniciar sesión</button>
+            )}
           </nav>
 
           <div className="desktop-actions">
-            <button className="btn btn-ghost" onClick={() => scrollTo("planes")}>Explorar</button>
-            {session?.user && <button className="btn btn-ghost" onClick={openMyEvents}>Mis eventos</button>}
-            {session?.user ? (
-              <button className="btn btn-ghost" onClick={() => setShowProfile(true)}>Perfil</button>
-            ) : (
-              <button className="btn btn-ghost" onClick={() => setShowAuth(true)}>Iniciar sesión</button>
-            )}
-            <button className="btn btn-primary" onClick={() => setShowCreate(true)}>Crear un plan</button>
+            <button className="btn btn-primary" onClick={() => setShowCreate(true)}>Crear una VIBE</button>
           </div>
 
           <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menú">
@@ -685,13 +682,14 @@ function App() {
 
         {menuOpen && (
           <div className="mobile-menu">
-            <button onClick={() => scrollTo("planes")}>Planes</button>
-            <button onClick={() => scrollTo("categorias")}>VIBEs</button>
-            <button onClick={() => scrollTo("como-funciona")}>Cómo funciona</button>
-            {session?.user && <button onClick={openMyEvents}>Mis eventos</button>}
-            <button onClick={() => setShowProfile(true)}>Perfil</button>
-            <button onClick={() => setShowAuth(true)}>Iniciar sesión</button>
-            <button onClick={() => setShowCreate(true)}>Crear un plan</button>
+            <button onClick={() => scrollTo("planes")}>Explorar</button>
+            {session?.user && <button onClick={openMyEvents}>Mis VIBEs</button>}
+            {session?.user ? (
+              <button onClick={() => setShowProfile(true)}>Mi perfil</button>
+            ) : (
+              <button onClick={() => setShowAuth(true)}>Iniciar sesión</button>
+            )}
+            <button onClick={() => setShowCreate(true)}>Crear una VIBE</button>
           </div>
         )}
       </header>
@@ -1092,25 +1090,25 @@ function App() {
       {showMyEvents && (
         <div className="modal-backdrop" onClick={() => setShowMyEvents(false)}>
           <div className="modal-card my-events-card event-detail-card" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close-top-left" onClick={() => setShowMyEvents(false)} aria-label="Cerrar mis eventos">
+            <button className="modal-close-top-right" onClick={() => setShowMyEvents(false)} aria-label="Cerrar Mis VIBEs">
               <X size={20} />
             </button>
             <div className="modal-content">
               <div className="modal-topline">
-                <span><CalendarDays size={15} /> Mis eventos</span>
+                <span><CalendarDays size={15} /> Mis VIBEs</span>
                 <span>{session?.user?.email}</span>
               </div>
-              <h3>Panoramas que creaste</h3>
+              <h3>Tus VIBEs creadas</h3>
               <p className="modal-vibe">
-                Desde aquí puedes revisar y eliminar tus panoramas publicados.
+                Desde aquí puedes revisar y gestionar las VIBEs que publicaste.
               </p>
 
               {loadingMyEvents && <p className="data-note">Cargando tus eventos...</p>}
 
               {!loadingMyEvents && myEvents.length === 0 && (
                 <div className="empty-state">
-                  <strong>No tienes eventos creados todavía.</strong>
-                  <p>Crea una VIBE y aparecerá en esta sección.</p>
+                  <strong>Todavía no tienes VIBEs creadas.</strong>
+                  <p>Crea tu primera VIBE y aparecerá en esta sección.</p>
                   <button
                     className="btn btn-primary empty-state-action"
                     onClick={() => {
@@ -1141,8 +1139,7 @@ function App() {
                 ))}
               </div>
 
-              <div className="plan-actions">
-                <button className="btn btn-ghost full" onClick={() => setShowMyEvents(false)}>Cerrar</button>
+              <div className="plan-actions one">
                 <button
                   className="btn btn-primary full"
                   onClick={() => {
