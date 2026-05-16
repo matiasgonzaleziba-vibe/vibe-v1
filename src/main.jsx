@@ -432,21 +432,6 @@ function App() {
     }
   };
 
-  const signInWithGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: appRedirectUrl,
-      },
-    });
-
-    if (error) {
-      console.error("Google auth error:", error);
-      setNotice("No pude iniciar sesión con Google.");
-      setTimeout(() => setNotice(""), 3200);
-    }
-  };
-
   const signInWithPassword = async () => {
     if (!authEmail.trim() || !authPassword.trim()) {
       setNotice("Ingresa correo y contraseña.");
@@ -1233,14 +1218,8 @@ function App() {
 
               <h3>Inicia sesión en VIBE</h3>
               <p className="modal-vibe">
-                Entra rápido con Google o usa tu correo y contraseña.
+                Usa tu correo y contraseña. Si prefieres, también puedes recibir un link mágico.
               </p>
-
-              <button className="btn google-auth-btn full" onClick={signInWithGoogle}>
-                Continuar con Google
-              </button>
-
-              <div className="auth-divider"><span>o con correo</span></div>
 
               <div className="auth-tabs">
                 <button
@@ -1467,7 +1446,7 @@ function App() {
                       <strong>WhatsApp y acceso</strong>
                       <p>
                         WhatsApp se usará para avisarte cuando alguien solicite sumarse a una VIBE que tú creaste.
-                        Tu acceso puede ser con Google, contraseña o link mágico.
+                        Tu acceso puede ser con contraseña o link mágico.
                       </p>
                     </div>
 
