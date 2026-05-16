@@ -625,3 +625,81 @@ button, input { font: inherit; }
     grid-template-columns: 1fr;
   }
 }
+
+
+/* v4.7 profile as identity + interests, contact details collapsed */
+.profile-section {
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.035);
+  border-radius: 20px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.profile-section-head {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.profile-section-head span {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.profile-section-head small {
+  color: var(--muted-2);
+  line-height: 1.35;
+}
+
+.interest-chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.interest-chip {
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.055);
+  color: #fff;
+  border-radius: 999px;
+  min-height: 42px;
+  padding: 0 16px;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.interest-chip.selected {
+  border-color: rgba(255,255,255,0.26);
+  background: linear-gradient(135deg, rgba(255,122,48,0.28), rgba(124,58,237,0.32));
+  box-shadow: 0 14px 30px rgba(124,58,237,0.14);
+}
+
+.profile-contact-details {
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.035);
+  border-radius: 20px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.profile-contact-details summary {
+  cursor: pointer;
+  font-weight: 950;
+  color: #fff;
+}
+
+.contact-explain {
+  margin: 14px 0;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.055);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 14px;
+}
+
+.contact-explain p {
+  color: var(--muted);
+  margin: 6px 0 0;
+  line-height: 1.45;
+}

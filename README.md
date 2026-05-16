@@ -1,20 +1,14 @@
-# VIBE v4.6
+# VIBE v4.7
 
-Perfil más completo:
+Mejora de experiencia de perfil:
 
-- X arriba a la derecha para cerrar perfil.
-- “Guardar perfil” cambia a “Guardar cambios”.
-- Perfil permite editar:
-  - Nombre visible
-  - WhatsApp
-  - Zona/comunas de preferencia
-  - Intereses VIBE
-  - Descripción breve
-  - Opt-in para alertas de nuevas VIBEs asociadas a intereses
-- Mantiene menú simplificado y funcionalidades previas.
+- El perfil se reorganiza como “Quién soy” y “Qué me interesa”.
+- Los intereses se eligen con chips/rectángulos seleccionables.
+- WhatsApp y alertas quedan dentro de “Datos de contacto y alertas”, colapsado para no saturar.
+- Se explica por qué se pide WhatsApp.
+- Mantiene X arriba a la derecha, “Guardar cambios” y funcionalidades previas.
 
-## SQL requerido
+## SQL
 
-Ejecuta en Supabase SQL Editor:
-
+Mantiene el SQL de v4.6:
 `supabase/profile_interests_alerts.sql`
