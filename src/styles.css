@@ -556,3 +556,72 @@ button, input { font: inherit; }
 .compact-nav button:hover {
   background: rgba(255,255,255,0.1);
 }
+
+
+/* v4.6 richer profile */
+.profile-card {
+  width: min(860px, 100%);
+  max-width: 860px;
+  position: relative;
+}
+
+.profile-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.profile-form-grid .wide {
+  grid-column: 1 / -1;
+}
+
+.fake-label textarea {
+  width: 100%;
+  resize: vertical;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.065);
+  color: #fff;
+  border-radius: 16px;
+  padding: 14px 16px;
+  font: inherit;
+  outline: none;
+}
+
+.field-hint {
+  display: block;
+  margin-top: 7px;
+  color: var(--muted-2);
+  line-height: 1.3;
+}
+
+.alert-toggle {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.045);
+  border-radius: 18px;
+  padding: 14px;
+  color: #fff;
+}
+
+.alert-toggle input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: #ff7a30;
+}
+
+.alert-toggle small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted-2);
+  line-height: 1.35;
+}
+
+@media (max-width: 720px) {
+  .profile-form-grid {
+    grid-template-columns: 1fr;
+  }
+}

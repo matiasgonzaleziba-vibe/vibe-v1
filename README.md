@@ -1,13 +1,20 @@
-# VIBE v4.5
+# VIBE v4.6
 
-Optimización del menú:
+Perfil más completo:
 
-- Menú principal simplificado:
-  - Explorar
-  - Mis VIBE´s
-  - Mi perfil / Iniciar sesión
-  - Crear una VIBE
-- Se elimina la redundancia de “Planes”, “VIBE” y “Cómo funciona” en la barra superior.
-- “Mis eventos” cambia a “Mis VIBEs”.
-- “Crear un plan” cambia a “Crear una VIBE”.
-- Mantiene funciones anteriores: login, perfil, creación, mis VIBEs, eliminación y cierre con X.
+- X arriba a la derecha para cerrar perfil.
+- “Guardar perfil” cambia a “Guardar cambios”.
+- Perfil permite editar:
+  - Nombre visible
+  - WhatsApp
+  - Zona/comunas de preferencia
+  - Intereses VIBE
+  - Descripción breve
+  - Opt-in para alertas de nuevas VIBEs asociadas a intereses
+- Mantiene menú simplificado y funcionalidades previas.
+
+## SQL requerido
+
+Ejecuta en Supabase SQL Editor:
+
+`supabase/profile_interests_alerts.sql`

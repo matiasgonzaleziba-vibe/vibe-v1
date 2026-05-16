@@ -286,6 +286,11 @@ function App() {
   const [session, setSession] = useState(null);
   const [authEmail, setAuthEmail] = useState("");
   const [profileName, setProfileName] = useState("");
+  const [profileBio, setProfileBio] = useState("");
+  const [profileWhatsapp, setProfileWhatsapp] = useState("");
+  const [profileZone, setProfileZone] = useState("");
+  const [profileInterests, setProfileInterests] = useState("VIBE Café, VIBE Juegos, VIBE Outdoor");
+  const [profileAlerts, setProfileAlerts] = useState(true);
   const [showAuth, setShowAuth] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showMyEvents, setShowMyEvents] = useState(false);
@@ -415,6 +420,39 @@ function App() {
     setTimeout(() => setNotice(""), 3600);
   };
 
+  const loadProfile = async () => {
+    if (!session?.user) return;
+
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("full_name, bio, whatsapp, preferred_zone, interests, notify_new_vibes")
+      .eq("id", session.user.id)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Load profile error:", error);
+      return;
+    }
+
+    if (data) {
+      setProfileName(data.full_name || session.user.email?.split("@")[0] || "");
+      setProfileBio(data.bio || "");
+      setProfileWhatsapp(data.whatsapp || "");
+      setProfileZone(data.preferred_zone || "");
+      setProfileInterests(Array.isArray(data.interests) ? data.interests.join(", ") : "");
+      setProfileAlerts(data.notify_new_vibes ?? true);
+    }
+  };
+
+  const openProfile = async () => {
+    if (!session?.user) {
+      setShowAuth(true);
+      return;
+    }
+    setShowProfile(true);
+    await loadProfile();
+  };
+
   const saveProfile = async () => {
     if (!session?.user) {
       setShowAuth(true);
@@ -426,6 +464,14 @@ function App() {
         id: session.user.id,
         email: session.user.email,
         full_name: profileName || session.user.email?.split("@")[0] || "Usuario VIBE",
+        bio: profileBio,
+        whatsapp: profileWhatsapp,
+        preferred_zone: profileZone,
+        interests: profileInterests
+          .split(",")
+          .map((item) => item.trim())
+          .filter(Boolean),
+        notify_new_vibes: profileAlerts,
         is_host: true,
       },
       { onConflict: "id" }
@@ -435,7 +481,7 @@ function App() {
       console.error("Profile error:", error);
       setNotice("No pude guardar el perfil.");
     } else {
-      setNotice("Perfil guardado.");
+      setNotice("Cambios guardados.");
       setShowProfile(false);
     }
 
@@ -665,7 +711,7 @@ function App() {
             <button onClick={() => scrollTo("planes")}>Explorar</button>
             {session?.user && <button onClick={openMyEvents}>Mis VIBEs</button>}
             {session?.user ? (
-              <button onClick={() => setShowProfile(true)}>Mi perfil</button>
+              <button onClick={openProfile}>Mi perfil</button>
             ) : (
               <button onClick={() => setShowAuth(true)}>Iniciar sesión</button>
             )}
@@ -685,7 +731,7 @@ function App() {
             <button onClick={() => scrollTo("planes")}>Explorar</button>
             {session?.user && <button onClick={openMyEvents}>Mis VIBEs</button>}
             {session?.user ? (
-              <button onClick={() => setShowProfile(true)}>Mi perfil</button>
+              <button onClick={openProfile}>Mi perfil</button>
             ) : (
               <button onClick={() => setShowAuth(true)}>Iniciar sesión</button>
             )}
@@ -1058,29 +1104,84 @@ function App() {
 
       {showProfile && (
         <div className="modal-backdrop" onClick={() => setShowProfile(false)}>
-          <div className="modal-card auth-card" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-card profile-card event-detail-card" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close-top-right" onClick={() => setShowProfile(false)} aria-label="Cerrar perfil">
+              <X size={20} />
+            </button>
             <div className="modal-content">
               <div className="modal-topline">
                 <span><UserCircle size={15} /> Mi perfil</span>
                 {session?.user && <span>{session.user.email}</span>}
               </div>
-              <h3>Tu perfil de host</h3>
+              <h3>Completa tu perfil VIBE</h3>
               <p className="modal-vibe">
-                Por ahora guardamos lo mínimo para que puedas crear panoramas y ver tus eventos.
+                Define tus intereses, zona y alertas para que VIBE pueda sugerirte mejores panoramas.
               </p>
 
-              <label className="fake-label">
-                Nombre visible
-                <input
-                  value={profileName}
-                  onChange={(e) => setProfileName(e.target.value)}
-                  placeholder="Ej: Matías"
-                />
-              </label>
+              <div className="profile-form-grid">
+                <label className="fake-label">
+                  Nombre visible
+                  <input
+                    value={profileName}
+                    onChange={(e) => setProfileName(e.target.value)}
+                    placeholder="Ej: Matías"
+                  />
+                </label>
+
+                <label className="fake-label">
+                  WhatsApp
+                  <input
+                    value={profileWhatsapp}
+                    onChange={(e) => setProfileWhatsapp(e.target.value)}
+                    placeholder="+56 9 ..."
+                  />
+                </label>
+
+                <label className="fake-label wide">
+                  Zona o comunas que te acomodan
+                  <input
+                    value={profileZone}
+                    onChange={(e) => setProfileZone(e.target.value)}
+                    placeholder="Ej: Providencia, Ñuñoa, Las Condes"
+                  />
+                </label>
+
+                <label className="fake-label wide">
+                  Tus intereses VIBE
+                  <input
+                    value={profileInterests}
+                    onChange={(e) => setProfileInterests(e.target.value)}
+                    placeholder="Ej: VIBE Café, Trekking, Juegos, Negocios"
+                  />
+                  <small className="field-hint">Sepáralos con coma. Más adelante esto permitirá recomendarte nuevos panoramas.</small>
+                </label>
+
+                <label className="fake-label wide">
+                  Descripción breve
+                  <textarea
+                    value={profileBio}
+                    onChange={(e) => setProfileBio(e.target.value)}
+                    placeholder="Cuenta brevemente qué te gusta hacer, qué tipo de panoramas buscas o qué VIBEs te gustaría crear."
+                    rows={4}
+                  />
+                </label>
+
+                <label className="alert-toggle wide">
+                  <input
+                    type="checkbox"
+                    checked={profileAlerts}
+                    onChange={(e) => setProfileAlerts(e.target.checked)}
+                  />
+                  <span>
+                    <strong>Quiero recibir alertas de nuevas VIBEs asociadas a mis intereses.</strong>
+                    <small>Por ahora queda guardado en tu perfil. Luego lo conectamos a email o WhatsApp.</small>
+                  </span>
+                </label>
+              </div>
 
               <div className="plan-actions">
                 <button className="btn btn-ghost full" onClick={signOut}><LogOut size={16} /> Cerrar sesión</button>
-                <button className="btn btn-primary full" onClick={saveProfile}>Guardar perfil</button>
+                <button className="btn btn-primary full" onClick={saveProfile}>Guardar cambios</button>
               </div>
             </div>
           </div>
