@@ -1007,3 +1007,71 @@ button, input { font: inherit; }
 .inline-save-btn:hover {
   background: rgba(255,255,255,0.13);
 }
+
+
+/* v5.3 login with password + Google */
+.google-auth-btn {
+  min-height: 48px;
+  justify-content: center;
+  background: #fff;
+  color: #15111d;
+  border-color: rgba(255,255,255,0.7);
+  font-weight: 950;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0 12px;
+  color: var(--muted-2);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: rgba(255,255,255,0.10);
+}
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.auth-tabs button {
+  min-height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.055);
+  color: var(--muted);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.auth-tabs button.active {
+  background: linear-gradient(135deg, rgba(255,122,48,0.28), rgba(124,58,237,0.32));
+  color: #fff;
+  border-color: rgba(255,255,255,0.22);
+}
+
+.auth-secondary-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.auth-secondary-actions button {
+  background: transparent;
+  border: 0;
+  color: #ffd0b2;
+  cursor: pointer;
+  font-weight: 850;
+}

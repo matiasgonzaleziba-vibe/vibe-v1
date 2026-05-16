@@ -318,6 +318,8 @@ function App() {
   const [supabaseError, setSupabaseError] = useState("");
   const [session, setSession] = useState(null);
   const [authEmail, setAuthEmail] = useState("");
+  const [authPassword, setAuthPassword] = useState("");
+  const [authMode, setAuthMode] = useState("login");
   const [profileName, setProfileName] = useState("");
   const [profileBio, setProfileBio] = useState("");
   const [profileWhatsapp, setProfileWhatsapp] = useState("");
@@ -428,6 +430,97 @@ function App() {
       localStorage.removeItem(pendingCreateDraftKey);
       return false;
     }
+  };
+
+  const signInWithGoogle = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: appRedirectUrl,
+      },
+    });
+
+    if (error) {
+      console.error("Google auth error:", error);
+      setNotice("No pude iniciar sesión con Google.");
+      setTimeout(() => setNotice(""), 3200);
+    }
+  };
+
+  const signInWithPassword = async () => {
+    if (!authEmail.trim() || !authPassword.trim()) {
+      setNotice("Ingresa correo y contraseña.");
+      setTimeout(() => setNotice(""), 2600);
+      return;
+    }
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: authEmail.trim(),
+      password: authPassword,
+    });
+
+    if (error) {
+      console.error("Password login error:", error);
+      setNotice("No pude iniciar sesión. Revisa correo y contraseña.");
+    } else {
+      setNotice("Sesión iniciada.");
+      setShowAuth(false);
+    }
+
+    setTimeout(() => setNotice(""), 3200);
+  };
+
+  const signUpWithPassword = async () => {
+    if (!authEmail.trim() || !authPassword.trim()) {
+      setNotice("Ingresa correo y una contraseña.");
+      setTimeout(() => setNotice(""), 2600);
+      return;
+    }
+
+    if (authPassword.length < 6) {
+      setNotice("La contraseña debe tener al menos 6 caracteres.");
+      setTimeout(() => setNotice(""), 3000);
+      return;
+    }
+
+    const { error } = await supabase.auth.signUp({
+      email: authEmail.trim(),
+      password: authPassword,
+      options: {
+        emailRedirectTo: appRedirectUrl,
+      },
+    });
+
+    if (error) {
+      console.error("Password signup error:", error);
+      setNotice("No pude crear la cuenta. Quizás ese correo ya existe.");
+    } else {
+      setNotice("Revisa tu correo para confirmar la cuenta.");
+      setAuthMode("login");
+    }
+
+    setTimeout(() => setNotice(""), 3600);
+  };
+
+  const resetPassword = async () => {
+    if (!authEmail.trim()) {
+      setNotice("Ingresa tu correo para recuperar contraseña.");
+      setTimeout(() => setNotice(""), 2600);
+      return;
+    }
+
+    const { error } = await supabase.auth.resetPasswordForEmail(authEmail.trim(), {
+      redirectTo: appRedirectUrl,
+    });
+
+    if (error) {
+      console.error("Reset password error:", error);
+      setNotice("No pude enviar el correo de recuperación.");
+    } else {
+      setNotice("Te envié un correo para cambiar tu contraseña.");
+    }
+
+    setTimeout(() => setNotice(""), 3600);
   };
 
   const sendMagicLink = async () => {
@@ -1137,10 +1230,32 @@ function App() {
               <div className="modal-topline">
                 <span><Mail size={15} /> Acceso VIBE</span>
               </div>
-              <h3>Inicia sesión para crear y gestionar tus panoramas</h3>
+
+              <h3>Inicia sesión en VIBE</h3>
               <p className="modal-vibe">
-                Te enviaremos un link mágico al correo. No necesitas contraseña.
+                Entra rápido con Google o usa tu correo y contraseña.
               </p>
+
+              <button className="btn google-auth-btn full" onClick={signInWithGoogle}>
+                Continuar con Google
+              </button>
+
+              <div className="auth-divider"><span>o con correo</span></div>
+
+              <div className="auth-tabs">
+                <button
+                  className={authMode === "login" ? "active" : ""}
+                  onClick={() => setAuthMode("login")}
+                >
+                  Iniciar sesión
+                </button>
+                <button
+                  className={authMode === "signup" ? "active" : ""}
+                  onClick={() => setAuthMode("signup")}
+                >
+                  Crear cuenta
+                </button>
+              </div>
 
               <label className="fake-label">
                 Correo
@@ -1152,16 +1267,38 @@ function App() {
                 />
               </label>
 
-              <div className="plan-actions">
-                <button className="btn btn-ghost full" onClick={() => setShowAuth(false)}>Cerrar</button>
-                <button className="btn btn-primary full" onClick={sendMagicLink}>Enviar link</button>
+              <label className="fake-label">
+                Contraseña
+                <input
+                  type="password"
+                  value={authPassword}
+                  onChange={(e) => setAuthPassword(e.target.value)}
+                  placeholder={authMode === "signup" ? "Crea una contraseña" : "Tu contraseña"}
+                />
+              </label>
+
+              <div className="plan-actions one">
+                {authMode === "signup" ? (
+                  <button className="btn btn-primary full" onClick={signUpWithPassword}>
+                    Crear cuenta
+                  </button>
+                ) : (
+                  <button className="btn btn-primary full" onClick={signInWithPassword}>
+                    Iniciar sesión
+                  </button>
+                )}
+              </div>
+
+              <div className="auth-secondary-actions">
+                <button onClick={resetPassword}>Olvidé mi contraseña</button>
+                <button onClick={sendMagicLink}>Recibir link mágico</button>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {showProfile && (
+            {showProfile && (
         <div className="modal-backdrop" onClick={() => setShowProfile(false)}>
           <div className="modal-card profile-card event-detail-card" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close-top-right" onClick={() => setShowProfile(false)} aria-label="Cerrar perfil">
@@ -1324,13 +1461,13 @@ function App() {
                   </section>
 
                   <details className="profile-contact-details">
-                    <summary>Mis datos y alertas</summary>
+                    <summary>Mis datos, acceso y alertas</summary>
 
                     <div className="contact-explain">
-                      <strong>¿Por qué pedimos WhatsApp?</strong>
+                      <strong>WhatsApp y acceso</strong>
                       <p>
-                        Se usará para avisarte cuando alguien solicite sumarse a una VIBE que tú creaste
-                        y para facilitar coordinación directa si tú decides habilitarlo.
+                        WhatsApp se usará para avisarte cuando alguien solicite sumarse a una VIBE que tú creaste.
+                        Tu acceso puede ser con Google, contraseña o link mágico.
                       </p>
                     </div>
 

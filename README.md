@@ -1,14 +1,27 @@
-# VIBE v5.2
+# VIBE v5.3
 
-Corrección de intereses en Mi perfil:
+Login más friendly:
 
-- Los intereses del resumen ahora son interactivos.
-- Puedes hacer clic directamente en Café, Viajes, Negocios, Comida, Deportes, etc.
-- Se agrega botón “Guardar intereses” dentro del resumen.
-- Se eliminan prefijos VIBE en los intereses para mantener consistencia visual.
-- Normaliza intereses antiguos guardados como “VIBE Fiesta”, “VIBE Viajes”, “Juegos”, “Deporte”, etc.
-- Mantiene “Editar perfil” para modificar descripción, ciudad, WhatsApp y alertas.
+- Agrega inicio de sesión con correo + contraseña.
+- Agrega creación de cuenta con correo + contraseña.
+- Mantiene magic link como alternativa secundaria.
+- Agrega botón “Continuar con Google”.
+- Agrega recuperación de contraseña.
+- Mantiene perfil, intereses clickeables, Mis VIBEs y creación de VIBEs.
 
-## SQL
+## Configuración necesaria en Supabase
 
-No requiere SQL nuevo si ya corriste v4.6.
+Authentication → Sign In / Providers:
+- Email: habilitado.
+- Google: habilitar si quieres que funcione “Continuar con Google”.
+
+Authentication → URL Configuration:
+- Site URL: https://vibe-v1-iota.vercel.app
+- Redirect URLs:
+  - https://vibe-v1-iota.vercel.app
+  - https://vibe-v1-iota.vercel.app/*
+
+## Configuración necesaria en Google
+
+Para Google OAuth necesitarás crear credenciales OAuth en Google Cloud y copiar Client ID / Client Secret en Supabase.
+Si no configuras Google, el botón puede mostrar error, pero email/password y magic link siguen funcionando.
