@@ -1,15 +1,13 @@
-# VIBE v5.1
+# VIBE v5.2
 
-Ajustes en Mi perfil:
+Corrección de intereses en Mi perfil:
 
-- “Zona habitual” cambia a “Ciudad”.
-- “Mis intereses VIBE” cambia a “Mis intereses”.
-- Las opciones de intereses quedan sin prefijo VIBE para evitar mezcla visual.
-- Se amplían intereses: Café, Viajes, Negocios, Comida, Outdoor, Deporte, Juegos de mesa, Gaming, Música, Fiesta, Literatura, Cine, Danza, Otaku, Cultura, Bienestar, Mascotas, Fotografía, Arte, Idiomas, Voluntariado y Otros.
-- “Datos y alertas” cambia a “Mis datos”.
-- Se agrega ítem “Mi correo”.
-- El correo aparece como dato visible del perfil/resumen y como campo de solo lectura en edición.
-- Mantiene el resumen compacto, X arriba a la derecha y edición solo por botón.
+- Los intereses del resumen ahora son interactivos.
+- Puedes hacer clic directamente en Café, Viajes, Negocios, Comida, Deportes, etc.
+- Se agrega botón “Guardar intereses” dentro del resumen.
+- Se eliminan prefijos VIBE en los intereses para mantener consistencia visual.
+- Normaliza intereses antiguos guardados como “VIBE Fiesta”, “VIBE Viajes”, “Juegos”, “Deporte”, etc.
+- Mantiene “Editar perfil” para modificar descripción, ciudad, WhatsApp y alertas.
 
 ## SQL
 

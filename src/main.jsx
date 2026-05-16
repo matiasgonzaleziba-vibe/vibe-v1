@@ -52,7 +52,7 @@ const profileInterestOptions = [
   "Negocios",
   "Comida",
   "Outdoor",
-  "Deporte",
+  "Deportes",
   "Juegos de mesa",
   "Gaming",
   "Música",
@@ -70,6 +70,14 @@ const profileInterestOptions = [
   "Voluntariado",
   "Otros",
 ];
+
+const normalizeInterest = (interest) => {
+  const clean = String(interest || "").replace(/^VIBE\\s+/i, "").trim();
+  if (clean === "Deporte") return "Deportes";
+  if (clean === "Literario") return "Literatura";
+  if (clean === "Juegos") return "Juegos de mesa";
+  return clean;
+};
 
 const formatDate = (value) => {
   if (!value) return "Fecha por confirmar";
@@ -447,14 +455,15 @@ function App() {
   };
 
   const toggleProfileInterest = (interest) => {
+    const normalizedInterest = normalizeInterest(interest);
     const current = profileInterests
       .split(",")
-      .map((item) => item.trim())
+      .map(normalizeInterest)
       .filter(Boolean);
 
-    const next = current.includes(interest)
-      ? current.filter((item) => item !== interest)
-      : [...current, interest];
+    const next = current.includes(normalizedInterest)
+      ? current.filter((item) => item !== normalizedInterest)
+      : [...current, normalizedInterest];
 
     setProfileInterests(next.join(", "));
   };
@@ -478,7 +487,11 @@ function App() {
       setProfileBio(data.bio || "");
       setProfileWhatsapp(data.whatsapp || "");
       setProfileZone(data.preferred_zone || "");
-      setProfileInterests(Array.isArray(data.interests) ? data.interests.join(", ") : "");
+      setProfileInterests(
+        Array.isArray(data.interests)
+          ? data.interests.map(normalizeInterest).filter(Boolean).join(", ")
+          : ""
+      );
       setProfileAlerts(data.notify_new_vibes ?? true);
     }
   };
@@ -509,7 +522,7 @@ function App() {
         preferred_zone: profileZone,
         interests: profileInterests
           .split(",")
-          .map((item) => item.trim())
+          .map(normalizeInterest)
           .filter(Boolean),
         notify_new_vibes: profileAlerts,
         is_host: true,
@@ -1185,22 +1198,29 @@ function App() {
                       <small>Estos intereses ayudan a sugerirte panoramas más afines.</small>
                     </div>
 
-                    <div className="selected-interest-list">
-                      {profileInterests
-                        .split(",")
-                        .map((item) => item.trim())
-                        .filter(Boolean).length > 0 ? (
-                          profileInterests
-                            .split(",")
-                            .map((item) => item.trim())
-                            .filter(Boolean)
-                            .map((interest) => (
-                              <span className="selected-interest-pill" key={interest}>{interest}</span>
-                            ))
-                        ) : (
-                          <p className="empty-mini">Aún no seleccionas intereses.</p>
-                        )}
+                    <div className="summary-interest-grid">
+                      {profileInterestOptions.map((interest) => {
+                        const selected = profileInterests
+                          .split(",")
+                          .map(normalizeInterest)
+                          .filter(Boolean)
+                          .includes(interest);
+
+                        return (
+                          <button
+                            type="button"
+                            key={interest}
+                            className={`summary-interest-chip ${selected ? "selected" : ""}`}
+                            onClick={() => toggleProfileInterest(interest)}
+                          >
+                            {interest}
+                          </button>
+                        );
+                      })}
                     </div>
+                    <button className="inline-save-btn" onClick={saveProfile}>
+                      Guardar intereses
+                    </button>
                   </section>
 
                   <section className="profile-section compact-profile-section">
@@ -1247,7 +1267,7 @@ function App() {
                       {profileInterestOptions.map((interest) => {
                         const selected = profileInterests
                           .split(",")
-                          .map((item) => item.trim())
+                          .map(normalizeInterest)
                           .filter(Boolean)
                           .includes(interest);
 
