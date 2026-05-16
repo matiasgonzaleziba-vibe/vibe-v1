@@ -310,6 +310,7 @@ function App() {
   const [profileAlerts, setProfileAlerts] = useState(true);
   const [showAuth, setShowAuth] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [profileEditMode, setProfileEditMode] = useState(false);
   const [showMyEvents, setShowMyEvents] = useState(false);
   const [myEvents, setMyEvents] = useState([]);
   const [loadingMyEvents, setLoadingMyEvents] = useState(false);
@@ -479,6 +480,7 @@ function App() {
       setShowAuth(true);
       return;
     }
+    setProfileEditMode(false);
     setShowProfile(true);
     await loadProfile();
   };
@@ -512,7 +514,7 @@ function App() {
       setNotice("No pude guardar el perfil.");
     } else {
       setNotice("Cambios guardados.");
-      setShowProfile(false);
+      setProfileEditMode(false);
     }
 
     setTimeout(() => setNotice(""), 2600);
@@ -1145,117 +1147,186 @@ function App() {
                 {session?.user && <span>{session.user.email}</span>}
               </div>
 
-              <h3>Quién soy y qué me interesa</h3>
-              <p className="modal-vibe">
-                Selecciona tus gustos VIBE para recibir mejores sugerencias y mostrar mejor tu onda.
-              </p>
-
-              <section className="profile-section featured-interests">
-                <div className="profile-section-head">
-                  <span>Elige tus intereses VIBE</span>
-                  <small>Toca una o más opciones. Después podrás crear VIBEs más específicas, como VIBE Básquetbol o VIBE Café de especialidad.</small>
-                </div>
-
-                <div className="interest-tile-grid">
-                  {profileInterestOptions.map((interest) => {
-                    const selected = profileInterests
-                      .split(",")
-                      .map((item) => item.trim())
-                      .filter(Boolean)
-                      .includes(interest);
-
-                    return (
-                      <button
-                        type="button"
-                        key={interest}
-                        className={`interest-tile ${selected ? "selected" : ""}`}
-                        onClick={() => toggleProfileInterest(interest)}
-                      >
-                        <strong>{interest}</strong>
-                        <small>{selected ? "Seleccionado" : "Seleccionar"}</small>
-                      </button>
-                    );
-                  })}
-                </div>
-              </section>
-
-              <section className="profile-section">
-                <div className="profile-section-head">
-                  <span>Quién soy</span>
-                  <small>Información simple para facilitar confianza cuando creas o te sumas a una VIBE.</small>
-                </div>
-
-                <div className="profile-form-grid">
-                  <label className="fake-label">
-                    Nombre visible
-                    <input
-                      value={profileName}
-                      onChange={(e) => setProfileName(e.target.value)}
-                      placeholder="Ej: Matías"
-                    />
-                  </label>
-
-                  <label className="fake-label">
-                    Zona habitual
-                    <input
-                      value={profileZone}
-                      onChange={(e) => setProfileZone(e.target.value)}
-                      placeholder="Ej: Providencia, Ñuñoa, Las Condes"
-                    />
-                  </label>
-
-                  <label className="fake-label wide">
-                    Descripción breve
-                    <textarea
-                      value={profileBio}
-                      onChange={(e) => setProfileBio(e.target.value)}
-                      placeholder="Cuenta qué te gusta hacer, qué tipo de panoramas buscas o qué VIBEs te gustaría crear."
-                      rows={4}
-                    />
-                  </label>
-                </div>
-              </section>
-
-              <details className="profile-contact-details">
-                <summary>Datos de contacto y alertas</summary>
-
-                <div className="contact-explain">
-                  <strong>¿Por qué pedimos WhatsApp?</strong>
-                  <p>
-                    Se usará para avisarte cuando alguien solicite sumarse a una VIBE que tú creaste
-                    y para facilitar coordinación directa si tú decides habilitarlo.
+              {!profileEditMode ? (
+                <>
+                  <h3>{profileName ? profileName : "Tu perfil VIBE"}</h3>
+                  <p className="modal-vibe">
+                    Revisa tu perfil, tus intereses y las alertas que quieres recibir.
                   </p>
-                </div>
 
-                <div className="profile-form-grid">
-                  <label className="fake-label wide">
-                    WhatsApp
-                    <input
-                      value={profileWhatsapp}
-                      onChange={(e) => setProfileWhatsapp(e.target.value)}
-                      placeholder="+56 9 ..."
-                    />
-                    <small className="field-hint">No lo mostramos como dato público en esta etapa.</small>
-                  </label>
+                  <section className="profile-summary-hero">
+                    <div>
+                      <span className="summary-kicker">Quién soy</span>
+                      <p>{profileBio || "Aún no agregas una descripción breve."}</p>
+                    </div>
+                    <div className="summary-side">
+                      <span>Zona habitual</span>
+                      <strong>{profileZone || "Por definir"}</strong>
+                    </div>
+                  </section>
 
-                  <label className="alert-toggle wide">
-                    <input
-                      type="checkbox"
-                      checked={profileAlerts}
-                      onChange={(e) => setProfileAlerts(e.target.checked)}
-                    />
-                    <span>
-                      <strong>Quiero recibir alertas de nuevas VIBEs asociadas a mis intereses.</strong>
-                      <small>Por ahora queda guardado en tu perfil. Luego lo conectamos a email o WhatsApp.</small>
-                    </span>
-                  </label>
-                </div>
-              </details>
+                  <section className="profile-section compact-profile-section">
+                    <div className="profile-section-head">
+                      <span>Mis intereses VIBE</span>
+                      <small>Estos intereses ayudan a sugerirte panoramas más afines.</small>
+                    </div>
 
-              <div className="plan-actions">
-                <button className="btn btn-ghost full" onClick={signOut}><LogOut size={16} /> Cerrar sesión</button>
-                <button className="btn btn-primary full" onClick={saveProfile}>Guardar cambios</button>
-              </div>
+                    <div className="selected-interest-list">
+                      {profileInterests
+                        .split(",")
+                        .map((item) => item.trim())
+                        .filter(Boolean).length > 0 ? (
+                          profileInterests
+                            .split(",")
+                            .map((item) => item.trim())
+                            .filter(Boolean)
+                            .map((interest) => (
+                              <span className="selected-interest-pill" key={interest}>{interest}</span>
+                            ))
+                        ) : (
+                          <p className="empty-mini">Aún no seleccionas intereses.</p>
+                        )}
+                    </div>
+                  </section>
+
+                  <section className="profile-section compact-profile-section">
+                    <div className="profile-section-head">
+                      <span>Datos y alertas</span>
+                      <small>Los datos de contacto quedan privados y sirven para coordinación del host.</small>
+                    </div>
+
+                    <div className="profile-summary-grid">
+                      <div>
+                        <span>WhatsApp</span>
+                        <strong>{profileWhatsapp ? "Configurado" : "No configurado"}</strong>
+                      </div>
+                      <div>
+                        <span>Alertas</span>
+                        <strong>{profileAlerts ? "Activadas" : "Desactivadas"}</strong>
+                      </div>
+                    </div>
+                  </section>
+
+                  <div className="plan-actions">
+                    <button className="btn btn-ghost full" onClick={signOut}><LogOut size={16} /> Cerrar sesión</button>
+                    <button className="btn btn-primary full" onClick={() => setProfileEditMode(true)}>Editar perfil</button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h3>Editar perfil</h3>
+                  <p className="modal-vibe">
+                    Ajusta quién eres, tus intereses y cómo quieres recibir alertas.
+                  </p>
+
+                  <section className="profile-section featured-interests">
+                    <div className="profile-section-head">
+                      <span>Elige tus intereses VIBE</span>
+                      <small>Toca una o más opciones. Después podrás crear VIBEs más específicas, como VIBE Básquetbol o VIBE Café de especialidad.</small>
+                    </div>
+
+                    <div className="interest-tile-grid">
+                      {profileInterestOptions.map((interest) => {
+                        const selected = profileInterests
+                          .split(",")
+                          .map((item) => item.trim())
+                          .filter(Boolean)
+                          .includes(interest);
+
+                        return (
+                          <button
+                            type="button"
+                            key={interest}
+                            className={`interest-tile ${selected ? "selected" : ""}`}
+                            onClick={() => toggleProfileInterest(interest)}
+                          >
+                            <strong>{interest}</strong>
+                            <small>{selected ? "Seleccionado" : "Seleccionar"}</small>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </section>
+
+                  <section className="profile-section">
+                    <div className="profile-section-head">
+                      <span>Quién soy</span>
+                      <small>Información simple para facilitar confianza cuando creas o te sumas a una VIBE.</small>
+                    </div>
+
+                    <div className="profile-form-grid">
+                      <label className="fake-label">
+                        Nombre visible
+                        <input
+                          value={profileName}
+                          onChange={(e) => setProfileName(e.target.value)}
+                          placeholder="Ej: Matías"
+                        />
+                      </label>
+
+                      <label className="fake-label">
+                        Zona habitual
+                        <input
+                          value={profileZone}
+                          onChange={(e) => setProfileZone(e.target.value)}
+                          placeholder="Ej: Providencia, Ñuñoa, Las Condes"
+                        />
+                      </label>
+
+                      <label className="fake-label wide">
+                        Descripción breve
+                        <textarea
+                          value={profileBio}
+                          onChange={(e) => setProfileBio(e.target.value)}
+                          placeholder="Cuenta qué te gusta hacer, qué tipo de panoramas buscas o qué VIBEs te gustaría crear."
+                          rows={4}
+                        />
+                      </label>
+                    </div>
+                  </section>
+
+                  <details className="profile-contact-details">
+                    <summary>Datos de contacto y alertas</summary>
+
+                    <div className="contact-explain">
+                      <strong>¿Por qué pedimos WhatsApp?</strong>
+                      <p>
+                        Se usará para avisarte cuando alguien solicite sumarse a una VIBE que tú creaste
+                        y para facilitar coordinación directa si tú decides habilitarlo.
+                      </p>
+                    </div>
+
+                    <div className="profile-form-grid">
+                      <label className="fake-label wide">
+                        WhatsApp
+                        <input
+                          value={profileWhatsapp}
+                          onChange={(e) => setProfileWhatsapp(e.target.value)}
+                          placeholder="+56 9 ..."
+                        />
+                        <small className="field-hint">No lo mostramos como dato público en esta etapa.</small>
+                      </label>
+
+                      <label className="alert-toggle wide">
+                        <input
+                          type="checkbox"
+                          checked={profileAlerts}
+                          onChange={(e) => setProfileAlerts(e.target.checked)}
+                        />
+                        <span>
+                          <strong>Quiero recibir alertas de nuevas VIBEs asociadas a mis intereses.</strong>
+                          <small>Por ahora queda guardado en tu perfil. Luego lo conectamos a email o WhatsApp.</small>
+                        </span>
+                      </label>
+                    </div>
+                  </details>
+
+                  <div className="plan-actions">
+                    <button className="btn btn-ghost full" onClick={() => setProfileEditMode(false)}>Cancelar</button>
+                    <button className="btn btn-primary full" onClick={saveProfile}>Guardar cambios</button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

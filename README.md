@@ -1,12 +1,16 @@
-# VIBE v4.8
+# VIBE v4.9
 
-Corrección visual del perfil:
+Mejora de experiencia de perfil:
 
-- Intereses VIBE ahora aparecen como accesos rápidos visibles en rectángulos/tarjetas.
-- Opciones: Café, Viajes, Negocios, Outdoor, Deporte, Juegos, Música, Fiesta, Literario, Otaku, Cultura, Bienestar, Mascotas y Foodie.
-- La selección queda como primera sección del perfil.
-- WhatsApp y alertas siguen colapsadas en “Datos de contacto y alertas”.
-- Mantiene X arriba a la derecha y “Guardar cambios”.
+- “Mi perfil” ahora abre una vista resumen, no el formulario completo.
+- La edición queda detrás del botón “Editar perfil”.
+- El resumen muestra:
+  - Quién soy
+  - Zona habitual
+  - Intereses seleccionados
+  - Estado de WhatsApp y alertas
+- El formulario completo aparece solo cuando el usuario decide editar.
+- Mantiene chips/tiles de intereses, datos de contacto colapsados y X arriba a la derecha.
 
 ## SQL
 
