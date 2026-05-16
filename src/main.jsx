@@ -40,6 +40,12 @@ const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || "sb_publish
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+const appRedirectUrl =
+  import.meta.env.VITE_APP_URL ||
+  (typeof window !== "undefined" ? window.location.origin : "https://vibe-v1-iota.vercel.app");
+
+const pendingCreateDraftKey = "vibe_pending_create_draft";
+
 const formatDate = (value) => {
   if (!value) return "Fecha por confirmar";
   const originalDate = new Date(value);
@@ -293,6 +299,7 @@ function App() {
       if (data.session?.user) {
         ensureUserProfile(data.session.user);
         setAuthEmail(data.session.user.email || "");
+        restorePendingCreateDraft();
       }
     });
 
@@ -301,6 +308,7 @@ function App() {
       if (nextSession?.user) {
         ensureUserProfile(nextSession.user);
         setAuthEmail(nextSession.user.email || "");
+        restorePendingCreateDraft();
       }
     });
 
@@ -334,6 +342,55 @@ function App() {
 
   const plans = dbPlans.length > 0 ? dbPlans : demoPlans;
 
+  const savePendingCreateDraft = () => {
+    try {
+      localStorage.setItem(
+        pendingCreateDraftKey,
+        JSON.stringify({
+          customVibe,
+          customPlan,
+          creationMode,
+          callType,
+          locationType,
+          zone,
+          eventDate,
+          eventTime,
+          activeCategory,
+        })
+      );
+    } catch (error) {
+      console.warn("Could not save pending VIBE draft", error);
+    }
+  };
+
+  const restorePendingCreateDraft = () => {
+    try {
+      const rawDraft = localStorage.getItem(pendingCreateDraftKey);
+      if (!rawDraft) return false;
+
+      const draft = JSON.parse(rawDraft);
+      setCustomVibe(draft.customVibe || "VIBE ");
+      setCustomPlan(draft.customPlan || "");
+      setCreationMode(draft.creationMode || "definido");
+      setCallType(draft.callType || "abierta");
+      setLocationType(draft.locationType || "publica");
+      setZone(draft.zone || "");
+      setEventDate(draft.eventDate || "");
+      setEventTime(draft.eventTime || "");
+      setActiveCategory(draft.activeCategory || "all");
+      setShowCreate(true);
+      setShowAuth(false);
+      localStorage.removeItem(pendingCreateDraftKey);
+      setNotice("Retomemos la VIBE que estabas creando.");
+      setTimeout(() => setNotice(""), 3200);
+      return true;
+    } catch (error) {
+      console.warn("Could not restore pending VIBE draft", error);
+      localStorage.removeItem(pendingCreateDraftKey);
+      return false;
+    }
+  };
+
   const sendMagicLink = async () => {
     if (!authEmail.trim()) {
       setNotice("Ingresa tu correo para iniciar sesión.");
@@ -344,7 +401,7 @@ function App() {
     const { error } = await supabase.auth.signInWithOtp({
       email: authEmail.trim(),
       options: {
-        emailRedirectTo: window.location.origin,
+        emailRedirectTo: appRedirectUrl,
       },
     });
 
@@ -449,9 +506,11 @@ function App() {
 
   const createPanorama = async () => {
     if (!session?.user) {
+      savePendingCreateDraft();
       setShowAuth(true);
-      setNotice("Inicia sesión para publicar una VIBE.");
-      setTimeout(() => setNotice(""), 2600);
+      setShowCreate(false);
+      setNotice("Inicia sesión y seguimos desde donde quedaste.");
+      setTimeout(() => setNotice(""), 3200);
       return;
     }
 
@@ -614,7 +673,7 @@ function App() {
             {session?.user ? (
               <button className="btn btn-ghost" onClick={() => setShowProfile(true)}>Perfil</button>
             ) : (
-              <button className="btn btn-ghost" onClick={() => setShowAuth(true)}>Entrar</button>
+              <button className="btn btn-ghost" onClick={() => setShowAuth(true)}>Iniciar sesión</button>
             )}
             <button className="btn btn-primary" onClick={() => setShowCreate(true)}>Crear un plan</button>
           </div>
@@ -631,7 +690,7 @@ function App() {
             <button onClick={() => scrollTo("como-funciona")}>Cómo funciona</button>
             {session?.user && <button onClick={openMyEvents}>Mis eventos</button>}
             <button onClick={() => setShowProfile(true)}>Perfil</button>
-            <button onClick={() => setShowAuth(true)}>Entrar</button>
+            <button onClick={() => setShowAuth(true)}>Iniciar sesión</button>
             <button onClick={() => setShowCreate(true)}>Crear un plan</button>
           </div>
         )}
@@ -975,7 +1034,7 @@ function App() {
               <div className="modal-topline">
                 <span><Mail size={15} /> Acceso VIBE</span>
               </div>
-              <h3>Entra para crear y gestionar tus panoramas</h3>
+              <h3>Inicia sesión para crear y gestionar tus panoramas</h3>
               <p className="modal-vibe">
                 Te enviaremos un link mágico al correo. No necesitas contraseña.
               </p>
@@ -1032,7 +1091,10 @@ function App() {
 
       {showMyEvents && (
         <div className="modal-backdrop" onClick={() => setShowMyEvents(false)}>
-          <div className="modal-card my-events-card" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-card my-events-card event-detail-card" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close-top-left" onClick={() => setShowMyEvents(false)} aria-label="Cerrar mis eventos">
+              <X size={20} />
+            </button>
             <div className="modal-content">
               <div className="modal-topline">
                 <span><CalendarDays size={15} /> Mis eventos</span>
@@ -1049,6 +1111,15 @@ function App() {
                 <div className="empty-state">
                   <strong>No tienes eventos creados todavía.</strong>
                   <p>Crea una VIBE y aparecerá en esta sección.</p>
+                  <button
+                    className="btn btn-primary empty-state-action"
+                    onClick={() => {
+                      setShowMyEvents(false);
+                      setShowCreate(true);
+                    }}
+                  >
+                    Crear mi primera VIBE
+                  </button>
                 </div>
               )}
 
@@ -1070,8 +1141,17 @@ function App() {
                 ))}
               </div>
 
-              <div className="plan-actions one">
-                <button className="btn btn-primary full" onClick={() => setShowMyEvents(false)}>Listo</button>
+              <div className="plan-actions">
+                <button className="btn btn-ghost full" onClick={() => setShowMyEvents(false)}>Cerrar</button>
+                <button
+                  className="btn btn-primary full"
+                  onClick={() => {
+                    setShowMyEvents(false);
+                    setShowCreate(true);
+                  }}
+                >
+                  Crear una VIBE
+                </button>
               </div>
             </div>
           </div>
