@@ -858,3 +858,73 @@ button, input { font: inherit; }
     padding-top: 12px;
   }
 }
+
+
+/* v5.0: all key modals close with top-right X + compact profile */
+.simple-create-card,
+.profile-card,
+.my-events-card,
+.auth-card {
+  max-height: min(88vh, 820px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.simple-create-card .modal-content,
+.profile-card .modal-content,
+.my-events-card .modal-content,
+.auth-card .modal-content {
+  padding-top: 34px;
+}
+
+.profile-card {
+  width: min(760px, calc(100vw - 32px));
+}
+
+.profile-card h3 {
+  font-size: clamp(28px, 3.4vw, 40px);
+  line-height: 0.95;
+  margin-bottom: 8px;
+}
+
+.profile-summary-hero {
+  grid-template-columns: 1.4fr 0.8fr;
+  padding: 14px;
+  margin-top: 12px;
+}
+
+.compact-profile-section {
+  padding: 14px;
+}
+
+.profile-section-head {
+  margin-bottom: 10px;
+}
+
+.profile-section-head span {
+  font-size: 16px;
+}
+
+.selected-interest-pill {
+  padding: 7px 11px;
+  font-size: 13px;
+}
+
+.profile-summary-grid > div {
+  padding: 11px;
+}
+
+@media (min-height: 760px) {
+  .profile-card {
+    max-height: 82vh;
+  }
+}
+
+@media (max-width: 720px) {
+  .simple-create-card,
+  .profile-card,
+  .my-events-card,
+  .auth-card {
+    max-height: 92vh;
+  }
+}

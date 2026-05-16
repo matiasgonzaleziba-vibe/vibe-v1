@@ -987,7 +987,10 @@ function App() {
 
       {showCreate && (
         <div className="modal-backdrop" onClick={() => setShowCreate(false)}>
-          <div className="modal-card create-card simple-create-card" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-card create-card simple-create-card event-detail-card" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close-top-right" onClick={() => setShowCreate(false)} aria-label="Cerrar creación de VIBE">
+              <X size={20} />
+            </button>
             <div className="modal-content">
               <div className="modal-topline">
                 <span><Plus size={15} /> Crear una VIBE</span>
@@ -1105,7 +1108,10 @@ function App() {
 
       {showAuth && (
         <div className="modal-backdrop" onClick={() => setShowAuth(false)}>
-          <div className="modal-card auth-card" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-card auth-card event-detail-card" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close-top-right" onClick={() => setShowAuth(false)} aria-label="Cerrar inicio de sesión">
+              <X size={20} />
+            </button>
             <div className="modal-content">
               <div className="modal-topline">
                 <span><Mail size={15} /> Acceso VIBE</span>
@@ -1149,9 +1155,9 @@ function App() {
 
               {!profileEditMode ? (
                 <>
-                  <h3>{profileName ? profileName : "Tu perfil VIBE"}</h3>
+                  <h3>Mi perfil VIBE</h3>
                   <p className="modal-vibe">
-                    Revisa tu perfil, tus intereses y las alertas que quieres recibir.
+                    Tu resumen VIBE. Puedes editar intereses, datos y alertas cuando lo necesites.
                   </p>
 
                   <section className="profile-summary-hero">

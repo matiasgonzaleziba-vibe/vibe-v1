@@ -1,16 +1,14 @@
-# VIBE v4.9
+# VIBE v5.0
 
-Mejora de experiencia de perfil:
+Ajustes de usabilidad de modales:
 
-- “Mi perfil” ahora abre una vista resumen, no el formulario completo.
-- La edición queda detrás del botón “Editar perfil”.
-- El resumen muestra:
-  - Quién soy
-  - Zona habitual
-  - Intereses seleccionados
-  - Estado de WhatsApp y alertas
-- El formulario completo aparece solo cuando el usuario decide editar.
-- Mantiene chips/tiles de intereses, datos de contacto colapsados y X arriba a la derecha.
+- El modal de Crear VIBE ahora tiene X arriba a la derecha.
+- El modal de Inicio de sesión también tiene X arriba a la derecha.
+- Se mantiene X arriba a la derecha en Mi perfil y Mis VIBEs.
+- Mi perfil abre como resumen compacto, no como formulario completo.
+- El formulario de edición queda detrás del botón “Editar perfil”.
+- El resumen de perfil se compacta para caber mejor en una ventana de navegador.
+- Todos los modales principales limitan su alto para evitar ventanas interminables.
 
 ## SQL
 
