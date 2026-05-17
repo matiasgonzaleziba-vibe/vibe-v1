@@ -1130,3 +1130,45 @@ button, input { font: inherit; }
     grid-template-columns: 1fr;
   }
 }
+
+
+/* v5.8: interests are edited only in profile summary, not duplicated in edit form */
+.summary-interest-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 86px;
+}
+
+.summary-interest-chip {
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.055);
+  color: #fff;
+  border-radius: 999px;
+  padding: 9px 13px;
+  font-weight: 850;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.summary-interest-chip.selected {
+  background: linear-gradient(135deg, rgba(255,122,48,0.24), rgba(124,58,237,0.30));
+  border-color: rgba(255,255,255,0.24);
+  box-shadow: 0 10px 22px rgba(124,58,237,0.13);
+}
+
+.inline-save-btn {
+  margin-top: 12px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  border-radius: 999px;
+  min-height: 38px;
+  padding: 0 15px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.inline-save-btn:hover {
+  background: rgba(255,255,255,0.13);
+}

@@ -72,12 +72,14 @@ const profileInterestOptions = [
 ];
 
 const normalizeInterest = (interest) => {
-  const clean = String(interest || "").replace(/^VIBE\\s+/i, "").trim();
+  const clean = String(interest || "").replace(/^VIBE\s+/i, "").trim();
   if (clean === "Deporte") return "Deportes";
   if (clean === "Literario") return "Literatura";
   if (clean === "Juegos") return "Juegos de mesa";
   return clean;
 };
+
+
 
 const formatDate = (value) => {
   if (!value) return "Fecha por confirmar";
@@ -109,7 +111,7 @@ const mapPanoramaFromDb = (row) => ({
   subtitle: row.subtitle || "Panorama creado por la comunidad",
   date: formatDate(row.starts_at),
   place: row.zone || row.public_location || "Zona por definir",
-  host: row.host_id ? "Host verificado" : "Host identificado al unirte",
+  organizador: row.organizador_id ? "Organizador verificado" : "Organizador identificado al unirte",
   seats: `${row.seats_available ?? row.seats_total ?? 0} cupos`,
   access: accessLabel(row.location_type),
   image: row.image_url || "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80",
@@ -165,7 +167,7 @@ const demoPlans = [
     subtitle: "Aprender, jugar y conversar sin tener que organizarlo todo",
     date: "Hoy · 19:30",
     place: "Providencia",
-    host: "Host verificado",
+    organizador: "Organizador verificado",
     seats: "6 cupos",
     access: "Ubicación pública",
     image: "https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?auto=format&fit=crop&w=1200&q=80",
@@ -178,7 +180,7 @@ const demoPlans = [
     subtitle: "Café de especialidad, degustación y buena conversación",
     date: "Mañana · 18:00",
     place: "Ñuñoa",
-    host: "Host identificado al unirte",
+    organizador: "Organizador identificado al unirte",
     seats: "4 cupos",
     access: "Dirección al confirmar",
     image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1200&q=80",
@@ -191,7 +193,7 @@ const demoPlans = [
     subtitle: "Compartamos los mejores spots en la cordillera",
     date: "Sábado · 10:30",
     place: "Cerro Manquehue",
-    host: "Host verificado",
+    organizador: "Organizador verificado",
     seats: "8 cupos",
     access: "Ubicación pública",
     image: "https://www.outlife.cl/wp-content/uploads/2020/07/2.jpg",
@@ -204,7 +206,7 @@ const demoPlans = [
     subtitle: "Música en vivo, conversación y buena vibra",
     date: "Viernes · 20:00",
     place: "Bellavista",
-    host: "Host verificado",
+    organizador: "Organizador verificado",
     seats: "5 cupos",
     access: "Ubicación pública",
     image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=80",
@@ -217,7 +219,7 @@ const demoPlans = [
     subtitle: "Un punto de partida antes de salir",
     date: "Jueves · 21:00",
     place: "El Golf",
-    host: "Host identificado al sumarte",
+    organizador: "Organizador identificado al sumarte",
     seats: "10 cupos",
     access: "Dirección al confirmar",
     image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80",
@@ -230,7 +232,7 @@ const demoPlans = [
     subtitle: "Comparte un libro, un género o un tema literario",
     date: "Domingo · 10:00",
     place: "Barrio Italia",
-    host: "Host verificado",
+    organizador: "Organizador verificado",
     seats: "7 cupos",
     access: "Ubicación pública",
     image: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=1200&q=80",
@@ -243,7 +245,7 @@ const demoPlans = [
     subtitle: "Armar equipo, moverse y jugar",
     date: "Miércoles · 20:30",
     place: "Parque Araucano",
-    host: "Host verificado",
+    organizador: "Organizador verificado",
     seats: "10 cupos",
     access: "Ubicación pública",
     image: "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80",
@@ -256,7 +258,7 @@ const demoPlans = [
     subtitle: "Un café para conversar ideas, socios o próximos pasos",
     date: "Martes · 08:30",
     place: "Vitacura",
-    host: "Host identificado al sumarte",
+    organizador: "Organizador identificado al sumarte",
     seats: "5 cupos",
     access: "Dirección al confirmar",
     image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80",
@@ -293,7 +295,7 @@ const ensureUserProfile = async (user, fullName = "") => {
       id: user.id,
       email: user.email,
       full_name: fullName || user.user_metadata?.full_name || user.email?.split("@")[0] || "Usuario VIBE",
-      is_host: true,
+      is_organizador: true,
     },
     { onConflict: "id" }
   );
@@ -604,7 +606,7 @@ function App() {
           .map(normalizeInterest)
           .filter(Boolean),
         notify_new_vibes: profileAlerts,
-        is_host: true,
+        is_organizador: true,
       },
       { onConflict: "id" }
     );
@@ -640,7 +642,7 @@ function App() {
     const { data, error } = await supabase
       .from("panoramas")
       .select("*")
-      .eq("host_id", session.user.id)
+      .eq("organizador_id", session.user.id)
       .order("created_at", { ascending: false });
 
     if (error) {
@@ -662,7 +664,7 @@ function App() {
       .from("panoramas")
       .update({ status: "cancelled" })
       .eq("id", planId)
-      .eq("host_id", session.user.id);
+      .eq("organizador_id", session.user.id);
 
     if (error) {
       console.error("Delete event error:", error);
@@ -726,7 +728,7 @@ function App() {
       .from("panoramas")
       .insert({
         vibe_id: vibeData?.id,
-        host_id: session.user.id,
+        organizador_id: session.user.id,
         title: customPlan,
         subtitle: creationMode === "random"
           ? "Panorama random para ver quién prende"
@@ -813,7 +815,7 @@ function App() {
         setNotice("No pude enviar la solicitud. Revisa permisos en Supabase.");
       } else {
         openVibeRoom(plan, "pending");
-        setNotice("Solicitud enviada al host.");
+        setNotice("Solicitud enviada al organizador.");
       }
     } else {
       const { error } = await supabase.from("participants").insert({
@@ -896,13 +898,13 @@ function App() {
               <button className="btn btn-primary" onClick={() => scrollTo("planes")}>
                 Ver panoramas cerca <ArrowRight size={17} />
               </button>
-              <button className="btn btn-ghost" onClick={() => setShowCreate(true)}>
+              <button className="btn btn-gorganizador" onClick={() => setShowCreate(true)}>
                 Crear mi VIBE
               </button>
             </div>
 
             <div className="hero-points">
-              <div><UserCheck size={18} /> Host identificado</div>
+              <div><UserCheck size={18} /> Organizador identificado</div>
               <div><LockKeyhole size={18} /> Ubicación según convocatoria</div>
               <div><Users size={18} /> Grupos chicos y concretos</div>
             </div>
@@ -962,7 +964,7 @@ function App() {
               {loadingPlans && <p className="data-note">Cargando panoramas desde Supabase...</p>}
               {supabaseError && <p className="data-note warning">{supabaseError}</p>}
             </div>
-            <button className="btn btn-ghost small" onClick={() => setActiveCategory("all")}>Ver todos</button>
+            <button className="btn btn-gorganizador small" onClick={() => setActiveCategory("all")}>Ver todos</button>
           </div>
 
           <div className="plan-grid">
@@ -971,8 +973,8 @@ function App() {
                 <div className="plan-image">
                   <img src={plan.image} alt={plan.title} />
                   <span className="plan-tag">{categories.find(c => c.key === plan.category)?.label || "Plan"}</span>
-                  {plan.host === "Host verificado" && (
-                    <span className="verified-badge"><CheckCircle2 size={14} /> Host verificado</span>
+                  {plan.organizador === "Organizador verificado" && (
+                    <span className="verified-badge"><CheckCircle2 size={14} /> Organizador verificado</span>
                   )}
                 </div>
                 <div className="plan-body">
@@ -982,13 +984,13 @@ function App() {
                   <ul className="plan-meta">
                     <li><CalendarDays size={15} /> {plan.date}</li>
                     <li><MapPin size={15} /> {plan.place}</li>
-                    <li><ShieldCheck size={15} /> {plan.host}</li>
+                    <li><ShieldCheck size={15} /> {plan.organizador}</li>
                     <li>{plan.access === "Ubicación pública" ? <Globe2 size={15} /> : <LockKeyhole size={15} />} {plan.access}</li>
                     <li><Users size={15} /> {plan.seats}</li>
                   </ul>
 
                   <div className="plan-actions">
-                    <button className="btn btn-ghost small full" onClick={() => setSelectedPlan(plan)}>Ver detalle</button>
+                    <button className="btn btn-gorganizador small full" onClick={() => setSelectedPlan(plan)}>Ver detalle</button>
                     <button className="btn btn-primary small full" onClick={() => joinPlan(plan)}>Sumarme</button>
                   </div>
                 </div>
@@ -1057,7 +1059,7 @@ function App() {
             <p>Puede partir como un café, una tocata, un partido, una idea de negocio o un grupo literario. Lo importante es convertir la intención en acción.</p>
             <div className="hero-actions centered">
               <button className="btn btn-primary" onClick={() => scrollTo("planes")}>Explorar panoramas</button>
-              <button className="btn btn-ghost" onClick={() => setShowCreate(true)}>Crear mi VIBE</button>
+              <button className="btn btn-gorganizador" onClick={() => setShowCreate(true)}>Crear mi VIBE</button>
             </div>
           </div>
         </div>
@@ -1072,7 +1074,7 @@ function App() {
             <img src={selectedPlan.image} alt={selectedPlan.title} />
             <div className="modal-content">
               <div className="modal-topline">
-                <span><CheckCircle2 size={15} /> {selectedPlan.host}</span>
+                <span><CheckCircle2 size={15} /> {selectedPlan.organizador}</span>
                 <span>{selectedPlan.access === "Ubicación pública" ? <Globe2 size={15} /> : <LockKeyhole size={15} />} {selectedPlan.access}</span>
               </div>
               <h3>{selectedPlan.title}</h3>
@@ -1080,7 +1082,7 @@ function App() {
               <ul className="plan-meta modal-meta">
                 <li><CalendarDays size={15} /> {selectedPlan.date}</li>
                 <li><MapPin size={15} /> {selectedPlan.place}</li>
-                <li><ShieldCheck size={15} /> {selectedPlan.host}</li>
+                <li><ShieldCheck size={15} /> {selectedPlan.organizador}</li>
                 <li>{selectedPlan.access === "Ubicación pública" ? <Globe2 size={15} /> : <LockKeyhole size={15} />} {selectedPlan.access}</li>
                 <li><Users size={15} /> {selectedPlan.seats}</li>
               </ul>
@@ -1109,14 +1111,14 @@ function App() {
               <h3>{activeRoom.title}</h3>
               <p className="modal-vibe">
                 {activeRoom.roomStatus === "pending"
-                  ? "Esta VIBE es cerrada. El host debe aceptar tu solicitud antes de liberar coordinación y ubicación exacta."
+                  ? "Esta VIBE es cerrada. El organizador debe aceptar tu solicitud antes de liberar coordinación y ubicación exacta."
                   : "Esta es la sala del panorama. Aquí deberías ver participantes, coordinación y próximos pasos."}
               </p>
 
               <div className="room-grid">
                 <div className="room-panel">
                   <span className="summary-kicker">Estado</span>
-                  <strong>{activeRoom.roomStatus === "pending" ? "Esperando aprobación del host" : "Participación confirmada"}</strong>
+                  <strong>{activeRoom.roomStatus === "pending" ? "Esperando aprobación del organizador" : "Participación confirmada"}</strong>
                 </div>
                 <div className="room-panel">
                   <span className="summary-kicker">Ubicación</span>
@@ -1151,7 +1153,7 @@ function App() {
             <div className="modal-content">
               <div className="modal-topline">
                 <span><Plus size={15} /> Crear una VIBE</span>
-                <span><UserCheck size={15} /> Tú eres el host</span>
+                <span><UserCheck size={15} /> Tú organizas</span>
               </div>
 
               <h3>Armemos un plan</h3>
@@ -1261,7 +1263,7 @@ function App() {
               </div>
 
               <div className="plan-actions">
-                <button className="btn btn-ghost full" onClick={() => setShowCreate(false)}>Cerrar</button>
+                <button className="btn btn-gorganizador full" onClick={() => setShowCreate(false)}>Cerrar</button>
                 <button className="btn btn-primary full" onClick={createPanorama}>Publicar VIBE</button>
               </div>
             </div>
@@ -1283,7 +1285,7 @@ function App() {
 
               <h3>Inicia sesión en VIBE</h3>
               <p className="modal-vibe">
-                Usa tu correo y contraseña. Si prefieres, también puedes recibir un link mágico.
+                Usa tu correo y contraseña. Si la olvidaste, puedes recuperarla desde aquí.
               </p>
 
               <div className="auth-tabs">
@@ -1335,7 +1337,6 @@ function App() {
 
               <div className="auth-secondary-actions">
                 <button onClick={resetPassword}>Olvidé mi contraseña</button>
-                <button onClick={sendMagicLink}>Recibir link mágico</button>
               </div>
             </div>
           </div>
@@ -1439,45 +1440,16 @@ function App() {
                   </section>
 
                   <div className="plan-actions">
-                    <button className="btn btn-ghost full" onClick={signOut}><LogOut size={16} /> Cerrar sesión</button>
+                    <button className="btn btn-gorganizador full" onClick={signOut}><LogOut size={16} /> Cerrar sesión</button>
                     <button className="btn btn-primary full" onClick={() => setProfileEditMode(true)}>Editar perfil</button>
                   </div>
                 </>
               ) : (
                 <>
-                  <h3>Editar perfil</h3>
+                  <h3>Editar datos del perfil</h3>
                   <p className="modal-vibe">
-                    Ajusta quién eres, tus intereses y cómo quieres recibir alertas.
+                    Ajusta tu descripción, ciudad, WhatsApp y preferencias de contacto. Tus intereses se editan directamente en el resumen.
                   </p>
-
-                  <section className="profile-section featured-interests">
-                    <div className="profile-section-head">
-                      <span>Elige tus intereses</span>
-                      <small>Toca una o más opciones. Después podrás crear VIBEs más específicas, como básquetbol, café de especialidad o un grupo de negocios.</small>
-                    </div>
-
-                    <div className="interest-tile-grid">
-                      {profileInterestOptions.map((interest) => {
-                        const selected = profileInterests
-                          .split(",")
-                          .map(normalizeInterest)
-                          .filter(Boolean)
-                          .includes(interest);
-
-                        return (
-                          <button
-                            type="button"
-                            key={interest}
-                            className={`interest-tile ${selected ? "selected" : ""}`}
-                            onClick={() => toggleProfileInterest(interest)}
-                          >
-                            <strong>{interest}</strong>
-                            <small>{selected ? "Seleccionado" : "Seleccionar"}</small>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </section>
 
                   <section className="profile-section">
                     <div className="profile-section-head">
@@ -1523,7 +1495,7 @@ function App() {
                       <strong>WhatsApp y acceso</strong>
                       <p>
                         WhatsApp se usará para avisarte cuando alguien solicite sumarse a una VIBE que tú creaste.
-                        Tu acceso puede ser con contraseña o link mágico.
+                        Tu acceso puede ser con contraseña.
                       </p>
                     </div>
 
@@ -1562,7 +1534,7 @@ function App() {
                   </details>
 
                   <div className="plan-actions">
-                    <button className="btn btn-ghost full" onClick={() => setProfileEditMode(false)}>Cancelar</button>
+                    <button className="btn btn-gorganizador full" onClick={() => setProfileEditMode(false)}>Cancelar</button>
                     <button className="btn btn-primary full" onClick={saveProfile}>Guardar cambios</button>
                   </div>
                 </>
@@ -1626,7 +1598,7 @@ function App() {
 
               <div className="plan-actions">
                 <button
-                  className="btn btn-ghost full"
+                  className="btn btn-gorganizador full"
                   onClick={() => {
                     setShowMyEvents(false);
                     scrollTo("planes");

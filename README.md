@@ -1,13 +1,11 @@
-# VIBE v5.7
+# VIBE v6.2
 
-Ajuste en “Mis VIBEs”:
+Ajuste de lenguaje de confianza:
 
-- Cuando no tienes VIBEs creadas, ahora aparecen dos acciones:
-  - Explorar VIBEs
-  - Crear una VIBE
-- “Explorar VIBEs” cierra el modal y lleva a la sección de panoramas disponibles.
-- “Crear una VIBE” abre el flujo de creación.
-- Mantiene las mejoras previas de sala VIBE, perfil, login, intereses clickeables y X en modales.
+- Se reemplaza “Host verificado” por “Organizador verificado”.
+- Se reemplaza “Host visible/identificado” por “Organizador identificado”.
+- Se evita mezclar inglés/español en las etiquetas principales.
+- Mantiene login sin link mágico visible, perfil, intereses clickeables, Mis VIBEs, sala VIBE, creación y X en modales.
 
 ## SQL
 
