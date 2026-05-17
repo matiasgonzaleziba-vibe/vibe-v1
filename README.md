@@ -1,11 +1,12 @@
-# VIBE v6.2
+# VIBE v6.3
 
-Ajuste de lenguaje de confianza:
+Corrección de copy:
 
-- Se reemplaza “Host verificado” por “Organizador verificado”.
-- Se reemplaza “Host visible/identificado” por “Organizador identificado”.
-- Se evita mezclar inglés/español en las etiquetas principales.
-- Mantiene login sin link mágico visible, perfil, intereses clickeables, Mis VIBEs, sala VIBE, creación y X en modales.
+- Se eliminan restos visibles de “Host”.
+- “Host identificado” pasa a “Organizador identificado”.
+- “Host verificado” pasa a “Organizador verificado”.
+- “Tú eres el host/organizador” queda como “Tú organizas”.
+- Mantiene el resto de ajustes previos.
 
 ## SQL
 
