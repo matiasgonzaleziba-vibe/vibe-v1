@@ -109,7 +109,7 @@ const mapPanoramaFromDb = (row) => ({
   subtitle: row.subtitle || "Panorama creado por la comunidad",
   date: formatDate(row.starts_at),
   place: row.zone || row.public_location || "Zona por definir",
-  host: row.host_id ? "Host verificado" : "Host visible al unirte",
+  host: row.host_id ? "Host verificado" : "Host identificado al unirte",
   seats: `${row.seats_available ?? row.seats_total ?? 0} cupos`,
   access: accessLabel(row.location_type),
   image: row.image_url || "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80",
@@ -178,7 +178,7 @@ const demoPlans = [
     subtitle: "Café de especialidad, degustación y buena conversación",
     date: "Mañana · 18:00",
     place: "Ñuñoa",
-    host: "Host visible al unirte",
+    host: "Host identificado al unirte",
     seats: "4 cupos",
     access: "Dirección al confirmar",
     image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1200&q=80",
@@ -217,7 +217,7 @@ const demoPlans = [
     subtitle: "Un punto de partida antes de salir",
     date: "Jueves · 21:00",
     place: "El Golf",
-    host: "Host visible al sumarte",
+    host: "Host identificado al sumarte",
     seats: "10 cupos",
     access: "Dirección al confirmar",
     image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80",
@@ -256,7 +256,7 @@ const demoPlans = [
     subtitle: "Un café para conversar ideas, socios o próximos pasos",
     date: "Martes · 08:30",
     place: "Vitacura",
-    host: "Host visible al sumarte",
+    host: "Host identificado al sumarte",
     seats: "5 cupos",
     access: "Dirección al confirmar",
     image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80",
@@ -303,6 +303,7 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [activeRoom, setActiveRoom] = useState(null);
   const [notice, setNotice] = useState("");
   const [showCreate, setShowCreate] = useState(false);
   const [customVibe, setCustomVibe] = useState("VIBE Básquetbol");
@@ -775,6 +776,11 @@ function App() {
     setMenuOpen(false);
   };
 
+  const openVibeRoom = (plan, roomStatus = "joined") => {
+    setActiveRoom({ ...plan, roomStatus });
+    setSelectedPlan(null);
+  };
+
   const joinPlan = async (plan) => {
     if (!session?.user) {
       setShowAuth(true);
@@ -786,7 +792,8 @@ function App() {
     await ensureUserProfile(session.user, profileName);
 
     if (plan.source !== "supabase") {
-      setNotice(`Te sumarías a: ${plan.title}`);
+      openVibeRoom(plan, "joined");
+      setNotice(`Te sumaste a: ${plan.title}`);
       setTimeout(() => setNotice(""), 2600);
       return;
     }
@@ -805,6 +812,7 @@ function App() {
         console.error("Error creating request:", error);
         setNotice("No pude enviar la solicitud. Revisa permisos en Supabase.");
       } else {
+        openVibeRoom(plan, "pending");
         setNotice("Solicitud enviada al host.");
       }
     } else {
@@ -819,6 +827,7 @@ function App() {
         console.error("Error joining panorama:", error);
         setNotice("No pude sumarte. Revisa permisos en Supabase.");
       } else {
+        openVibeRoom(plan, "joined");
         setNotice(`Te sumaste a: ${plan.title}`);
       }
     }
@@ -893,8 +902,8 @@ function App() {
             </div>
 
             <div className="hero-points">
-              <div><UserCheck size={18} /> Host visible</div>
-              <div><LockKeyhole size={18} /> Ubicación según tipo de panorama</div>
+              <div><UserCheck size={18} /> Host identificado</div>
+              <div><LockKeyhole size={18} /> Ubicación según convocatoria</div>
               <div><Users size={18} /> Grupos chicos y concretos</div>
             </div>
           </div>
@@ -1057,7 +1066,7 @@ function App() {
       {selectedPlan && (
         <div className="modal-backdrop" onClick={() => setSelectedPlan(null)}>
           <div className="modal-card event-detail-card" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close-top-left" onClick={() => setSelectedPlan(null)} aria-label="Cerrar detalle del evento">
+            <button className="modal-close-top-right" onClick={() => setSelectedPlan(null)} aria-label="Cerrar detalle del evento">
               <X size={20} />
             </button>
             <img src={selectedPlan.image} alt={selectedPlan.title} />
@@ -1075,9 +1084,58 @@ function App() {
                 <li>{selectedPlan.access === "Ubicación pública" ? <Globe2 size={15} /> : <LockKeyhole size={15} />} {selectedPlan.access}</li>
                 <li><Users size={15} /> {selectedPlan.seats}</li>
               </ul>
-              <div className="plan-actions">
-                <button className="btn btn-ghost full" onClick={() => setSelectedPlan(null)}>Cerrar</button>
+              <div className="plan-actions one">
                 <button className="btn btn-primary full" onClick={() => joinPlan(selectedPlan)}>Sumarme</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+      {activeRoom && (
+        <div className="modal-backdrop" onClick={() => setActiveRoom(null)}>
+          <div className="modal-card vibe-room-card event-detail-card" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close-top-right" onClick={() => setActiveRoom(null)} aria-label="Cerrar sala VIBE">
+              <X size={20} />
+            </button>
+
+            <div className="modal-content">
+              <div className="modal-topline">
+                <span><Users size={15} /> Sala VIBE</span>
+                <span>{activeRoom.roomStatus === "pending" ? "Solicitud enviada" : "Ya estás dentro"}</span>
+              </div>
+
+              <h3>{activeRoom.title}</h3>
+              <p className="modal-vibe">
+                {activeRoom.roomStatus === "pending"
+                  ? "Esta VIBE es cerrada. El host debe aceptar tu solicitud antes de liberar coordinación y ubicación exacta."
+                  : "Esta es la sala del panorama. Aquí deberías ver participantes, coordinación y próximos pasos."}
+              </p>
+
+              <div className="room-grid">
+                <div className="room-panel">
+                  <span className="summary-kicker">Estado</span>
+                  <strong>{activeRoom.roomStatus === "pending" ? "Esperando aprobación del host" : "Participación confirmada"}</strong>
+                </div>
+                <div className="room-panel">
+                  <span className="summary-kicker">Ubicación</span>
+                  <strong>{activeRoom.access === "Ubicación pública" ? activeRoom.place : "Se libera al confirmar"}</strong>
+                </div>
+                <div className="room-panel">
+                  <span className="summary-kicker">Participantes</span>
+                  <strong>Próximo paso</strong>
+                  <p>Aquí mostraremos inscritos, solicitudes pendientes y confirmados.</p>
+                </div>
+                <div className="room-panel">
+                  <span className="summary-kicker">Grupo</span>
+                  <strong>WhatsApp / chat</strong>
+                  <p>Más adelante podrás crear o abrir el grupo de coordinación del panorama.</p>
+                </div>
+              </div>
+
+              <div className="plan-actions one">
+                <button className="btn btn-primary full" onClick={() => setActiveRoom(null)}>Entendido</button>
               </div>
             </div>
           </div>
@@ -1125,7 +1183,14 @@ function App() {
               <div className="create-form-grid">
                 <label className="fake-label">
                   Nombre de tu VIBE
-                  <input value={customVibe} onChange={(e) => setCustomVibe(e.target.value)} placeholder="VIBE Café, VIBE Trekking, VIBE Otaku..." />
+                  <div className="vibe-name-input">
+                    <span>VIBE</span>
+                    <input
+                      value={customVibe.replace(/^VIBE\s*/i, "")}
+                      onChange={(e) => setCustomVibe(`VIBE ${e.target.value}`)}
+                      placeholder="Café, Trekking, Otaku..."
+                    />
+                  </div>
                 </label>
 
                 <label className="fake-label">
@@ -1297,16 +1362,28 @@ function App() {
                     Tu resumen VIBE. Puedes editar intereses, datos y alertas cuando lo necesites.
                   </p>
 
-                  <section className="profile-summary-hero">
-                    <div>
+                  <section className="profile-summary-hero editable-summary">
+                    <label>
                       <span className="summary-kicker">Quién soy</span>
-                      <p>{profileBio || "Aún no agregas una descripción breve."}</p>
-                    </div>
-                    <div className="summary-side">
+                      <textarea
+                        value={profileBio}
+                        onChange={(e) => setProfileBio(e.target.value)}
+                        placeholder="Cuenta brevemente qué te gusta hacer o qué VIBEs te interesan."
+                        rows={2}
+                      />
+                    </label>
+                    <label className="summary-side">
                       <span>Ciudad</span>
-                      <strong>{profileZone || "Por definir"}</strong>
-                    </div>
+                      <input
+                        value={profileZone}
+                        onChange={(e) => setProfileZone(e.target.value)}
+                        placeholder="Ej: Santiago"
+                      />
+                    </label>
                   </section>
+                  <button className="inline-save-btn" onClick={saveProfile}>
+                    Guardar quién soy y ciudad
+                  </button>
 
                   <section className="profile-section compact-profile-section">
                     <div className="profile-section-head">
@@ -1524,7 +1601,7 @@ function App() {
                       setShowCreate(true);
                     }}
                   >
-                    Crear mi primera VIBE
+                    Crear una VIBE
                   </button>
                 </div>
               )}
@@ -1547,7 +1624,16 @@ function App() {
                 ))}
               </div>
 
-              <div className="plan-actions one">
+              <div className="plan-actions">
+                <button
+                  className="btn btn-ghost full"
+                  onClick={() => {
+                    setShowMyEvents(false);
+                    scrollTo("planes");
+                  }}
+                >
+                  Explorar VIBEs
+                </button>
                 <button
                   className="btn btn-primary full"
                   onClick={() => {

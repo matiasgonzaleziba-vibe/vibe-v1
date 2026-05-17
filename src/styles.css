@@ -1048,3 +1048,85 @@ button, input { font: inherit; }
   cursor: pointer;
   font-weight: 850;
 }
+
+
+/* v5.5 sala VIBE + fixed VIBE prefix + editable profile summary */
+.vibe-name-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.065);
+  border-radius: 16px;
+  padding: 0 0 0 14px;
+}
+
+.vibe-name-input span {
+  color: #ffd0b2;
+  font-weight: 950;
+  letter-spacing: .04em;
+}
+
+.vibe-name-input input {
+  border: 0 !important;
+  background: transparent !important;
+  flex: 1;
+}
+
+.editable-summary label {
+  display: block;
+}
+
+.editable-summary textarea,
+.editable-summary input {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-weight: 850;
+  outline: none;
+  resize: none;
+}
+
+.editable-summary textarea {
+  min-height: 54px;
+}
+
+.vibe-room-card {
+  width: min(760px, calc(100vw - 32px));
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.room-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.room-panel {
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.045);
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.room-panel strong {
+  display: block;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.room-panel p {
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+@media (max-width: 720px) {
+  .room-grid {
+    grid-template-columns: 1fr;
+  }
+}
