@@ -1280,17 +1280,7 @@ function App() {
                   </div>
                 </div>
               </div>
-
-              <details className="advanced-create-options">
-                <summary>Más opciones</summary>
-                <div className="segmented-control three">
-                  <button className={creationMode === "definido" ? "active" : ""} onClick={() => setCreationMode("definido")}>Panorama definido</button>
-                  <button className={creationMode === "abierto" ? "active" : ""} onClick={() => setCreationMode("abierto")}>Idea abierta</button>
-                  <button className={creationMode === "random" ? "active" : ""} onClick={() => setCreationMode("random")}>Random</button>
-                </div>
-              </details>
-
-              <div className="preview-vibe compact-preview">
+<div className="preview-vibe compact-preview">
                 <span>Preview</span>
                 <strong>{customVibe || "VIBE"}</strong>
                 <p>{customPlan || "Tu panorama"}</p>

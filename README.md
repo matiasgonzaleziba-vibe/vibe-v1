@@ -45,3 +45,11 @@ Creación estilo app:
 - Grilla compacta tipo app.
 - Al seleccionar una categoría, el campo nombre se completa como “VIBE + categoría”.
 - Mantiene el prefijo VIBE en el nombre creado.
+
+
+## v7.0
+
+Creación más simple:
+- Se elimina completamente el bloque “Más opciones”.
+- Se eliminan las opciones “Panorama definido”, “Idea abierta” y “Random”.
+- El tipo queda como valor interno estándar para no complejizar al usuario.
