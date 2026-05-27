@@ -133,6 +133,34 @@ const defaultImageByCategory = {
   custom: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80",
 };
 
+const photoPresets = [
+  {
+    label: "Café",
+    url: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    label: "Outdoor",
+    url: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    label: "Juegos",
+    url: "https://images.unsplash.com/photo-1606167668584-78701c57f13d?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    label: "Música",
+    url: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    label: "Negocios",
+    url: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    label: "Literatura",
+    url: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=1200&q=80",
+  },
+];
+
+
 
 const categories = [
   { key: "all", label: "Todos", icon: Sparkles, interests: ["Panoramas cerca", "Planes para hoy", "Nuevas VIBEs"] },
@@ -688,6 +716,23 @@ function App() {
     setCustomVibe(label ? `VIBE ${label}` : "VIBE ");
     setCustomPlan(vibe.plan);
     setActiveCategory(vibe.key === "custom" ? "all" : vibe.key);
+
+    const suggestedPhoto = photoPresets.find((photo) =>
+      label && photo.label.toLowerCase().includes(label.toLowerCase())
+    );
+    if (suggestedPhoto && !photoImageUrl) {
+      setPhotoImageUrl(suggestedPhoto.url);
+    }
+  };
+
+  const handlePhotoUpload = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const localUrl = URL.createObjectURL(file);
+    setPhotoImageUrl(localUrl);
+    setNotice("Foto cargada como preview. Para guardarla real, luego conectamos Supabase Storage.");
+    setTimeout(() => setNotice(""), 3400);
   };
 
   const createPanorama = async () => {
@@ -743,7 +788,7 @@ function App() {
             : "Panorama creado en VIBE",
         description: `${customVibe}: ${customPlan}`,
         category_key: categoryKey,
-        image_url: defaultImageByCategory[categoryKey] || defaultImageByCategory.custom,
+        image_url: photoImageUrl || defaultImageByCategory[categoryKey] || defaultImageByCategory.custom,
         panorama_type: creationMode,
         call_type: callType,
         location_type: locationType,
@@ -1239,7 +1284,39 @@ function App() {
                   <input value={customPlan} onChange={(e) => setCustomPlan(e.target.value)} placeholder="Ej: Café de especialidad + conversación" />
                 </label>
 
-                <label className="fake-label">
+                              <div className="photo-selector-section">
+                <div className="photo-preview">
+                  <img
+                    src={photoImageUrl || defaultImageByCategory[activeCategory === "all" ? "custom" : activeCategory] || defaultImageByCategory.custom}
+                    alt="Preview de foto"
+                  />
+                  <span>Preview</span>
+                </div>
+
+                <div className="photo-options">
+                  <strong>Foto</strong>
+                  <div className="photo-preset-grid">
+                    {photoPresets.map((photo) => (
+                      <button
+                        type="button"
+                        key={photo.label}
+                        className={`photo-preset ${photoImageUrl === photo.url ? "selected" : ""}`}
+                        onClick={() => setPhotoImageUrl(photo.url)}
+                      >
+                        <img src={photo.url} alt={photo.label} />
+                        <span>{photo.label}</span>
+                      </button>
+                    ))}
+
+                    <label className="photo-upload">
+                      <input type="file" accept="image/*" onChange={handlePhotoUpload} />
+                      <span>Subir foto</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+<label className="fake-label">
                   Fecha
                   <input type="date" value={eventDate} onChange={(e) => setEventDate(e.target.value)} />
                 </label>

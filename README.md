@@ -53,3 +53,22 @@ Creación más simple:
 - Se elimina completamente el bloque “Más opciones”.
 - Se eliminan las opciones “Panorama definido”, “Idea abierta” y “Random”.
 - El tipo queda como valor interno estándar para no complejizar al usuario.
+
+
+## v7.1
+
+Selector de foto:
+- Agrega una sección “Foto” dentro de Crear VIBE.
+- Muestra preview de la foto del panorama.
+- Permite elegir imágenes sugeridas: Café, Outdoor, Juegos, Música, Negocios y Literatura.
+- Permite cargar una foto local como preview.
+- Las imágenes sugeridas sí se guardan en `panoramas.image_url`.
+- La subida local queda como preview por ahora; para persistirla después hay que conectar Supabase Storage.
+
+
+## v7.2
+
+Cambio de lenguaje:
+- “Portada” pasa a “Foto”.
+- “Preview de portada” pasa a “Preview de foto”.
+- Se mantiene el selector visual y la opción de subir foto.

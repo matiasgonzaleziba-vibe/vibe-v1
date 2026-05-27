@@ -1,0 +1,5 @@
+-- VIBE v7.1 note
+-- Current implementation saves selected preset URLs into panoramas.image_url.
+-- Uploaded local photos work as preview only until Supabase Storage is configured.
+-- When ready, create a bucket called 'panorama-photos' and upload files there,
+-- then save the public URL into panoramas.image_url.
