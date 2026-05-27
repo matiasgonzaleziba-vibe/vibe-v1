@@ -111,7 +111,7 @@ const mapPanoramaFromDb = (row) => ({
   subtitle: row.subtitle || "Panorama creado por la comunidad",
   date: formatDate(row.starts_at),
   place: row.zone || row.public_location || "Zona por definir",
-  organizador: row.organizador_id ? "Organizador verificado" : "Organizador identificado al unirte",
+  organizador: row.host_id ? "Organizador verificado" : "Organizador identificado al unirte",
   seats: `${row.seats_available ?? row.seats_total ?? 0} cupos`,
   access: accessLabel(row.location_type),
   image: row.image_url || "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80",
@@ -136,27 +136,27 @@ const defaultImageByCategory = {
 
 const categories = [
   { key: "all", label: "Todos", icon: Sparkles, interests: ["Panoramas cerca", "Planes para hoy", "Nuevas VIBEs"] },
-  { key: "cafe", label: "VIBE Café", icon: Coffee, interests: ["Café de especialidad", "Tasting", "Brunch", "Conversación"] },
-  { key: "juegos", label: "VIBE Juegos", icon: Gamepad2, interests: ["Juegos de mesa", "Consola", "Cartas", "Trivia"] },
-  { key: "musica", label: "VIBE Música", icon: Music, interests: ["Tocatas", "Festivales", "Música en vivo", "Jam session"] },
+  { key: "cafe", label: "Café", icon: Coffee, interests: ["Café de especialidad", "Tasting", "Brunch", "Conversación"] },
+  { key: "juegos", label: "Juegos", icon: Gamepad2, interests: ["Juegos de mesa", "Consola", "Cartas", "Trivia"] },
+  { key: "musica", label: "Música", icon: Music, interests: ["Tocatas", "Festivales", "Música en vivo", "Jam session"] },
   { key: "outdoor", label: "VIBE Outdoor", icon: TreePine, interests: ["Caminatas", "Fotos urbanas", "Cerros", "Parques"] },
-  { key: "deporte", label: "VIBE Deporte", icon: Trophy, interests: ["Fútbol", "Básquetbol", "Pádel", "Running"] },
+  { key: "deporte", label: "Deporte", icon: Trophy, interests: ["Fútbol", "Básquetbol", "Pádel", "Running"] },
   { key: "fiesta", label: "VIBE Fiesta", icon: PartyPopper, interests: ["La previa", "Baile", "Carrete", "Eventos"] },
-  { key: "literario", label: "VIBE Literario", icon: BookOpen, interests: ["Club de lectura", "Poesía", "Escritura", "Lectura libre"] },
-  { key: "negocios", label: "VIBE Negocios", icon: BriefcaseBusiness, interests: ["Idea de negocio", "Networking", "Founder coffee", "Colegas"] },
+  { key: "literario", label: "Literatura", icon: BookOpen, interests: ["Club de lectura", "Poesía", "Escritura", "Lectura libre"] },
+  { key: "negocios", label: "Negocios", icon: BriefcaseBusiness, interests: ["Idea de negocio", "Networking", "Founder coffee", "Colegas"] },
 ];
 
 
 const quickVibes = [
-  { label: "VIBE Café", key: "cafe", icon: Coffee, plan: "Café de especialidad + conversación", hint: "Tasting, brunch o café tranquilo" },
-  { label: "VIBE Trekking", key: "outdoor", icon: TreePine, plan: "Caminata suave este fin de semana", hint: "Cerro, parque o ruta urbana" },
-  { label: "VIBE Otaku", key: "custom", icon: Sparkles, plan: "Junta otaku, anime o manga", hint: "Anime, manga, cosplay o gaming" },
-  { label: "VIBE Negocios", key: "negocios", icon: BriefcaseBusiness, plan: "Café para compartir una idea de negocio", hint: "Ideas, colegas o founder coffee" },
-  { label: "VIBE Juegos", key: "juegos", icon: Gamepad2, plan: "Mesa abierta de juegos", hint: "Mesa, consola, trivia o cartas" },
-  { label: "VIBE Música", key: "musica", icon: Music, plan: "Acompáñame a una tocata", hint: "Tocata, festival o música en vivo" },
-  { label: "VIBE Deporte", key: "deporte", icon: Trophy, plan: "Partido casual esta semana", hint: "Fútbol, básquetbol, pádel o running" },
-  { label: "VIBE Literario", key: "literario", icon: BookOpen, plan: "Lectura libre + conversación", hint: "Libro, escritura o poesía" },
-  { label: "Otro VIBE", key: "custom", icon: Plus, plan: "Armar un panorama distinto", hint: "Crea tu propia categoría" },
+  { label: "Café", key: "cafe", icon: Coffee, plan: "Café de especialidad + conversación", hint: "" },
+  { label: "Outdoor", key: "outdoor", icon: TreePine, plan: "Caminata suave este fin de semana", hint: "" },
+  { label: "Otaku", key: "custom", icon: Sparkles, plan: "Junta otaku, anime o manga", hint: "" },
+  { label: "Negocios", key: "negocios", icon: BriefcaseBusiness, plan: "Café para compartir una idea de negocio", hint: "" },
+  { label: "Juegos", key: "juegos", icon: Gamepad2, plan: "Mesa abierta de juegos", hint: "" },
+  { label: "Música", key: "musica", icon: Music, plan: "Acompáñame a una tocata", hint: "" },
+  { label: "Deporte", key: "deporte", icon: Trophy, plan: "Partido casual esta semana", hint: "" },
+  { label: "Literatura", key: "literario", icon: BookOpen, plan: "Lectura libre + conversación", hint: "" },
+  { label: "Otro", key: "custom", icon: Plus, plan: "Armar un panorama distinto", hint: "" },
 ];
 
 const demoPlans = [
@@ -228,7 +228,7 @@ const demoPlans = [
   {
     id: 6,
     category: "literario",
-    title: "VIBE Literario: Crea tu grupo de lectura",
+    title: "Literatura: Crea tu grupo de lectura",
     subtitle: "Comparte un libro, un género o un tema literario",
     date: "Domingo · 10:00",
     place: "Barrio Italia",
@@ -303,6 +303,7 @@ const ensureUserProfile = async (user, fullName = "") => {
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [activeRoom, setActiveRoom] = useState(null);
@@ -327,7 +328,7 @@ function App() {
   const [profileBio, setProfileBio] = useState("");
   const [profileWhatsapp, setProfileWhatsapp] = useState("");
   const [profileZone, setProfileZone] = useState("");
-  const [profileInterests, setProfileInterests] = useState("VIBE Café, VIBE Juegos, VIBE Outdoor");
+  const [profileInterests, setProfileInterests] = useState("Café, Juegos, VIBE Outdoor");
   const [profileAlerts, setProfileAlerts] = useState(true);
   const [showAuth, setShowAuth] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -626,6 +627,10 @@ function App() {
     await supabase.auth.signOut();
     setSession(null);
     setMyEvents([]);
+    setMenuOpen(false);
+    setProfileMenuOpen(false);
+    setShowProfile(false);
+    setShowMyEvents(false);
     setNotice("Sesión cerrada.");
     setTimeout(() => setNotice(""), 2200);
   };
@@ -679,7 +684,8 @@ function App() {
   };
 
   const selectQuickVibe = (vibe) => {
-    setCustomVibe(vibe.label === "Otro VIBE" ? "VIBE " : vibe.label);
+    const label = vibe.label === "Otro" || vibe.label === "Otro VIBE" ? "" : vibe.label.replace(/^VIBE\s+/i, "");
+    setCustomVibe(label ? `VIBE ${label}` : "VIBE ");
     setCustomPlan(vibe.plan);
     setActiveCategory(vibe.key === "custom" ? "all" : vibe.key);
   };
@@ -728,13 +734,13 @@ function App() {
       .from("panoramas")
       .insert({
         vibe_id: vibeData?.id,
-        organizador_id: session.user.id,
+        host_id: session.user.id,
         title: customPlan,
         subtitle: creationMode === "random"
-          ? "Panorama random para ver quién prende"
+          ? "Panorama creado en VIBE"
           : creationMode === "abierto"
-            ? "Idea abierta para cerrar con quienes se sumen"
-            : "Panorama definido creado en VIBE",
+            ? "Panorama creado en VIBE"
+            : "Panorama creado en VIBE",
         description: `${customVibe}: ${customPlan}`,
         category_key: categoryKey,
         image_url: defaultImageByCategory[categoryKey] || defaultImageByCategory.custom,
@@ -753,7 +759,7 @@ function App() {
 
     if (panoramaError) {
       console.error("Error creating panorama:", panoramaError);
-      setNotice("No pude crear el panorama. Revisa las políticas de Supabase.");
+      setNotice("No pude crear el panorama. Revisa permisos o columnas de Supabase.");
       setTimeout(() => setNotice(""), 3200);
       return;
     }
@@ -852,15 +858,45 @@ function App() {
           <nav className="desktop-nav compact-nav">
             <button onClick={() => scrollTo("planes")}>Explorar</button>
             {session?.user && <button onClick={openMyEvents}>Mis VIBEs</button>}
-            {session?.user ? (
-              <button onClick={openProfile}>Mi perfil</button>
-            ) : (
-              <button onClick={() => setShowAuth(true)}>Iniciar sesión</button>
-            )}
           </nav>
 
           <div className="desktop-actions">
             <button className="btn btn-primary" onClick={() => setShowCreate(true)}>Crear una VIBE</button>
+
+            {session?.user ? (
+              <div className="profile-dropdown">
+                <button
+                  className="profile-menu-button"
+                  onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+                >
+                  {profileName || session.user.email?.split("@")[0] || "Mi perfil"} ▾
+                </button>
+
+                {profileMenuOpen && (
+                  <div className="profile-menu-panel">
+                    <button
+                      onClick={() => {
+                        setProfileMenuOpen(false);
+                        openProfile();
+                      }}
+                    >
+                      Mi perfil
+                    </button>
+                    <button
+                      onClick={() => {
+                        setProfileMenuOpen(false);
+                        openMyEvents();
+                      }}
+                    >
+                      Mis VIBEs
+                    </button>
+                    <button onClick={signOut}>Cerrar sesión</button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button className="btn btn-ghost" onClick={() => setShowAuth(true)}>Iniciar sesión</button>
+            )}
           </div>
 
           <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menú">
@@ -871,13 +907,16 @@ function App() {
         {menuOpen && (
           <div className="mobile-menu">
             <button onClick={() => scrollTo("planes")}>Explorar</button>
+            <button onClick={() => setShowCreate(true)}>Crear una VIBE</button>
             {session?.user && <button onClick={openMyEvents}>Mis VIBEs</button>}
             {session?.user ? (
-              <button onClick={openProfile}>Mi perfil</button>
+              <>
+                <button onClick={openProfile}>Mi perfil</button>
+                <button onClick={signOut}>Cerrar sesión</button>
+              </>
             ) : (
               <button onClick={() => setShowAuth(true)}>Iniciar sesión</button>
             )}
-            <button onClick={() => setShowCreate(true)}>Crear una VIBE</button>
           </div>
         )}
       </header>
@@ -927,7 +966,7 @@ function App() {
       <section className="category-strip" id="categorias">
         <div className="container">
           <div className="mini-head">
-            <span>Elige una VIBE</span>
+            <span>Elige categoría</span>
             <p>Las categorías son amplias. Al entrar, puedes explorar intereses más específicos o crear una VIBE propia.</p>
           </div>
           <div className="category-row">
@@ -960,7 +999,7 @@ function App() {
             <div>
               <span>Cerca de ti</span>
               <h2>Panoramas para partir hoy</h2>
-              <p>Elige una VIBE, revisa el panorama y súmate.</p>
+              <p>Elige categoría, revisa el panorama y súmate.</p>
               {loadingPlans && <p className="data-note">Cargando panoramas desde Supabase...</p>}
               {supabaseError && <p className="data-note warning">{supabaseError}</p>}
             </div>
@@ -1007,8 +1046,8 @@ function App() {
             <img src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=900&q=80" alt="Personas en un evento" />
             <div className="visual-copy">
               <span>La idea</span>
-              <h2>Armemos un plan.</h2>
-              <p>Elige una VIBE, encuentra algo que te tinca y súmate con gente que está en la misma.</p>
+              <h2>Crear VIBE.</h2>
+              <p>Elige categoría, encuentra algo que te tinca y súmate con gente que está en la misma.</p>
             </div>
           </div>
         </div>
@@ -1156,13 +1195,13 @@ function App() {
                 <span><UserCheck size={15} /> Tú organizas</span>
               </div>
 
-              <h3>Armemos un plan</h3>
+              <h3>Crear VIBE</h3>
               <p className="modal-vibe">
-                Elige una VIBE, define lo básico y publica un panorama al que otros puedan sumarse.
+                Toca una opción y completa lo básico.
               </p>
 
               <div className="quick-vibe-section">
-                <span className="choice-title">Parte rápido con una VIBE</span>
+                <span className="choice-title">Elige categoría</span>
                 <div className="quick-vibe-grid">
                   {quickVibes.map((vibe) => {
                     const Icon = vibe.icon;
@@ -1184,7 +1223,7 @@ function App() {
 
               <div className="create-form-grid">
                 <label className="fake-label">
-                  Nombre de tu VIBE
+                  Nombre
                   <div className="vibe-name-input">
                     <span>VIBE</span>
                     <input
@@ -1196,7 +1235,7 @@ function App() {
                 </label>
 
                 <label className="fake-label">
-                  ¿Qué van a hacer?
+                  Panorama
                   <input value={customPlan} onChange={(e) => setCustomPlan(e.target.value)} placeholder="Ej: Café de especialidad + conversación" />
                 </label>
 
@@ -1211,7 +1250,7 @@ function App() {
                 </label>
 
                 <label className="fake-label wide">
-                  Lugar, comuna o zona
+                  Lugar
                   <input value={zone} onChange={(e) => setZone(e.target.value)} placeholder="Ej: Providencia, Ñuñoa, Parque Araucano..." />
                 </label>
               </div>
@@ -1264,7 +1303,7 @@ function App() {
 
               <div className="plan-actions">
                 <button className="btn btn-gorganizador full" onClick={() => setShowCreate(false)}>Cerrar</button>
-                <button className="btn btn-primary full" onClick={createPanorama}>Publicar VIBE</button>
+                <button className="btn btn-primary full" onClick={createPanorama}>Publicar</button>
               </div>
             </div>
           </div>

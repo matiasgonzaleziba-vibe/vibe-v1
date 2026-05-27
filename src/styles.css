@@ -1172,3 +1172,186 @@ button, input { font: inherit; }
 .inline-save-btn:hover {
   background: rgba(255,255,255,0.13);
 }
+
+
+/* v6.7 header option B: profile dropdown */
+.desktop-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-dropdown {
+  position: relative;
+}
+
+.profile-menu-button {
+  min-height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.055);
+  color: #fff;
+  padding: 0 16px;
+  font-weight: 900;
+  cursor: pointer;
+  max-width: 190px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-menu-button:hover {
+  background: rgba(255,255,255,0.10);
+}
+
+.profile-menu-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 80;
+  width: 190px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(18, 13, 28, 0.96);
+  backdrop-filter: blur(18px);
+  border-radius: 18px;
+  padding: 8px;
+  box-shadow: 0 22px 60px rgba(0,0,0,0.38);
+}
+
+.profile-menu-panel button {
+  width: 100%;
+  min-height: 40px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  border-radius: 12px;
+  text-align: left;
+  padding: 0 12px;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.profile-menu-panel button:hover {
+  background: rgba(255,255,255,0.09);
+}
+
+
+/* v6.8: less text in create modal */
+.simple-create-card .modal-content > h3,
+.create-card .modal-content > h3 {
+  font-size: clamp(28px, 4vw, 42px);
+  margin-bottom: 6px;
+}
+
+.simple-create-card .modal-vibe,
+.create-card .modal-vibe {
+  margin-bottom: 18px;
+}
+
+.simple-create-card h4,
+.create-card h4 {
+  margin-top: 8px;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.quick-vibe-grid,
+.quick-options-grid {
+  gap: 10px;
+}
+
+.quick-vibe-card,
+.quick-option-card {
+  min-height: 74px;
+  padding: 14px;
+}
+
+.quick-vibe-card p,
+.quick-option-card p {
+  display: none !important;
+}
+
+.quick-vibe-card strong,
+.quick-option-card strong {
+  font-size: 15px;
+}
+
+.simple-create-card .modal-topline span:empty,
+.create-card .modal-topline span:empty {
+  display: none;
+}
+
+
+/* v6.9: app-style category picker for create modal */
+.simple-create-card,
+.create-card {
+  width: min(760px, calc(100vw - 24px));
+}
+
+.quick-vibe-grid,
+.quick-options-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.quick-vibe-card,
+.quick-option-card {
+  min-height: 106px !important;
+  padding: 16px 12px !important;
+  border-radius: 22px !important;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.quick-vibe-card svg,
+.quick-option-card svg {
+  width: 30px;
+  height: 30px;
+  opacity: 0.98;
+}
+
+.quick-vibe-card strong,
+.quick-option-card strong {
+  font-size: 16px !important;
+  line-height: 1.05;
+}
+
+.quick-vibe-card p,
+.quick-option-card p {
+  display: none !important;
+}
+
+.quick-vibe-card.active,
+.quick-option-card.active,
+.quick-vibe-card[aria-pressed="true"],
+.quick-option-card[aria-pressed="true"] {
+  background: linear-gradient(135deg, rgba(255,122,48,0.26), rgba(124,58,237,0.34));
+  border-color: rgba(255,255,255,0.24);
+}
+
+.create-card .form-grid,
+.simple-create-card .form-grid {
+  gap: 12px;
+}
+
+@media (max-width: 680px) {
+  .quick-vibe-grid,
+  .quick-options-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .quick-vibe-card,
+  .quick-option-card {
+    min-height: 96px !important;
+  }
+
+  .quick-vibe-card svg,
+  .quick-option-card svg {
+    width: 28px;
+    height: 28px;
+  }
+}
