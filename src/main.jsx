@@ -47,20 +47,20 @@ const appRedirectUrl =
 const pendingCreateDraftKey = "vibe_pending_create_draft";
 
 const profileInterestOptions = [
-  "Café",
+  "VIBE Café",
   "Viajes",
-  "Negocios",
+  "VIBE Negocios",
   "Comida",
-  "Outdoor",
+  "VIBE Outdoor",
   "Deportes",
   "Juegos de mesa",
   "Gaming",
-  "Música",
+  "VIBE Música",
   "Fiesta",
-  "Literatura",
+  "VIBE Literario",
   "Cine",
   "Danza",
-  "Otaku",
+  "VIBE Cultura Pop",
   "Cultura",
   "Bienestar",
   "Mascotas",
@@ -73,9 +73,9 @@ const profileInterestOptions = [
 
 const normalizeInterest = (interest) => {
   const clean = String(interest || "").replace(/^VIBE\s+/i, "").trim();
-  if (clean === "Deporte") return "Deportes";
-  if (clean === "Literario") return "Literatura";
-  if (clean === "Juegos") return "Juegos de mesa";
+  if (clean === "VIBE Deporte") return "Deportes";
+  if (clean === "Literario") return "VIBE Literario";
+  if (clean === "VIBE Juegos") return "Juegos de mesa";
   return clean;
 };
 
@@ -135,27 +135,27 @@ const defaultImageByCategory = {
 
 const photoPresets = [
   {
-    label: "Café",
+    label: "VIBE Café",
     url: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=80",
   },
   {
-    label: "Outdoor",
+    label: "VIBE Outdoor",
     url: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
   },
   {
-    label: "Juegos",
+    label: "VIBE Juegos",
     url: "https://images.unsplash.com/photo-1606167668584-78701c57f13d?auto=format&fit=crop&w=1200&q=80",
   },
   {
-    label: "Música",
+    label: "VIBE Música",
     url: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80",
   },
   {
-    label: "Negocios",
+    label: "VIBE Negocios",
     url: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80",
   },
   {
-    label: "Literatura",
+    label: "VIBE Literario",
     url: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=1200&q=80",
   },
 ];
@@ -164,27 +164,27 @@ const photoPresets = [
 
 const categories = [
   { key: "all", label: "Todos", icon: Sparkles, interests: ["Panoramas cerca", "Planes para hoy", "Nuevas VIBEs"] },
-  { key: "cafe", label: "Café", icon: Coffee, interests: ["Café de especialidad", "Tasting", "Brunch", "Conversación"] },
-  { key: "juegos", label: "Juegos", icon: Gamepad2, interests: ["Juegos de mesa", "Consola", "Cartas", "Trivia"] },
-  { key: "musica", label: "Música", icon: Music, interests: ["Tocatas", "Festivales", "Música en vivo", "Jam session"] },
+  { key: "cafe", label: "VIBE Café", icon: Coffee, interests: ["Café de especialidad", "Tasting", "Brunch", "Conversación"] },
+  { key: "juegos", label: "VIBE Juegos", icon: Gamepad2, interests: ["Juegos de mesa", "Consola", "Cartas", "Trivia"] },
+  { key: "musica", label: "VIBE Música", icon: Music, interests: ["Tocatas", "Festivales", "Música en vivo", "Jam session"] },
   { key: "outdoor", label: "VIBE Outdoor", icon: TreePine, interests: ["Caminatas", "Fotos urbanas", "Cerros", "Parques"] },
-  { key: "deporte", label: "Deporte", icon: Trophy, interests: ["Fútbol", "Básquetbol", "Pádel", "Running"] },
+  { key: "deporte", label: "VIBE Deporte", icon: Trophy, interests: ["Fútbol", "Básquetbol", "Pádel", "Running"] },
   { key: "fiesta", label: "VIBE Fiesta", icon: PartyPopper, interests: ["La previa", "Baile", "Carrete", "Eventos"] },
-  { key: "literario", label: "Literatura", icon: BookOpen, interests: ["Club de lectura", "Poesía", "Escritura", "Lectura libre"] },
-  { key: "negocios", label: "Negocios", icon: BriefcaseBusiness, interests: ["Idea de negocio", "Networking", "Founder coffee", "Colegas"] },
+  { key: "literario", label: "VIBE Literario", icon: BookOpen, interests: ["Club de lectura", "Poesía", "Escritura", "Lectura libre"] },
+  { key: "negocios", label: "VIBE Negocios", icon: BriefcaseBusiness, interests: ["Idea de negocio", "Networking", "Founder coffee", "Colegas"] },
 ];
 
 
 const quickVibes = [
-  { label: "Café", key: "cafe", icon: Coffee, plan: "Café de especialidad + conversación", hint: "" },
-  { label: "Outdoor", key: "outdoor", icon: TreePine, plan: "Caminata suave este fin de semana", hint: "" },
-  { label: "Otaku", key: "custom", icon: Sparkles, plan: "Junta otaku, anime o manga", hint: "" },
-  { label: "Negocios", key: "negocios", icon: BriefcaseBusiness, plan: "Café para compartir una idea de negocio", hint: "" },
-  { label: "Juegos", key: "juegos", icon: Gamepad2, plan: "Mesa abierta de juegos", hint: "" },
-  { label: "Música", key: "musica", icon: Music, plan: "Acompáñame a una tocata", hint: "" },
-  { label: "Deporte", key: "deporte", icon: Trophy, plan: "Partido casual esta semana", hint: "" },
-  { label: "Literatura", key: "literario", icon: BookOpen, plan: "Lectura libre + conversación", hint: "" },
-  { label: "Otro", key: "custom", icon: Plus, plan: "Armar un panorama distinto", hint: "" },
+  { label: "VIBE Café", key: "cafe", icon: Coffee, plan: "Café de especialidad + conversación", hint: "" },
+  { label: "VIBE Outdoor", key: "outdoor", icon: TreePine, plan: "Caminata suave este fin de semana", hint: "" },
+  { label: "VIBE Cultura Pop", key: "custom", icon: Sparkles, plan: "Junta otaku, anime o manga", hint: "" },
+  { label: "VIBE Negocios", key: "negocios", icon: BriefcaseBusiness, plan: "Café para compartir una idea de negocio", hint: "" },
+  { label: "VIBE Juegos", key: "juegos", icon: Gamepad2, plan: "Mesa abierta de juegos", hint: "" },
+  { label: "VIBE Música", key: "musica", icon: Music, plan: "Acompáñame a una tocata", hint: "" },
+  { label: "VIBE Deporte", key: "deporte", icon: Trophy, plan: "Partido casual esta semana", hint: "" },
+  { label: "VIBE Literario", key: "literario", icon: BookOpen, plan: "Lectura libre + conversación", hint: "" },
+  { label: "Otro VIBE", key: "custom", icon: Plus, plan: "Armar un panorama distinto", hint: "" },
 ];
 
 const demoPlans = [
@@ -339,6 +339,7 @@ function App() {
   const [showCreate, setShowCreate] = useState(false);
   const [customVibe, setCustomVibe] = useState("VIBE Básquetbol");
   const [customPlan, setCustomPlan] = useState("Partido casual mixto este jueves");
+  const [photoImageUrl, setPhotoImageUrl] = useState("");
   const [creationMode, setCreationMode] = useState("definido");
   const [callType, setCallType] = useState("abierta");
   const [locationType, setLocationType] = useState("publica");
@@ -429,6 +430,7 @@ function App() {
           eventDate,
           eventTime,
           activeCategory,
+          photoImageUrl,
         })
       );
     } catch (error) {
@@ -451,6 +453,7 @@ function App() {
       setEventDate(draft.eventDate || "");
       setEventTime(draft.eventTime || "");
       setActiveCategory(draft.activeCategory || "all");
+      setPhotoImageUrl(draft.photoImageUrl || "");
       setShowCreate(true);
       setShowAuth(false);
       localStorage.removeItem(pendingCreateDraftKey);
@@ -663,6 +666,17 @@ function App() {
     setTimeout(() => setNotice(""), 2200);
   };
 
+  const openCreateModal = () => {
+    setMenuOpen(false);
+    setProfileMenuOpen(false);
+    setShowAuth(false);
+    setShowProfile(false);
+    setShowMyEvents(false);
+    setSelectedPlan(null);
+    setActiveRoom(null);
+    setShowCreate(true);
+  };
+
   const openMyEvents = async () => {
     if (!session?.user) {
       setShowAuth(true);
@@ -712,7 +726,7 @@ function App() {
   };
 
   const selectQuickVibe = (vibe) => {
-    const label = vibe.label === "Otro" || vibe.label === "Otro VIBE" ? "" : vibe.label.replace(/^VIBE\s+/i, "");
+    const label = vibe.label === "Otro VIBE" || vibe.label === "Otro VIBE" ? "" : vibe.label.replace(/^VIBE\s+/i, "");
     setCustomVibe(label ? `VIBE ${label}` : "VIBE ");
     setCustomPlan(vibe.plan);
     setActiveCategory(vibe.key === "custom" ? "all" : vibe.key);
@@ -906,7 +920,7 @@ function App() {
           </nav>
 
           <div className="desktop-actions">
-            <button className="btn btn-primary" onClick={() => setShowCreate(true)}>Crear una VIBE</button>
+            <button className="btn btn-primary" onClick={openCreateModal}>Crear una VIBE</button>
 
             {session?.user ? (
               <div className="profile-dropdown">
@@ -952,7 +966,7 @@ function App() {
         {menuOpen && (
           <div className="mobile-menu">
             <button onClick={() => scrollTo("planes")}>Explorar</button>
-            <button onClick={() => setShowCreate(true)}>Crear una VIBE</button>
+            <button onClick={openCreateModal}>Crear una VIBE</button>
             {session?.user && <button onClick={openMyEvents}>Mis VIBEs</button>}
             {session?.user ? (
               <>
@@ -982,7 +996,7 @@ function App() {
               <button className="btn btn-primary" onClick={() => scrollTo("planes")}>
                 Ver panoramas cerca <ArrowRight size={17} />
               </button>
-              <button className="btn btn-gorganizador" onClick={() => setShowCreate(true)}>
+              <button className="btn btn-gorganizador" onClick={openCreateModal}>
                 Crear mi VIBE
               </button>
             </div>
@@ -1143,7 +1157,7 @@ function App() {
             <p>Puede partir como un café, una tocata, un partido, una idea de negocio o un grupo literario. Lo importante es convertir la intención en acción.</p>
             <div className="hero-actions centered">
               <button className="btn btn-primary" onClick={() => scrollTo("planes")}>Explorar panoramas</button>
-              <button className="btn btn-gorganizador" onClick={() => setShowCreate(true)}>Crear mi VIBE</button>
+              <button className="btn btn-gorganizador" onClick={openCreateModal}>Crear mi VIBE</button>
             </div>
           </div>
         </div>
@@ -1274,7 +1288,7 @@ function App() {
                     <input
                       value={customVibe.replace(/^VIBE\s*/i, "")}
                       onChange={(e) => setCustomVibe(`VIBE ${e.target.value}`)}
-                      placeholder="Café, Trekking, Otaku..."
+                      placeholder="Café, Trekking, Cultura Pop..."
                     />
                   </div>
                 </label>
@@ -1369,8 +1383,8 @@ function App() {
               </div>
 
               <div className="plan-actions">
-                <button className="btn btn-gorganizador full" onClick={() => setShowCreate(false)}>Cerrar</button>
-                <button className="btn btn-primary full" onClick={createPanorama}>Publicar</button>
+                <button type="button" className="btn btn-gorganizador full" onClick={() => setShowCreate(false)}>Cerrar</button>
+                <button type="button" className="btn btn-primary full" onClick={createPanorama}>Publicar</button>
               </div>
             </div>
           </div>
@@ -1674,10 +1688,7 @@ function App() {
                   <p>Crea tu primera VIBE y aparecerá en esta sección.</p>
                   <button
                     className="btn btn-primary empty-state-action"
-                    onClick={() => {
-                      setShowMyEvents(false);
-                      setShowCreate(true);
-                    }}
+                    onClick={openCreateModal}
                   >
                     Crear una VIBE
                   </button>
@@ -1714,10 +1725,7 @@ function App() {
                 </button>
                 <button
                   className="btn btn-primary full"
-                  onClick={() => {
-                    setShowMyEvents(false);
-                    setShowCreate(true);
-                  }}
+                  onClick={openCreateModal}
                 >
                   Crear una VIBE
                 </button>

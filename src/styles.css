@@ -79,7 +79,7 @@ button, input { font: inherit; }
 }
 
 .hero-card { position: relative; overflow: hidden; min-height: 460px; border-radius: 28px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); box-shadow: var(--shadow); }
-.hero-card img { width: 100%; height: 460px; object-fit: photo; }
+.hero-card img { width: 100%; height: 460px; object-fit: cover; }
 .hero-card::after { content:""; position:absolute; inset:0; background: linear-gradient(to top, rgba(0,0,0,0.72), rgba(0,0,0,0.08)); }
 .hero-card-content { position:absolute; left: 22px; right: 22px; bottom: 22px; z-index: 2; }
 .hero-badge { display:inline-block; font-size: 12px; text-transform: uppercase; letter-spacing: 0.18em; color: rgba(255,255,255,0.55); margin-bottom: 10px; }
@@ -118,7 +118,7 @@ button, input { font: inherit; }
 .plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 .plan-card { overflow: hidden; border: 1px solid var(--stroke); background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)); border-radius: 24px; box-shadow: var(--shadow); }
 .plan-image { position: relative; height: 220px; overflow: hidden; }
-.plan-image img { width: 100%; height: 220px; object-fit: photo; }
+.plan-image img { width: 100%; height: 220px; object-fit: cover; }
 .plan-tag, .verified-badge {
   position: absolute; background: rgba(9,6,17,0.72); border: 1px solid rgba(255,255,255,0.10); padding: 7px 10px; border-radius: 999px;
   font-size: 12px; font-weight: 850; backdrop-filter: blur(10px);
@@ -143,7 +143,7 @@ button, input { font: inherit; }
 
 .modal-backdrop { position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.62); display: grid; place-items: center; padding: 16px; }
 .modal-card { width: min(760px, 100%); max-height: min(88vh, 920px); overflow: auto; border-radius: 24px; background: #120f1d; border: 1px solid var(--stroke); box-shadow: var(--shadow); }
-.modal-card img { width: 100%; height: 280px; object-fit: photo; }
+.modal-card img { width: 100%; height: 280px; object-fit: cover; }
 .modal-content { padding: 20px; }
 .modal-topline { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
 .modal-topline span { display: inline-flex; align-items: center; gap: 6px; padding: 7px 10px; border-radius: 999px; background: rgba(255,255,255,0.08); border: 1px solid var(--stroke); font-size: 13px; font-weight: 800; }
@@ -194,7 +194,7 @@ button, input { font: inherit; }
 .visual-grid img {
   width: 100%;
   height: 300px;
-  object-fit: photo;
+  object-fit: cover;
   border-radius: 24px;
   border: 1px solid var(--stroke);
   box-shadow: var(--shadow);
@@ -392,7 +392,7 @@ button, input { font: inherit; }
 .my-event-item img {
   width: 104px;
   height: 74px;
-  object-fit: photo;
+  object-fit: cover;
   border-radius: 14px;
 }
 
@@ -1382,7 +1382,7 @@ button, input { font: inherit; }
   width: 100%;
   height: 100%;
   min-height: 180px;
-  object-fit: photo;
+  object-fit: cover;
   display: block;
 }
 
@@ -1432,7 +1432,7 @@ button, input { font: inherit; }
   width: 100%;
   height: 100%;
   min-height: 76px;
-  object-fit: photo;
+  object-fit: cover;
   display: block;
   filter: brightness(0.72);
 }
@@ -1490,4 +1490,82 @@ button, input { font: inherit; }
   .photo-preset-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+}
+
+
+/* v7.3: restore context in create options, with moderated icons */
+.quick-vibe-grid,
+.quick-options-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.quick-vibe-card,
+.quick-option-card {
+  min-height: 96px !important;
+  padding: 14px 16px !important;
+  border-radius: 18px !important;
+  display: grid !important;
+  justify-items: start !important;
+  align-content: center !important;
+  text-align: left !important;
+  gap: 6px !important;
+}
+
+.quick-vibe-card svg,
+.quick-option-card svg {
+  width: 22px !important;
+  height: 22px !important;
+  margin-bottom: 2px;
+}
+
+.quick-vibe-card strong,
+.quick-option-card strong {
+  font-size: 15px !important;
+  line-height: 1.1 !important;
+}
+
+.quick-vibe-card p,
+.quick-option-card p {
+  display: block !important;
+  margin: 0 !important;
+  color: var(--muted-2) !important;
+  font-size: 13px !important;
+  line-height: 1.25 !important;
+}
+
+@media (max-width: 680px) {
+  .quick-vibe-grid,
+  .quick-options-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .quick-vibe-card,
+  .quick-option-card {
+    min-height: 94px !important;
+  }
+}
+
+
+/* v7.5: make sure create modal is always above page/header */
+.modal-backdrop {
+  z-index: 200;
+}
+
+.create-card {
+  z-index: 210;
+}
+
+
+/* v7.6: fix create modal render/visibility */
+.create-card,
+.simple-create-card {
+  position: relative;
+  background: #120f1d;
+}
+
+.modal-backdrop {
+  align-items: center;
+  justify-items: center;
 }

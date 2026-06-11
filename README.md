@@ -72,3 +72,38 @@ Cambio de lenguaje:
 - “Portada” pasa a “Foto”.
 - “Preview de portada” pasa a “Preview de foto”.
 - Se mantiene el selector visual y la opción de subir foto.
+
+
+## v7.3
+
+Crear VIBE con más contexto:
+- Se recupera el estilo anterior de opciones con nombre + descripción breve.
+- Los íconos quedan moderados, no gigantes.
+- Se mantienen más pistas para el usuario sin volver al exceso de texto.
+- Se mantiene “Foto” en vez de “Portada”.
+
+
+## v7.4
+
+Ajuste de categoría:
+- Se reemplaza “VIBE Otaku” por “VIBE Cultura Pop”.
+- La bajada queda más orientada a actividad: “Anime, gaming, cómics o series”.
+- Busca que el usuario entienda mejor qué podría crear dentro de esa VIBE.
+
+
+## v7.5
+
+Fix de apertura de Crear VIBE:
+- Se agrega una función única `openCreateModal()`.
+- Todos los botones “Crear una VIBE” usan esa función.
+- Al abrir creación, se cierran menú, perfil, Mis VIBEs, sala y detalle anterior.
+- Se sube el z-index del modal para asegurar que aparezca por encima del header.
+
+
+## v7.6
+
+Fix crítico:
+- Corrige pantalla negra al abrir “Crear una VIBE”.
+- El selector de foto estaba llamando `photoImageUrl` sin tener el estado inicializado en algunas versiones.
+- Se agrega `photoImageUrl` / `setPhotoImageUrl`.
+- Se corrige `object-fit: photo` a `object-fit: cover`.
