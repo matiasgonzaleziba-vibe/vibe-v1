@@ -2031,17 +2031,127 @@ button, input { font: inherit; }
 }
 
 
-/* v8.3: restore landing visibility and keep onboarding as an overlay */
+/* v8.1: compact photo selector in create flow */
+.create-form-grid .photo-selector-section {
+  grid-column: 1 / -1;
+}
+
+.photo-selector-section {
+  display: grid !important;
+  grid-template-columns: 170px 1fr !important;
+  gap: 14px !important;
+  margin: 8px 0 12px !important;
+  padding: 12px !important;
+  border-radius: 20px !important;
+  align-items: stretch !important;
+}
+
+.photo-preview {
+  min-height: 118px !important;
+  height: 118px !important;
+  border-radius: 16px !important;
+}
+
+.photo-preview img {
+  min-height: 118px !important;
+  height: 118px !important;
+  object-fit: cover !important;
+}
+
+.photo-preview span {
+  font-size: 11px !important;
+  padding: 6px 9px !important;
+}
+
+.photo-options {
+  min-width: 0;
+  gap: 8px !important;
+}
+
+.photo-options > strong {
+  font-size: 14px !important;
+  margin: 0 !important;
+}
+
+.photo-preset-grid {
+  display: flex !important;
+  grid-template-columns: none !important;
+  gap: 8px !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 2px 2px 8px;
+  scrollbar-width: thin;
+}
+
+.photo-preset,
+.photo-upload {
+  flex: 0 0 76px;
+  width: 76px;
+  min-height: 76px !important;
+  height: 76px !important;
+  border-radius: 14px !important;
+}
+
+.photo-preset img {
+  min-height: 76px !important;
+  height: 76px !important;
+}
+
+.photo-preset span,
+.photo-upload span {
+  font-size: 10.5px !important;
+  line-height: 1.08 !important;
+  left: 7px !important;
+  right: 7px !important;
+  bottom: 7px !important;
+}
+
+.photo-upload {
+  background: rgba(255,255,255,0.07) !important;
+}
+
+.photo-upload span {
+  position: static !important;
+  text-align: center !important;
+}
+
+@media (min-width: 920px) {
+  .simple-create-card .create-form-grid,
+  .create-card .create-form-grid {
+    align-items: start;
+  }
+}
+
+@media (max-width: 760px) {
+  .photo-selector-section {
+    grid-template-columns: 1fr !important;
+  }
+
+  .photo-preview,
+  .photo-preview img {
+    min-height: 132px !important;
+    height: 132px !important;
+  }
+
+  .photo-preset,
+  .photo-upload {
+    flex-basis: 82px;
+    width: 82px;
+  }
+}
+
+
+/* v8.5 hard reset: onboarding/language must be visible */
 .onboarding-gate {
   position: fixed;
   inset: 0;
-  z-index: 500;
+  z-index: 9999;
   min-height: 100vh;
   overflow-y: auto;
   background:
-    radial-gradient(circle at 15% 10%, rgba(124,58,237,0.30), transparent 36%),
-    radial-gradient(circle at 92% 25%, rgba(255,122,48,0.16), transparent 30%),
-    rgba(7, 4, 13, 0.90);
+    radial-gradient(circle at 15% 10%, rgba(124,58,237,0.34), transparent 36%),
+    radial-gradient(circle at 92% 25%, rgba(255,122,48,0.18), transparent 30%),
+    rgba(7, 4, 13, 0.94);
   backdrop-filter: blur(10px);
 }
 
@@ -2068,24 +2178,27 @@ button, input { font: inherit; }
 }
 
 .onboarding-language-switch,
-.mobile-language-switch {
+.mobile-language-switch,
+.global-language-left {
   display: flex;
-  gap: 5px;
+  gap: 6px;
   overflow-x: auto;
-  max-width: min(460px, 56vw);
   scrollbar-width: none;
 }
 
 .onboarding-language-switch::-webkit-scrollbar,
-.mobile-language-switch::-webkit-scrollbar {
+.mobile-language-switch::-webkit-scrollbar,
+.global-language-left::-webkit-scrollbar {
   display: none;
 }
 
 .onboarding-language-switch button,
 .mobile-language-switch button,
-.skip-onboarding-btn {
+.global-language-left button,
+.skip-onboarding-btn,
+.global-language-reset {
   flex: 0 0 auto;
-  border: 1px solid rgba(255,255,255,0.13);
+  border: 1px solid rgba(255,255,255,0.14);
   background: rgba(255,255,255,0.065);
   color: #fff;
   border-radius: 999px;
@@ -2097,28 +2210,52 @@ button, input { font: inherit; }
 }
 
 .onboarding-language-switch button.active,
-.mobile-language-switch button.active {
-  background: rgba(255,255,255,0.18);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14);
+.mobile-language-switch button.active,
+.global-language-left button.active {
+  background: rgba(255,255,255,0.20);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.16);
 }
 
-.skip-onboarding-btn {
-  background: rgba(255,255,255,0.12);
+.global-language-bar {
+  position: sticky;
+  top: var(--topbar-height, 0px);
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px clamp(18px, 4vw, 54px);
+  background: rgba(7,4,13,0.80);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-.mobile-language-switch {
-  max-width: 100%;
-  padding: 8px 0;
+.global-language-left {
+  align-items: center;
+  min-width: 0;
 }
 
-/* v8.3: compact photo selector, moved after Lugar */
+.global-language-left span {
+  color: #ffd0b2;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  font-weight: 950;
+  margin-right: 4px;
+}
+
+.global-language-reset {
+  background: rgba(255,255,255,0.10);
+}
+
+/* v8.5: compact photo selector after main fields */
 .create-form-grid .photo-selector-section {
   grid-column: 1 / -1 !important;
 }
 
 .photo-selector-section {
   display: grid !important;
-  grid-template-columns: 120px minmax(0, 1fr) !important;
+  grid-template-columns: 118px minmax(0, 1fr) !important;
   gap: 12px !important;
   margin: 6px 0 4px !important;
   padding: 10px !important;
@@ -2130,17 +2267,17 @@ button, input { font: inherit; }
 }
 
 .photo-preview {
-  width: 120px !important;
-  height: 86px !important;
-  min-height: 86px !important;
+  width: 118px !important;
+  height: 84px !important;
+  min-height: 84px !important;
   border-radius: 14px !important;
   overflow: hidden !important;
 }
 
 .photo-preview img {
   width: 100% !important;
-  height: 86px !important;
-  min-height: 86px !important;
+  height: 84px !important;
+  min-height: 84px !important;
   object-fit: cover !important;
 }
 
@@ -2223,6 +2360,16 @@ button, input { font: inherit; }
 
   .onboarding-language-switch {
     max-width: 100%;
+  }
+
+  .global-language-bar {
+    flex-direction: column;
+    align-items: stretch;
+    top: 0;
+  }
+
+  .global-language-reset {
+    width: 100%;
   }
 
   .photo-selector-section {

@@ -111,7 +111,7 @@ const mapPanoramaFromDb = (row) => ({
   subtitle: row.subtitle || "Panorama creado por la comunidad",
   date: formatDate(row.starts_at),
   place: row.zone || row.public_location || "Zona por definir",
-  organizador: row.host_id ? "Organizador verificado" : "{currentSiteCopy.trustOrganizer} al unirte",
+  organizador: row.host_id ? "Organizador verificado" : "Organizador identificado al unirte",
   seats: `${row.seats_available ?? row.seats_total ?? 0} cupos`,
   access: accessLabel(row.location_type),
   image: row.image_url || "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80",
@@ -188,7 +188,7 @@ const quickVibes = [
 ];
 
 
-const onboardingKey = "vibe_onboarding_v1";
+const onboardingKey = "vibe_onboarding_v3";
 
 const onboardingLocations = [
   { city: "Santiago", country: "Chile", label: "Santiago, Chile", language: "es", lat: -33.45, lng: -70.66 },
@@ -602,7 +602,7 @@ const demoPlans = [
     subtitle: "Café de especialidad, degustación y buena conversación",
     date: "Mañana · 18:00",
     place: "Ñuñoa",
-    organizador: "{currentSiteCopy.trustOrganizer} al unirte",
+    organizador: "Organizador identificado al unirte",
     seats: "4 cupos",
     access: "Dirección al confirmar",
     image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1200&q=80",
@@ -1282,6 +1282,16 @@ function App() {
     setOnboarding((prev) => ({ ...prev, ...patch }));
   };
 
+  const resetOnboardingFlow = () => {
+    const fresh = { ...defaultOnboarding, completed: false };
+    setOnboarding(fresh);
+    setOnboardingStep("location");
+    setLocationQuery("");
+    window.localStorage.removeItem("vibe_onboarding_v1");
+    window.localStorage.removeItem("vibe_onboarding_v2");
+    window.localStorage.setItem(onboardingKey, JSON.stringify(fresh));
+  };
+
   const selectedOnboardingLocation = onboarding.location || onboardingLocations[globeIndex] || onboardingLocations[0];
   const currentOnboardingCopy = onboardingCopy[onboarding.language] || onboardingCopy.es;
   const currentSiteCopy = siteCopy[onboarding.language] || siteCopy.es;
@@ -1400,11 +1410,7 @@ function App() {
                 </button>
               ))}
             </div>
-
-            <button
-              className="skip-onboarding-btn"
-              onClick={() => finishOnboarding(false)}
-            >
+            <button className="skip-onboarding-btn" onClick={() => finishOnboarding(false)}>
               Ver landing
             </button>
           </div>
@@ -1647,6 +1653,7 @@ function App() {
                   {language.key.toUpperCase()}
                 </button>
               ))}
+              <button onClick={resetOnboardingFlow}>Onboarding</button>
             </div>
             <button onClick={() => scrollTo("planes")}>{currentSiteCopy.navExplore}</button>
             <button onClick={openCreateModal}>{currentSiteCopy.create}</button>

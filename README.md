@@ -158,23 +158,24 @@ También se agregan ubicaciones base para:
 El selector de idioma ahora soporta ES / EN / PT / FR / JA / ZH.
 
 
-## v8.3
+## v8.1
 
-Corrección fuerte:
-- Se restaura la landing debajo del onboarding. El onboarding ya no reemplaza toda la app.
-- Se agrega selector de idioma visible en todos los pasos del onboarding.
-- Se agrega botón “Ver landing” para salir del onboarding.
-- Se agrega selector de idioma dentro del menú mobile.
-- Se mueve el bloque Foto debajo de Lugar/Link.
-- Se compacta de forma más agresiva el preview y las miniaturas.
+Selector de foto más compacto:
+- El bloque “Foto” ahora ocupa el ancho del formulario completo.
+- El preview baja de tamaño para no competir con fecha/hora/lugar.
+- Las fotos sugeridas pasan a una franja horizontal tipo carrusel.
+- “Subir foto” queda como botón pequeño y discreto.
+- En mobile se mantiene compacto y apilado.
 
 
-## v8.4
+## v8.5
 
-Fix de despliegue Vercel / npm:
-- Se fija Node en `22.x` para evitar el bug de npm/Node 24 observado en Vercel.
-- Se fija `packageManager` en `npm@10.9.2`.
-- Se reemplazan dependencias `latest` por versiones exactas ya probadas.
-- Se agrega `.npmrc` para reducir auditoría/fund/progress durante instalación.
-- Se regenera `package-lock.json`.
-- Build probado localmente con `npm ci` + `vite build`.
+Versión de reseteo estable:
+- Se parte desde la última versión que sí tenía selector de foto y seis idiomas.
+- Se cambia la key de onboarding a `vibe_onboarding_v3` para que aparezca aunque el navegador haya guardado la versión anterior.
+- Se agrega barra fija visible de idiomas bajo el header.
+- Se agrega botón “Cambiar ubicación / onboarding”.
+- Se mantiene selector ES/EN/PT/FR/JA/ZH.
+- Se compacta y reubica Foto después de Lugar/Link.
+- Se fija Node/npm/dependencias para evitar errores de deploy en Vercel.
+- Se agrega SQL `v85_delete_own_panoramas_policy.sql` para permitir cancelar/eliminar panoramas propios.
