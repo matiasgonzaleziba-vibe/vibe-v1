@@ -111,7 +111,7 @@ const mapPanoramaFromDb = (row) => ({
   subtitle: row.subtitle || "Panorama creado por la comunidad",
   date: formatDate(row.starts_at),
   place: row.zone || row.public_location || "Zona por definir",
-  organizador: row.host_id ? "Organizador verificado" : "Organizador identificado al unirte",
+  organizador: row.host_id ? "Organizador verificado" : "{currentSiteCopy.trustOrganizer} al unirte",
   seats: `${row.seats_available ?? row.seats_total ?? 0} cupos`,
   access: accessLabel(row.location_type),
   image: row.image_url || "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80",
@@ -199,18 +199,40 @@ const onboardingLocations = [
   { city: "Bogotá", country: "Colombia", label: "Bogotá, Colombia", language: "es", lat: 4.71, lng: -74.07 },
   { city: "Miami", country: "USA", label: "Miami, USA", language: "en", lat: 25.76, lng: -80.19 },
   { city: "Madrid", country: "España", label: "Madrid, España", language: "es", lat: 40.42, lng: -3.7 },
+  { city: "Paris", country: "France", label: "Paris, France", language: "fr", lat: 48.86, lng: 2.35 },
+  { city: "Tokyo", country: "Japan", label: "Tokyo, Japan", language: "ja", lat: 35.68, lng: 139.76 },
+  { city: "Shanghai", country: "China", label: "Shanghai, China", language: "zh", lat: 31.23, lng: 121.47 },
+  { city: "Beijing", country: "China", label: "Beijing, China", language: "zh", lat: 39.90, lng: 116.40 },
 ];
 
 const languageOptions = [
   { key: "es", label: "Español" },
   { key: "en", label: "English" },
   { key: "pt", label: "Português" },
+  { key: "fr", label: "Français" },
+  { key: "ja", label: "日本語" },
+  { key: "zh", label: "中文" },
 ];
 
 const onboardingCopy = {
   es: {
     locationTitle: "¿Desde dónde te conectas?",
     locationText: "Pinea tu ubicación para mostrarte VIBEs cercanas y ajustar el idioma.",
+    introKicker: "Para esos momentos",
+    introTitle: "Cuando quieres hacer algo y falta el con quién.",
+    introText: "VIBE parte desde situaciones cotidianas que todos reconocemos.",
+    introCards: [
+      { title: "Nadie prende", text: "Crea un plan y deja que otros se sumen." },
+      { title: "Quieres pasarlo bien", text: "Y te falta con quién. Súmate a algo que ya exista." },
+      { title: "Tienes un interés", text: "Encuentra gente para compartirlo en la vida real." },
+    ],
+    howKicker: "Cómo funciona",
+    howTitle: "Elige, revisa y súmate.",
+    howSteps: [
+      { title: "Elige tu VIBE", text: "Parte por una categoría o interés." },
+      { title: "Revisa el panorama", text: "Mira fecha, zona y cupos." },
+      { title: "Súmate o crea", text: "Únete a uno o arma el tuyo." },
+    ],
     searchPlaceholder: "Busca ciudad o país",
     continue: "Continuar",
     nameTitle: "¿Cómo te llamas?",
@@ -225,6 +247,21 @@ const onboardingCopy = {
   en: {
     locationTitle: "Where are you joining from?",
     locationText: "Pin your location so VIBE can show nearby plans and set your language.",
+    introKicker: "For those moments",
+    introTitle: "When you want to do something, but you need someone to join.",
+    introText: "VIBE starts from everyday moments: a plan, an interest, a conversation or a place you want to share.",
+    introCards: [
+      { title: "No one takes the lead", text: "Create a plan and let others join." },
+      { title: "You want to have fun", text: "And you need someone to go with. Join something that already exists." },
+      { title: "You have an interest", text: "Find people to share it with in real life." },
+    ],
+    howKicker: "How it works",
+    howTitle: "Choose, check and join.",
+    howSteps: [
+      { title: "Choose your VIBE", text: "Start with a category or interest." },
+      { title: "Check the plan", text: "See the date, area and available spots." },
+      { title: "Join or create", text: "Join a plan or start your own." },
+    ],
     searchPlaceholder: "Search city or country",
     continue: "Continue",
     nameTitle: "What should we call you?",
@@ -239,6 +276,21 @@ const onboardingCopy = {
   pt: {
     locationTitle: "De onde você está se conectando?",
     locationText: "Marque sua localização para ver VIBEs próximas e ajustar o idioma.",
+    introKicker: "Para esses momentos",
+    introTitle: "Quando você quer fazer algo, mas falta com quem.",
+    introText: "VIBE começa em situações simples: um plano, um interesse, uma conversa ou um lugar para compartilhar.",
+    introCards: [
+      { title: "Ninguém organiza", text: "Crie um plano e deixe outras pessoas participarem." },
+      { title: "Você quer se divertir", text: "E falta com quem. Entre em algo que já exista." },
+      { title: "Você tem um interesse", text: "Encontre pessoas para compartilhar isso na vida real." },
+    ],
+    howKicker: "Como funciona",
+    howTitle: "Escolha, revise e participe.",
+    howSteps: [
+      { title: "Escolha sua VIBE", text: "Comece por uma categoria ou interesse." },
+      { title: "Revise o plano", text: "Veja data, região e vagas." },
+      { title: "Participe ou crie", text: "Entre em um plano ou crie o seu." },
+    ],
     searchPlaceholder: "Buscar cidade ou país",
     continue: "Continuar",
     nameTitle: "Como devemos te chamar?",
@@ -250,6 +302,93 @@ const onboardingCopy = {
     create: "Criar minha primeira VIBE",
     back: "Voltar",
   },
+  fr: {
+    locationTitle: "D’où te connectes-tu ?",
+    locationText: "Épingle ta localisation pour voir des VIBEs proches et régler la langue.",
+    introKicker: "Pour ces moments-là",
+    introTitle: "Quand tu as envie de faire quelque chose, mais qu’il te manque quelqu’un.",
+    introText: "VIBE part de moments simples : une idée, un intérêt, une conversation ou un lieu à partager.",
+    introCards: [
+      { title: "Personne ne lance le plan", text: "Crée un plan et laisse d’autres personnes se joindre." },
+      { title: "Tu veux passer un bon moment", text: "Et tu ne sais pas avec qui. Rejoins une VIBE déjà ouverte." },
+      { title: "Tu as un intérêt", text: "Trouve des personnes avec qui le partager dans la vraie vie." },
+    ],
+    howKicker: "Comment ça marche",
+    howTitle: "Choisis, regarde et rejoins.",
+    howSteps: [
+      { title: "Choisis ta VIBE", text: "Commence par une catégorie ou un intérêt." },
+      { title: "Regarde le plan", text: "Vois la date, la zone et les places disponibles." },
+      { title: "Rejoins ou crée", text: "Rejoins un plan ou lance le tien." },
+    ],
+    searchPlaceholder: "Cherche une ville ou un pays",
+    continue: "Continuer",
+    nameTitle: "Comment veux-tu qu’on t’appelle ?",
+    nameText: "Cela rend ton profil plus humain quand tu crées ou rejoins une VIBE.",
+    namePlaceholder: "Ton prénom",
+    prefsTitle: "Qu’est-ce qui te fait vibrer ?",
+    prefsText: "Choisis quelques intérêts pour personnaliser tes premières recommandations.",
+    discover: "Découvrir des VIBEs",
+    create: "Créer ma première VIBE",
+    back: "Retour",
+  },
+  ja: {
+    locationTitle: "どこから参加しますか？",
+    locationText: "場所を選ぶと、近くのVIBEと表示言語を合わせられます。",
+    introKicker: "そんな瞬間に",
+    introTitle: "何かしたい。でも一緒に行く人がいない。",
+    introText: "VIBEは、予定・興味・会話・共有したい場所から始まります。",
+    introCards: [
+      { title: "誰も企画しない", text: "自分でプランを作って、参加したい人を待ちましょう。" },
+      { title: "楽しみたい", text: "でも一緒に行く人がいない。すでにあるVIBEに参加できます。" },
+      { title: "興味がある", text: "同じ興味を持つ人とリアルでつながりましょう。" },
+    ],
+    howKicker: "使い方",
+    howTitle: "選ぶ、見る、参加する。",
+    howSteps: [
+      { title: "VIBEを選ぶ", text: "カテゴリや興味から始めます。" },
+      { title: "プランを見る", text: "日時、場所、空き枠を確認します。" },
+      { title: "参加または作成", text: "参加するか、自分のプランを作ります。" },
+    ],
+    searchPlaceholder: "都市または国を検索",
+    continue: "続ける",
+    nameTitle: "何と呼べばいいですか？",
+    nameText: "VIBEを作成したり参加したりするときに、プロフィールがより自然に見えます。",
+    namePlaceholder: "名前",
+    prefsTitle: "何にワクワクしますか？",
+    prefsText: "最初のおすすめを調整するために、興味をいくつか選んでください。",
+    discover: "VIBEを見つける",
+    create: "最初のVIBEを作る",
+    back: "戻る",
+  },
+  zh: {
+    locationTitle: "你从哪里连接？",
+    locationText: "选择你的位置，让 VIBE 显示附近的活动并调整语言。",
+    introKicker: "为这些时刻而来",
+    introTitle: "当你想做点什么，却缺少一起去的人。",
+    introText: "VIBE 从日常的小想法开始：一个计划、一个兴趣、一段对话，或一个想分享的地方。",
+    introCards: [
+      { title: "没人组织", text: "创建一个计划，让别人加入。" },
+      { title: "想玩得开心", text: "但缺少一起去的人。加入已经存在的 VIBE。" },
+      { title: "有一个兴趣", text: "找到能在现实生活中一起分享的人。" },
+    ],
+    howKicker: "如何使用",
+    howTitle: "选择、查看、加入。",
+    howSteps: [
+      { title: "选择你的 VIBE", text: "从一个类别或兴趣开始。" },
+      { title: "查看计划", text: "看看日期、区域和名额。" },
+      { title: "加入或创建", text: "加入一个计划，或创建自己的计划。" },
+    ],
+    searchPlaceholder: "搜索城市或国家",
+    continue: "继续",
+    nameTitle: "我们该怎么称呼你？",
+    nameText: "这会让你在创建或加入 VIBE 时，个人资料更真实。",
+    namePlaceholder: "你的名字",
+    prefsTitle: "什么让你有共鸣？",
+    prefsText: "选择一些兴趣，让你的初始推荐更贴近你。",
+    discover: "发现 VIBE",
+    create: "创建我的第一个 VIBE",
+    back: "返回",
+  },
 };
 
 const defaultOnboarding = {
@@ -258,6 +397,178 @@ const defaultOnboarding = {
   location: onboardingLocations[0],
   name: "",
   interests: ["Café", "Outdoor", "Música"],
+};
+
+
+const siteCopy = {
+  es: {
+    navExplore: "Explorar",
+    navMyVibes: "Mis VIBEs",
+    login: "Iniciar sesión",
+    create: "Crear una VIBE",
+    tagline: "Encuentra tu VIBE. Vive la experiencia.",
+    heroBadge: "Planes para hacer hoy",
+    heroTitle: "¿Qué haces hoy?",
+    heroText: "Encuentra panoramas reales con gente que vibra parecido.",
+    heroSupport: "Cuando quieres salir, aprender o compartir un interés, pero no sabes con quién.",
+    heroExplore: "Ver panoramas cerca",
+    heroCreate: "Crear mi VIBE",
+    trustOrganizer: "Organizador identificado",
+    trustLocation: "Ubicación según convocatoria",
+    trustSmallGroups: "Grupos chicos y concretos",
+    categoryKicker: "Elige una VIBE",
+    categoryText: "Las categorías son amplias. Al entrar, puedes explorar intereses más específicos o crear una VIBE propia.",
+    plansKicker: "Cerca de ti",
+    plansTitle: "Panoramas para partir hoy",
+    plansText: "Elige una VIBE, revisa el panorama y súmate.",
+    viewAll: "Ver todos",
+    ideaTitle: "Crear VIBE.",
+    ideaText: "Elige categoría, encuentra algo que te tinca y súmate con gente que está en la misma.",
+    ctaTitle: "Crea una VIBE y activa el plan.",
+    ctaText: "Puede partir como un café, una tocata, un partido, una idea de negocio o un grupo literario. Lo importante es convertir la intención en acción.",
+    explorePlans: "Explorar panoramas",
+    createMyVibe: "Crear mi VIBE",
+  },
+  en: {
+    navExplore: "Explore",
+    navMyVibes: "My VIBEs",
+    login: "Log in",
+    create: "Create a VIBE",
+    tagline: "Find your VIBE. Live the experience.",
+    heroBadge: "Plans for today",
+    heroTitle: "What are you doing today?",
+    heroText: "Find real plans with people who share your vibe.",
+    heroSupport: "When you want to go out, learn or share an interest, but do not know who to go with.",
+    heroExplore: "See nearby plans",
+    heroCreate: "Create my VIBE",
+    trustOrganizer: "Identified organizer",
+    trustLocation: "Location depends on the plan",
+    trustSmallGroups: "Small, concrete groups",
+    categoryKicker: "Choose a VIBE",
+    categoryText: "Categories are broad. Once inside, you can explore more specific interests or create your own VIBE.",
+    plansKicker: "Near you",
+    plansTitle: "Plans to start today",
+    plansText: "Choose a VIBE, check the plan and join.",
+    viewAll: "View all",
+    ideaTitle: "Create a VIBE.",
+    ideaText: "Choose a category, find something that feels right and join people on the same frequency.",
+    ctaTitle: "Create a VIBE and make the plan happen.",
+    ctaText: "It can start as coffee, a concert, a game, a business idea or a reading group. The point is to turn intention into action.",
+    explorePlans: "Explore plans",
+    createMyVibe: "Create my VIBE",
+  },
+  pt: {
+    navExplore: "Explorar",
+    navMyVibes: "Minhas VIBEs",
+    login: "Entrar",
+    create: "Criar uma VIBE",
+    tagline: "Encontre sua VIBE. Viva a experiência.",
+    heroBadge: "Planos para hoje",
+    heroTitle: "O que você vai fazer hoje?",
+    heroText: "Encontre planos reais com pessoas que vibram parecido.",
+    heroSupport: "Quando você quer sair, aprender ou compartilhar um interesse, mas não sabe com quem.",
+    heroExplore: "Ver planos por perto",
+    heroCreate: "Criar minha VIBE",
+    trustOrganizer: "Organizador identificado",
+    trustLocation: "Local conforme o tipo de plano",
+    trustSmallGroups: "Grupos pequenos e concretos",
+    categoryKicker: "Escolha uma VIBE",
+    categoryText: "As categorias são amplas. Ao entrar, você pode explorar interesses mais específicos ou criar sua própria VIBE.",
+    plansKicker: "Perto de você",
+    plansTitle: "Planos para começar hoje",
+    plansText: "Escolha uma VIBE, revise o plano e participe.",
+    viewAll: "Ver todos",
+    ideaTitle: "Criar uma VIBE.",
+    ideaText: "Escolha uma categoria, encontre algo que combine com você e participe com pessoas na mesma frequência.",
+    ctaTitle: "Crie uma VIBE e ative o plano.",
+    ctaText: "Pode começar como um café, um show, um jogo, uma ideia de negócio ou um grupo de leitura. O importante é transformar intenção em ação.",
+    explorePlans: "Explorar planos",
+    createMyVibe: "Criar minha VIBE",
+  },
+  fr: {
+    navExplore: "Explorer",
+    navMyVibes: "Mes VIBEs",
+    login: "Se connecter",
+    create: "Créer une VIBE",
+    tagline: "Trouve ta VIBE. Vis l’expérience.",
+    heroBadge: "Plans pour aujourd’hui",
+    heroTitle: "Tu fais quoi aujourd’hui ?",
+    heroText: "Trouve de vrais plans avec des personnes qui vibrent comme toi.",
+    heroSupport: "Quand tu veux sortir, apprendre ou partager un intérêt, mais que tu ne sais pas avec qui.",
+    heroExplore: "Voir les plans proches",
+    heroCreate: "Créer ma VIBE",
+    trustOrganizer: "Organisateur identifié",
+    trustLocation: "Lieu selon le type de plan",
+    trustSmallGroups: "Petits groupes concrets",
+    categoryKicker: "Choisis une VIBE",
+    categoryText: "Les catégories sont larges. Tu peux ensuite explorer des intérêts plus précis ou créer ta propre VIBE.",
+    plansKicker: "Près de toi",
+    plansTitle: "Plans pour commencer aujourd’hui",
+    plansText: "Choisis une VIBE, regarde le plan et rejoins-le.",
+    viewAll: "Tout voir",
+    ideaTitle: "Créer une VIBE.",
+    ideaText: "Choisis une catégorie, trouve quelque chose qui te parle et rejoins des personnes sur la même fréquence.",
+    ctaTitle: "Crée une VIBE et lance le plan.",
+    ctaText: "Cela peut commencer par un café, un concert, un match, une idée de business ou un groupe de lecture. L’important est de transformer l’intention en action.",
+    explorePlans: "Explorer les plans",
+    createMyVibe: "Créer ma VIBE",
+  },
+  ja: {
+    navExplore: "探す",
+    navMyVibes: "マイVIBE",
+    login: "ログイン",
+    create: "VIBEを作る",
+    tagline: "自分のVIBEを見つけよう。体験しよう。",
+    heroBadge: "今日できるプラン",
+    heroTitle: "今日は何する？",
+    heroText: "同じ空気感の人と、リアルなプランを見つけよう。",
+    heroSupport: "出かけたい、学びたい、興味を共有したい。でも誰と行けばいいかわからない時に。",
+    heroExplore: "近くのプランを見る",
+    heroCreate: "自分のVIBEを作る",
+    trustOrganizer: "確認済みの主催者",
+    trustLocation: "プランに応じた場所表示",
+    trustSmallGroups: "小さく具体的なグループ",
+    categoryKicker: "VIBEを選ぶ",
+    categoryText: "カテゴリは広めです。中に入ると、より具体的な興味を探したり、自分のVIBEを作れます。",
+    plansKicker: "近くで",
+    plansTitle: "今日始められるプラン",
+    plansText: "VIBEを選び、プランを確認して参加しましょう。",
+    viewAll: "すべて見る",
+    ideaTitle: "VIBEを作る。",
+    ideaText: "カテゴリを選んで、自分に合うものを見つけ、同じ波長の人と参加しましょう。",
+    ctaTitle: "VIBEを作って、プランを動かそう。",
+    ctaText: "カフェ、ライブ、スポーツ、ビジネスアイデア、読書会から始められます。大事なのは、思いを行動に変えること。",
+    explorePlans: "プランを探す",
+    createMyVibe: "自分のVIBEを作る",
+  },
+  zh: {
+    navExplore: "探索",
+    navMyVibes: "我的 VIBE",
+    login: "登录",
+    create: "创建 VIBE",
+    tagline: "找到你的 VIBE，体验真实生活。",
+    heroBadge: "今天可以开始的计划",
+    heroTitle: "你今天想做什么？",
+    heroText: "找到真实的计划，遇见与你有相同频率的人。",
+    heroSupport: "当你想出去、学习或分享一个兴趣，却不知道和谁一起时。",
+    heroExplore: "查看附近计划",
+    heroCreate: "创建我的 VIBE",
+    trustOrganizer: "已识别的组织者",
+    trustLocation: "地点根据计划类型显示",
+    trustSmallGroups: "小而具体的群组",
+    categoryKicker: "选择一个 VIBE",
+    categoryText: "类别是开放的。进入后，你可以探索更具体的兴趣，或创建自己的 VIBE。",
+    plansKicker: "在你附近",
+    plansTitle: "今天可以开始的计划",
+    plansText: "选择一个 VIBE，查看计划并加入。",
+    viewAll: "查看全部",
+    ideaTitle: "创建一个 VIBE。",
+    ideaText: "选择类别，找到适合你的计划，和同频的人一起参与。",
+    ctaTitle: "创建 VIBE，让计划发生。",
+    ctaText: "它可以从一杯咖啡、一场演出、一场比赛、一个商业想法或一个读书小组开始。关键是把想法变成行动。",
+    explorePlans: "探索计划",
+    createMyVibe: "创建我的 VIBE",
+  },
 };
 
 const loadOnboarding = () => {
@@ -291,7 +602,7 @@ const demoPlans = [
     subtitle: "Café de especialidad, degustación y buena conversación",
     date: "Mañana · 18:00",
     place: "Ñuñoa",
-    organizador: "Organizador identificado al unirte",
+    organizador: "{currentSiteCopy.trustOrganizer} al unirte",
     seats: "4 cupos",
     access: "Dirección al confirmar",
     image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1200&q=80",
@@ -330,7 +641,7 @@ const demoPlans = [
     subtitle: "Un punto de partida antes de salir",
     date: "Jueves · 21:00",
     place: "El Golf",
-    organizador: "Organizador identificado al sumarte",
+    organizador: "{currentSiteCopy.trustOrganizer} al sumarte",
     seats: "10 cupos",
     access: "Dirección al confirmar",
     image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80",
@@ -369,7 +680,7 @@ const demoPlans = [
     subtitle: "Un café para conversar ideas, socios o próximos pasos",
     date: "Martes · 08:30",
     place: "Vitacura",
-    organizador: "Organizador identificado al sumarte",
+    organizador: "{currentSiteCopy.trustOrganizer} al sumarte",
     seats: "5 cupos",
     access: "Dirección al confirmar",
     image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80",
@@ -973,6 +1284,7 @@ function App() {
 
   const selectedOnboardingLocation = onboarding.location || onboardingLocations[globeIndex] || onboardingLocations[0];
   const currentOnboardingCopy = onboardingCopy[onboarding.language] || onboardingCopy.es;
+  const currentSiteCopy = siteCopy[onboarding.language] || siteCopy.es;
   const locationMatches = onboardingLocations.filter((location) => {
     const text = `${location.city} ${location.country} ${location.label}`.toLowerCase();
     return text.includes(locationQuery.toLowerCase());
@@ -1116,7 +1428,7 @@ function App() {
                 ))}
               </div>
 
-              <button className="btn btn-primary onboarding-main-btn" onClick={() => setOnboardingStep("name")}>
+              <button className="btn btn-primary onboarding-main-btn" onClick={() => setOnboardingStep("intro")}>
                 {currentOnboardingCopy.continue} <ArrowRight size={18} />
               </button>
             </div>
@@ -1139,6 +1451,44 @@ function App() {
           </main>
         )}
 
+
+        {onboardingStep === "intro" && (
+          <main className="onboarding-card intro-onboarding-card">
+            <span className="onboarding-kicker">{currentOnboardingCopy.introKicker}</span>
+            <h1>{currentOnboardingCopy.introTitle}</h1>
+            <p>{currentOnboardingCopy.introText}</p>
+
+            <div className="onboarding-moment-grid">
+              {currentOnboardingCopy.introCards.map((item) => (
+                <article className="onboarding-mini-card" key={item.title}>
+                  <div className="use-icon"><Sparkles size={18} /></div>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="onboarding-how-block">
+              <span>{currentOnboardingCopy.howKicker}</span>
+              <h2>{currentOnboardingCopy.howTitle}</h2>
+              <div className="onboarding-step-row">
+                {currentOnboardingCopy.howSteps.map((step, index) => (
+                  <article key={step.title}>
+                    <strong>{index + 1}</strong>
+                    <h3>{step.title}</h3>
+                    <p>{step.text}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            <div className="onboarding-actions">
+              <button className="btn btn-gorganizador" onClick={() => setOnboardingStep("location")}>{currentOnboardingCopy.back}</button>
+              <button className="btn btn-primary" onClick={() => setOnboardingStep("name")}>{currentOnboardingCopy.continue}</button>
+            </div>
+          </main>
+        )}
+
         {onboardingStep === "name" && (
           <main className="onboarding-card compact-onboarding-card">
             <span className="onboarding-kicker">Profile</span>
@@ -1152,7 +1502,7 @@ function App() {
               autoFocus
             />
             <div className="onboarding-actions">
-              <button className="btn btn-gorganizador" onClick={() => setOnboardingStep("location")}>{currentOnboardingCopy.back}</button>
+              <button className="btn btn-gorganizador" onClick={() => setOnboardingStep("intro")}>{currentOnboardingCopy.back}</button>
               <button className="btn btn-primary" onClick={() => setOnboardingStep("preferences")}>{currentOnboardingCopy.continue}</button>
             </div>
           </main>
@@ -1199,17 +1549,28 @@ function App() {
             <span className="brand-mark">V</span>
             <span className="brand-copy">
               <strong>VIBE</strong>
-              <small>Encuentra tu VIBE. Vive la experiencia.</small>
+              <small>{currentSiteCopy.tagline}</small>
             </span>
           </button>
 
           <nav className="desktop-nav compact-nav">
-            <button onClick={() => scrollTo("planes")}>Explorar</button>
-            {session?.user && <button onClick={openMyEvents}>Mis VIBEs</button>}
+            <button onClick={() => scrollTo("planes")}>{currentSiteCopy.navExplore}</button>
+            {session?.user && <button onClick={openMyEvents}>{currentSiteCopy.navMyVibes}</button>}
           </nav>
 
           <div className="desktop-actions">
-            <button className="btn btn-primary" onClick={openCreateModal}>Crear una VIBE</button>
+            <div className="header-language-switch">
+              {languageOptions.map((language) => (
+                <button
+                  key={language.key}
+                  className={onboarding.language === language.key ? "active" : ""}
+                  onClick={() => updateOnboarding({ language: language.key })}
+                >
+                  {language.key.toUpperCase()}
+                </button>
+              ))}
+            </div>
+            <button className="btn btn-primary" onClick={openCreateModal}>{currentSiteCopy.create}</button>
 
             {session?.user ? (
               <div className="profile-dropdown">
@@ -1243,7 +1604,7 @@ function App() {
                 )}
               </div>
             ) : (
-              <button className="btn btn-ghost" onClick={() => setShowAuth(true)}>Iniciar sesión</button>
+              <button className="btn btn-ghost" onClick={() => setShowAuth(true)}>{currentSiteCopy.login}</button>
             )}
           </div>
 
@@ -1254,16 +1615,16 @@ function App() {
 
         {menuOpen && (
           <div className="mobile-menu">
-            <button onClick={() => scrollTo("planes")}>Explorar</button>
-            <button onClick={openCreateModal}>Crear una VIBE</button>
-            {session?.user && <button onClick={openMyEvents}>Mis VIBEs</button>}
+            <button onClick={() => scrollTo("planes")}>{currentSiteCopy.navExplore}</button>
+            <button onClick={openCreateModal}>{currentSiteCopy.create}</button>
+            {session?.user && <button onClick={openMyEvents}>{currentSiteCopy.navMyVibes}</button>}
             {session?.user ? (
               <>
                 <button onClick={openProfile}>Mi perfil</button>
                 <button onClick={signOut}>Cerrar sesión</button>
               </>
             ) : (
-              <button onClick={() => setShowAuth(true)}>Iniciar sesión</button>
+              <button onClick={() => setShowAuth(true)}>{currentSiteCopy.login}</button>
             )}
           </div>
         )}
@@ -1274,12 +1635,12 @@ function App() {
         <div className="container hero-grid">
           <div className="hero-copy">
             <p className="eyebrow">{onboarding.location?.city ? `Planes en ${onboarding.location.city}` : "Planes para hacer hoy"}</p>
-            <h1>¿Qué haces hoy?</h1>
+            <h1>{currentSiteCopy.heroTitle}</h1>
             <p className="hero-text">
-              Encuentra panoramas reales con gente que vibra parecido.
+              {currentSiteCopy.heroText}
             </p>
             <p className="hero-support">
-              Cuando quieres salir, aprender o compartir un interés, pero no sabes con quién.
+              {currentSiteCopy.heroSupport}
             </p>
             <div className="hero-actions">
               <button className="btn btn-primary" onClick={() => scrollTo("planes")}>
@@ -1291,9 +1652,9 @@ function App() {
             </div>
 
             <div className="hero-points">
-              <div><UserCheck size={18} /> Organizador identificado</div>
-              <div><LockKeyhole size={18} /> Ubicación según convocatoria</div>
-              <div><Users size={18} /> Grupos chicos y concretos</div>
+              <div><UserCheck size={18} /> {currentSiteCopy.trustOrganizer}</div>
+              <div><LockKeyhole size={18} /> {currentSiteCopy.trustLocation}</div>
+              <div><Users size={18} /> {currentSiteCopy.trustSmallGroups}</div>
             </div>
           </div>
 
@@ -1351,7 +1712,7 @@ function App() {
               {loadingPlans && <p className="data-note">Cargando panoramas desde Supabase...</p>}
               {supabaseError && <p className="data-note warning">{supabaseError}</p>}
             </div>
-            <button className="btn btn-gorganizador small" onClick={() => setActiveCategory("all")}>Ver todos</button>
+            <button className="btn btn-gorganizador small" onClick={() => setActiveCategory("all")}>{currentSiteCopy.viewAll}</button>
           </div>
 
           <div className="plan-grid">
@@ -1394,47 +1755,9 @@ function App() {
             <img src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=900&q=80" alt="Personas en un evento" />
             <div className="visual-copy">
               <span>La idea</span>
-              <h2>Crear VIBE.</h2>
-              <p>Elige categoría, encuentra algo que te tinca y súmate con gente que está en la misma.</p>
+              <h2>{currentSiteCopy.ideaTitle}</h2>
+              <p>{currentSiteCopy.ideaText}</p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section" id="momentos">
-        <div className="container">
-          <div className="section-head">
-            <span>Para esos momentos</span>
-            <h2>Cuando quieres hacer algo y falta el con quién.</h2>
-          </div>
-
-          <div className="use-grid">
-            {moments.map((item) => (
-              <article className="use-card" key={item.title}>
-                <div className="use-icon"><Sparkles size={18} /></div>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section how-section" id="como-funciona">
-        <div className="container">
-          <div className="section-head">
-            <span>Cómo funciona</span>
-            <h2>Elige, revisa y súmate.</h2>
-          </div>
-
-          <div className="steps-grid">
-            {steps.map((step, index) => (
-              <article className="step-card" key={step.title}>
-                <div className="step-number">{index + 1}</div>
-                <h3>{step.title}</h3>
-                <p>{step.text}</p>
-              </article>
-            ))}
           </div>
         </div>
       </section>
@@ -1442,11 +1765,11 @@ function App() {
       <section className="section cta-section">
         <div className="container">
           <div className="cta-box">
-            <h2>Crea una VIBE y activa el plan.</h2>
-            <p>Puede partir como un café, una tocata, un partido, una idea de negocio o un grupo literario. Lo importante es convertir la intención en acción.</p>
+            <h2>{currentSiteCopy.ctaTitle}</h2>
+            <p>{currentSiteCopy.ctaText}</p>
             <div className="hero-actions centered">
-              <button className="btn btn-primary" onClick={() => scrollTo("planes")}>Explorar panoramas</button>
-              <button className="btn btn-gorganizador" onClick={openCreateModal}>Crear mi VIBE</button>
+              <button className="btn btn-primary" onClick={() => scrollTo("planes")}>{currentSiteCopy.explorePlans}</button>
+              <button className="btn btn-gorganizador" onClick={openCreateModal}>{currentSiteCopy.heroCreate}</button>
             </div>
           </div>
         </div>

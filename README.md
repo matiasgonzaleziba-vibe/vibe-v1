@@ -130,3 +130,39 @@ Onboarding inicial por ubicación, idioma, nombre e intereses:
 - Usa la ciudad para personalizar la landing y ordenar panoramas iniciales.
 - Permite terminar en “Descubrir VIBEs” o “Crear mi primera VIBE”.
 - Es un MVP visual de globo; todavía no usa mapas reales, GPS ni reverse geocoding.
+
+
+## v7.9
+
+Idioma real + intro en onboarding:
+- Se agrega una versión real en inglés de la landing principal, activada por idioma del onboarding o selector ES/EN/PT.
+- Se agrega selector de idioma en header desktop.
+- La sección “Cuando quieres hacer algo...” y “Elige, revisa y súmate” se mueve desde la landing a un paso introductorio del onboarding.
+- El onboarding ahora fluye: ubicación/idioma → intro VIBE → nombre → intereses → descubrir/crear.
+- La landing queda más orientada a exploración y acción, menos explicativa.
+
+
+## v8.0
+
+Idiomas agregados:
+- Français
+- 日本語
+- 中文
+
+También se agregan ubicaciones base para:
+- Paris, France
+- Tokyo, Japan
+- Shanghai, China
+- Beijing, China
+
+El selector de idioma ahora soporta ES / EN / PT / FR / JA / ZH.
+
+
+## v8.1
+
+Selector de foto más compacto:
+- El bloque “Foto” ahora ocupa el ancho del formulario completo.
+- El preview baja de tamaño para no competir con fecha/hora/lugar.
+- Las fotos sugeridas pasan a una franja horizontal tipo carrusel.
+- “Subir foto” queda como botón pequeño y discreto.
+- En mobile se mantiene compacto y apilado.
