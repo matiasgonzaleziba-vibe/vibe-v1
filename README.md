@@ -227,3 +227,16 @@ Estructura correcta:
 - `package.json`
 - `vercel.json`
 - `.yarnrc`
+
+
+## v9.0 UX polish
+
+Cambios:
+- Ajuste de tamaños de letra en hero, onboarding y modales.
+- Globo del onboarding más trabajado: más puntos, controles, clic y rueda del mouse para girar/seleccionar.
+- Más ciudades preseteadas: Chile, California, Brasil, España, Países Bajos, Japón, China, Francia, etc.
+- Login con botón para ver/ocultar contraseña.
+- Los panoramas precargados se traducen al cambiar idioma.
+- Se agrega gestión de eventos propios desde el detalle: “Eliminar mi VIBE”.
+- Se corrige `Mis VIBEs` para leer/eliminar por `host_id`, que es la columna usada al crear panoramas.
+- Se agrega SQL `v90_manage_own_panoramas_host_id.sql` para asegurar permisos de update/delete sobre panoramas propios.
