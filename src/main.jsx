@@ -596,181 +596,6 @@ const loadOnboarding = () => {
   }
 };
 
-
-const translateSlots = {
-  es: {
-    organizerVerified: "Organizador verificado",
-    organizerOnJoin: "Organizador identificado al unirte",
-    organizerOnJoinShort: "Organizador identificado al sumarte",
-    publicLocation: "Ubicación pública",
-    confirmLocation: "Dirección al confirmar",
-    seats: (n) => `${n} cupos`,
-  },
-  en: {
-    organizerVerified: "Verified organizer",
-    organizerOnJoin: "Organizer identified when you join",
-    organizerOnJoinShort: "Organizer identified when you join",
-    publicLocation: "Public location",
-    confirmLocation: "Address after confirmation",
-    seats: (n) => `${n} spots`,
-  },
-  pt: {
-    organizerVerified: "Organizador verificado",
-    organizerOnJoin: "Organizador identificado ao participar",
-    organizerOnJoinShort: "Organizador identificado ao participar",
-    publicLocation: "Localização pública",
-    confirmLocation: "Endereço após confirmação",
-    seats: (n) => `${n} vagas`,
-  },
-  fr: {
-    organizerVerified: "Organisateur vérifié",
-    organizerOnJoin: "Organisateur identifié à l’inscription",
-    organizerOnJoinShort: "Organisateur identifié à l’inscription",
-    publicLocation: "Lieu public",
-    confirmLocation: "Adresse après confirmation",
-    seats: (n) => `${n} places`,
-  },
-  ja: {
-    organizerVerified: "確認済みの主催者",
-    organizerOnJoin: "参加時に主催者を確認",
-    organizerOnJoinShort: "参加時に主催者を確認",
-    publicLocation: "公開場所",
-    confirmLocation: "承認後に住所を表示",
-    seats: (n) => `${n}枠`,
-  },
-  zh: {
-    organizerVerified: "已验证组织者",
-    organizerOnJoin: "加入后可查看组织者",
-    organizerOnJoinShort: "加入后可查看组织者",
-    publicLocation: "公开地点",
-    confirmLocation: "确认后显示地址",
-    seats: (n) => `${n}个名额`,
-  },
-};
-
-const demoPlanTranslations = {
-  es: {
-    1: { title: "Mesa abierta de juegos de mesa", subtitle: "Aprender, jugar y conversar sin tener que organizarlo todo", date: "Hoy · 19:30", vibe: "Ideal si te gustan los juegos de mesa, cartas, estrategia o incluso quieres partir aprendiendo desde cero." },
-    2: { title: "Café turismo", subtitle: "Café de especialidad, degustación y buena conversación", date: "Mañana · 18:00", vibe: "Para quienes quieren salir de casa, probar café rico y conversar sobre café." },
-    3: { title: "Armémonos para ir al cerro", subtitle: "Compartamos los mejores spots en la cordillera", date: "Sábado · 10:30", vibe: "Para quienes quieren hacer algo distinto sin partir desde cero ni convencer al grupo de siempre." },
-    4: { title: "Acompáñame a una tocata", subtitle: "Música en vivo, conversación y buena vibra", date: "Viernes · 20:00", vibe: "Para quienes quieren ir a una tocata, festival o show, pero no siempre tienen con quién." },
-    5: { title: "La previa: traguitos y buena conversación", subtitle: "Un punto de partida antes de salir", date: "Jueves · 21:00", vibe: "Para partir el carrete sin llegar solo, con un plan simple y un grupo acotado." },
-    6: { title: "Literatura: Crea tu grupo de lectura", subtitle: "Comparte un libro, un género o un tema literario", date: "Domingo · 10:00", vibe: "Para compartir lectura, escritura o curiosidad intelectual." },
-    7: { title: "VIBE Básquetbol: partido casual", subtitle: "Armar equipo, moverse y jugar", date: "Miércoles · 20:30", vibe: "Ejemplo de cómo una persona puede crear su propia VIBE específica dentro de una categoría general." },
-    8: { title: "Comparte una idea de negocio", subtitle: "Un café para conversar ideas, socios o próximos pasos", date: "Martes · 08:30", vibe: "Para quienes tienen una idea dando vueltas y quieren contrastarla con otras personas." },
-  },
-  en: {
-    1: { title: "Open board game table", subtitle: "Learn, play and talk without organizing everything yourself", date: "Today · 7:30 PM", vibe: "Ideal if you like board games, cards, strategy or want to start from zero." },
-    2: { title: "Coffee crawl", subtitle: "Specialty coffee, tasting and good conversation", date: "Tomorrow · 6:00 PM", vibe: "For people who want to get out, try good coffee and talk about coffee." },
-    3: { title: "Let’s go hiking", subtitle: "Share the best spots near the mountains", date: "Saturday · 10:30 AM", vibe: "For people who want something different without convincing the usual group." },
-    4: { title: "Join me for a live show", subtitle: "Live music, conversation and good energy", date: "Friday · 8:00 PM", vibe: "For people who want to go to a show or festival but do not always have someone to go with." },
-    5: { title: "Pre-game: drinks and conversation", subtitle: "A simple starting point before going out", date: "Thursday · 9:00 PM", vibe: "Start the night without arriving alone, with a simple plan and a small group." },
-    6: { title: "Literature: start a reading group", subtitle: "Share a book, a genre or a topic", date: "Sunday · 10:00 AM", vibe: "For sharing reading, writing or intellectual curiosity." },
-    7: { title: "Basketball VIBE: casual game", subtitle: "Build a team, move and play", date: "Wednesday · 8:30 PM", vibe: "An example of a specific VIBE created inside a broader category." },
-    8: { title: "Share a business idea", subtitle: "Coffee to discuss ideas, partners or next steps", date: "Tuesday · 8:30 AM", vibe: "For people with an idea in mind who want to contrast it with others." },
-  },
-  pt: {
-    1: { title: "Mesa aberta de jogos", subtitle: "Aprender, jogar e conversar sem organizar tudo sozinho", date: "Hoje · 19:30", vibe: "Ideal para quem gosta de jogos de mesa, cartas, estratégia ou quer começar do zero." },
-    2: { title: "Rota de cafés", subtitle: "Café especial, degustação e boa conversa", date: "Amanhã · 18:00", vibe: "Para quem quer sair de casa, provar um bom café e conversar." },
-    3: { title: "Vamos fazer uma trilha", subtitle: "Compartilhar bons lugares perto da montanha", date: "Sábado · 10:30", vibe: "Para quem quer fazer algo diferente sem convencer o grupo de sempre." },
-    4: { title: "Venha comigo a um show", subtitle: "Música ao vivo, conversa e boa vibe", date: "Sexta · 20:00", vibe: "Para quem quer ir a um show ou festival, mas nem sempre tem com quem." },
-    5: { title: "Pré: drinks e conversa", subtitle: "Um ponto de partida antes de sair", date: "Quinta · 21:00", vibe: "Para começar a noite com um plano simples e um grupo pequeno." },
-    6: { title: "Literatura: crie seu grupo de leitura", subtitle: "Compartilhe um livro, gênero ou tema", date: "Domingo · 10:00", vibe: "Para compartilhar leitura, escrita ou curiosidade intelectual." },
-    7: { title: "VIBE Basquete: jogo casual", subtitle: "Montar equipe, se mexer e jogar", date: "Quarta · 20:30", vibe: "Um exemplo de VIBE específica dentro de uma categoria geral." },
-    8: { title: "Compartilhe uma ideia de negócio", subtitle: "Um café para conversar ideias, sócios ou próximos passos", date: "Terça · 08:30", vibe: "Para quem tem uma ideia e quer contrastá-la com outras pessoas." },
-  },
-  fr: {
-    1: { title: "Table ouverte de jeux de société", subtitle: "Apprendre, jouer et discuter sans tout organiser", date: "Aujourd’hui · 19:30", vibe: "Idéal si tu aimes les jeux de société, les cartes ou la stratégie." },
-    2: { title: "Balade café", subtitle: "Café de spécialité, dégustation et conversation", date: "Demain · 18:00", vibe: "Pour sortir, goûter un bon café et discuter." },
-    3: { title: "Allons marcher en montagne", subtitle: "Partager les meilleurs spots près des reliefs", date: "Samedi · 10:30", vibe: "Pour faire quelque chose de différent sans convaincre le groupe habituel." },
-    4: { title: "Viens avec moi à un concert", subtitle: "Musique live, conversation et bonne vibe", date: "Vendredi · 20:00", vibe: "Pour aller à un concert ou festival sans y aller seul." },
-    5: { title: "Avant-soirée : verres et conversation", subtitle: "Un point de départ avant de sortir", date: "Jeudi · 21:00", vibe: "Pour commencer la soirée avec un plan simple et un petit groupe." },
-    6: { title: "Littérature : crée ton club de lecture", subtitle: "Partage un livre, un genre ou un sujet", date: "Dimanche · 10:00", vibe: "Pour partager lecture, écriture ou curiosité intellectuelle." },
-    7: { title: "VIBE Basket : match casual", subtitle: "Former une équipe, bouger et jouer", date: "Mercredi · 20:30", vibe: "Un exemple de VIBE spécifique dans une catégorie large." },
-    8: { title: "Partage une idée business", subtitle: "Un café pour discuter idées, associés ou prochaines étapes", date: "Mardi · 08:30", vibe: "Pour tester une idée avec d’autres personnes." },
-  },
-  ja: {
-    1: { title: "ボードゲームのオープン卓", subtitle: "全部を企画しなくても、学んで遊んで話せる", date: "今日 · 19:30", vibe: "ボードゲーム、カード、戦略ゲームが好きな人におすすめ。" },
-    2: { title: "カフェ巡り", subtitle: "スペシャルティコーヒー、試飲、会話", date: "明日 · 18:00", vibe: "家を出て、おいしいコーヒーを試しながら話したい人へ。" },
-    3: { title: "山へ行こう", subtitle: "山の近くのおすすめスポットを共有", date: "土曜 · 10:30", vibe: "いつもの友達を説得しなくても、少し違うことをしたい人へ。" },
-    4: { title: "ライブに一緒に行こう", subtitle: "ライブ音楽、会話、いい雰囲気", date: "金曜 · 20:00", vibe: "ライブやフェスに行きたいけれど、一人では行きにくい人へ。" },
-    5: { title: "プレ会：ドリンクと会話", subtitle: "出かける前のシンプルな集合", date: "木曜 · 21:00", vibe: "少人数で気軽に夜を始めたい人へ。" },
-    6: { title: "読書会をつくる", subtitle: "本、ジャンル、テーマを共有", date: "日曜 · 10:00", vibe: "読書、文章、知的好奇心を共有したい人へ。" },
-    7: { title: "バスケVIBE：カジュアル試合", subtitle: "チームを作って動いて遊ぶ", date: "水曜 · 20:30", vibe: "広いカテゴリの中に具体的なVIBEを作る例です。" },
-    8: { title: "ビジネスアイデアを話す", subtitle: "アイデア、仲間、次の一歩をコーヒーで相談", date: "火曜 · 08:30", vibe: "頭の中のアイデアを他の人と試したい人へ。" },
-  },
-  zh: {
-    1: { title: "开放桌游局", subtitle: "不用自己安排全部，也能学习、游戏和聊天", date: "今天 · 19:30", vibe: "适合喜欢桌游、卡牌、策略，或想从零开始的人。" },
-    2: { title: "咖啡探索", subtitle: "精品咖啡、品鉴和好聊天", date: "明天 · 18:00", vibe: "适合想出门喝好咖啡、聊咖啡的人。" },
-    3: { title: "一起去爬山", subtitle: "分享山边的好去处", date: "周六 · 10:30", vibe: "想做点不一样的事，又不想说服老朋友群的人。" },
-    4: { title: "一起去看现场演出", subtitle: "现场音乐、聊天和好氛围", date: "周五 · 20:00", vibe: "想去演出或音乐节，但不想一个人去的人。" },
-    5: { title: "出门前：小酌和聊天", subtitle: "出门前的简单集合点", date: "周四 · 21:00", vibe: "用简单计划和小群体开始夜晚。" },
-    6: { title: "文学：创建读书小组", subtitle: "分享一本书、一个类型或一个主题", date: "周日 · 10:00", vibe: "分享阅读、写作或知识好奇心。" },
-    7: { title: "篮球 VIBE：轻松比赛", subtitle: "组队、运动、一起玩", date: "周三 · 20:30", vibe: "在大类中创建具体 VIBE 的例子。" },
-    8: { title: "分享一个商业想法", subtitle: "喝咖啡聊想法、伙伴或下一步", date: "周二 · 08:30", vibe: "适合想和别人碰撞商业想法的人。" },
-  },
-};
-
-const knownPlanTitleTranslations = {
-  en: {
-    "Café de especialidad + conversación": { title: "Specialty coffee + conversation", subtitle: "A VIBE created around coffee and conversation", vibe: "For people who want to meet around a simple, low-pressure plan." },
-    "Partido casual mixto este jueves": { title: "Casual mixed game this Thursday", subtitle: "A defined plan created on VIBE", vibe: "A simple sports plan to join without organizing the full group." },
-    "Mesa abierta de juegos de mesa": { title: "Open board game table" },
-  },
-  pt: {
-    "Café de especialidad + conversación": { title: "Café especial + conversa", subtitle: "Uma VIBE criada em torno de café e conversa", vibe: "Para se encontrar em um plano simples e sem pressão." },
-    "Partido casual mixto este jueves": { title: "Jogo casual misto nesta quinta", subtitle: "Panorama criado na VIBE", vibe: "Um plano esportivo simples para participar sem organizar tudo." },
-    "Mesa abierta de juegos de mesa": { title: "Mesa aberta de jogos" },
-  },
-  fr: {
-    "Café de especialidad + conversación": { title: "Café de spécialité + conversation", subtitle: "Une VIBE autour du café et de la conversation", vibe: "Pour se retrouver autour d’un plan simple et sans pression." },
-    "Partido casual mixto este jueves": { title: "Match mixte casual ce jeudi", subtitle: "Plan créé sur VIBE", vibe: "Un plan sportif simple à rejoindre sans tout organiser." },
-    "Mesa abierta de juegos de mesa": { title: "Table ouverte de jeux de société" },
-  },
-  ja: {
-    "Café de especialidad + conversación": { title: "スペシャルティコーヒー＋会話", subtitle: "コーヒーと会話を中心にしたVIBE", vibe: "気軽なプランで人と会いたい人へ。" },
-    "Partido casual mixto este jueves": { title: "今週木曜のカジュアルミックス試合", subtitle: "VIBEで作られたプラン", vibe: "全部を企画せずに参加できるシンプルなスポーツプラン。" },
-    "Mesa abierta de juegos de mesa": { title: "ボードゲームのオープン卓" },
-  },
-  zh: {
-    "Café de especialidad + conversación": { title: "精品咖啡 + 聊天", subtitle: "围绕咖啡和聊天创建的 VIBE", vibe: "适合用轻松计划认识新的人。" },
-    "Partido casual mixto este jueves": { title: "本周四轻松混合比赛", subtitle: "在 VIBE 创建的计划", vibe: "不用组织整个群体，也能加入的简单运动计划。" },
-    "Mesa abierta de juegos de mesa": { title: "开放桌游局" },
-  },
-};
-
-const applyPlanLanguage = (plan, language = "es") => {
-  const lang = language || "es";
-  if (lang === "es") {
-    return {
-      ...plan,
-      organizador: plan.organizador === "{currentSiteCopy.trustOrganizer} al sumarte" ? translateSlots.es.organizerOnJoinShort : plan.organizador,
-    };
-  }
-
-  const slots = translateSlots[lang] || translateSlots.es;
-  const translatedById = demoPlanTranslations[lang]?.[plan.id] || {};
-  const translatedByTitle = knownPlanTitleTranslations[lang]?.[plan.title] || {};
-  const seatsNumber = String(plan.seats || "").match(/\d+/)?.[0];
-
-  let organizer = plan.organizador;
-  if (/verificado/i.test(organizer || "")) organizer = slots.organizerVerified;
-  if (/identificado/i.test(organizer || "") || String(organizer || "").includes("{currentSiteCopy")) organizer = slots.organizerOnJoin;
-
-  let access = plan.access;
-  if (/pública|publica|public/i.test(access || "")) access = slots.publicLocation;
-  if (/confirmar|confirm/i.test(access || "")) access = slots.confirmLocation;
-
-  return {
-    ...plan,
-    ...translatedById,
-    ...translatedByTitle,
-    organizador,
-    access,
-    seats: seatsNumber ? slots.seats(seatsNumber) : plan.seats,
-  };
-};
-
 const demoPlans = [
   {
     id: 1,
@@ -831,7 +656,7 @@ const demoPlans = [
     subtitle: "Un punto de partida antes de salir",
     date: "Jueves · 21:00",
     place: "El Golf",
-    organizador: "Organizador identificado al sumarte",
+    organizador: "{currentSiteCopy.trustOrganizer} al sumarte",
     seats: "10 cupos",
     access: "Dirección al confirmar",
     image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80",
@@ -870,7 +695,7 @@ const demoPlans = [
     subtitle: "Un café para conversar ideas, socios o próximos pasos",
     date: "Martes · 08:30",
     place: "Vitacura",
-    organizador: "Organizador identificado al sumarte",
+    organizador: "{currentSiteCopy.trustOrganizer} al sumarte",
     seats: "5 cupos",
     access: "Dirección al confirmar",
     image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80",
@@ -1012,8 +837,7 @@ function App() {
     fetchPanoramas();
   }, []);
 
-  const rawPlans = dbPlans.length > 0 ? dbPlans : demoPlans;
-  const plans = rawPlans.map((plan) => applyPlanLanguage(plan, onboarding.language));
+  const plans = dbPlans.length > 0 ? dbPlans : demoPlans;
 
   const savePendingCreateDraft = () => {
     try {
@@ -1658,51 +1482,15 @@ function App() {
               </button>
             </div>
 
-            <div
-              className="globe-stage"
-              onWheel={(event) => {
-                event.preventDefault();
-                rotateGlobe(event.deltaY > 0 ? 1 : -1);
-              }}
-            >
-              <button className="globe-control left" onClick={() => rotateGlobe(-1)} aria-label="Ciudad anterior">‹</button>
-              <div
-                className="vibe-globe"
-                style={{ "--globe-rotation": `${globeIndex * -28}deg` }}
-                onClick={() => rotateGlobe(1)}
-                title="Haz clic, usa las flechas o la rueda del mouse para girar"
-              >
+            <div className="globe-stage">
+              <button className="globe-control left" onClick={() => rotateGlobe(-1)}>‹</button>
+              <div className="vibe-globe" style={{ "--globe-rotation": `${globeIndex * -34}deg` }}>
                 <div className="globe-grid"></div>
-                <div className="globe-orbit orbit-one"></div>
-                <div className="globe-orbit orbit-two"></div>
-                {onboardingLocations.slice(0, 18).map((location, index) => {
-                  const active = selectedOnboardingLocation.label === location.label;
-                  const x = 16 + ((index * 29) % 68);
-                  const y = 16 + ((index * 47) % 66);
-                  return (
-                    <button
-                      type="button"
-                      key={location.label}
-                      className={`globe-city-dot ${active ? "active" : ""}`}
-                      style={{
-                        "--dot-x": `${x}%`,
-                        "--dot-y": `${y}%`,
-                        "--dot-delay": `${index * 0.07}s`,
-                      }}
-                      title={location.label}
-                      aria-label={`Seleccionar ${location.label}`}
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        selectOnboardingLocation(location);
-                      }}
-                    />
-                  );
-                })}
                 <div className="globe-pin main-pin"><MapPin size={22} /></div>
                 <div className="globe-pin pin-two"></div>
                 <div className="globe-pin pin-three"></div>
               </div>
-              <button className="globe-control right" onClick={() => rotateGlobe(1)} aria-label="Siguiente ciudad">›</button>
+              <button className="globe-control right" onClick={() => rotateGlobe(1)}>›</button>
               <div className="globe-location-card">
                 <span>Location</span>
                 <strong>{selectedOnboardingLocation.label}</strong>

@@ -229,14 +229,17 @@ Estructura correcta:
 - `.yarnrc`
 
 
-## v9.0 UX polish
+## v9.1 stable hotfix
 
-Cambios:
-- Ajuste de tamaños de letra en hero, onboarding y modales.
-- Globo del onboarding más trabajado: más puntos, controles, clic y rueda del mouse para girar/seleccionar.
-- Más ciudades preseteadas: Chile, California, Brasil, España, Países Bajos, Japón, China, Francia, etc.
-- Login con botón para ver/ocultar contraseña.
-- Los panoramas precargados se traducen al cambiar idioma.
-- Se agrega gestión de eventos propios desde el detalle: “Eliminar mi VIBE”.
-- Se corrige `Mis VIBEs` para leer/eliminar por `host_id`, que es la columna usada al crear panoramas.
-- Se agrega SQL `v90_manage_own_panoramas_host_id.sql` para asegurar permisos de update/delete sobre panoramas propios.
+Base: v8.9, que ya cargaba correctamente en Vercel.
+
+Cambios seguros:
+- Ajuste conservador de tipografías.
+- Globo más trabajado por CSS, sin reescribir la lógica React del onboarding.
+- Más ciudades preseteadas.
+- Ver/Ocultar contraseña en login.
+- Mis VIBEs y eliminación usando `host_id`.
+- Botón Eliminar mi VIBE en detalle cuando el usuario es dueño del panorama.
+- SQL `v91_manage_own_panoramas_host_id.sql`.
+
+No se incluyó todavía la traducción dinámica de todos los eventos para evitar repetir el blank screen de v9.0.
