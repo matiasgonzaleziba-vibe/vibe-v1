@@ -158,10 +158,12 @@ También se agregan ubicaciones base para:
 El selector de idioma ahora soporta ES / EN / PT / FR / JA / ZH.
 
 
-## v8.2
+## v8.3
 
-Corrección de regresión:
-- La landing ya no desaparece: el onboarding funciona como capa inicial sobre la landing, no como reemplazo completo de la app.
-- Las opciones de idioma quedan visibles en desktop y también dentro del menú mobile.
-- El selector de foto se mueve después de los campos principales y queda compacto.
-- Se baja el protagonismo visual de la foto para que no compita con Nombre, Panorama, Fecha, Hora y Lugar.
+Corrección fuerte:
+- Se restaura la landing debajo del onboarding. El onboarding ya no reemplaza toda la app.
+- Se agrega selector de idioma visible en todos los pasos del onboarding.
+- Se agrega botón “Ver landing” para salir del onboarding.
+- Se agrega selector de idioma dentro del menú mobile.
+- Se mueve el bloque Foto debajo de Lugar/Link.
+- Se compacta de forma más agresiva el preview y las miniaturas.

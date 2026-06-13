@@ -1382,9 +1382,32 @@ function App() {
 
   const onboardingGate = !onboarding.completed ? (
       <div className="onboarding-shell onboarding-gate">
-        <div className="onboarding-brand">
-          <span className="brand-mark">V</span>
-          <strong>VIBE</strong>
+        <div className="onboarding-brand onboarding-brand-wide">
+          <div className="onboarding-brand-left">
+            <span className="brand-mark">V</span>
+            <strong>VIBE</strong>
+          </div>
+
+          <div className="onboarding-brand-actions">
+            <div className="onboarding-language-switch">
+              {languageOptions.map((language) => (
+                <button
+                  key={language.key}
+                  className={onboarding.language === language.key ? "active" : ""}
+                  onClick={() => updateOnboarding({ language: language.key })}
+                >
+                  {language.key.toUpperCase()}
+                </button>
+              ))}
+            </div>
+
+            <button
+              className="skip-onboarding-btn"
+              onClick={() => finishOnboarding(false)}
+            >
+              Ver landing
+            </button>
+          </div>
         </div>
 
         {onboardingStep === "location" && (
