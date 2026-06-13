@@ -167,3 +167,14 @@ Corrección fuerte:
 - Se agrega selector de idioma dentro del menú mobile.
 - Se mueve el bloque Foto debajo de Lugar/Link.
 - Se compacta de forma más agresiva el preview y las miniaturas.
+
+
+## v8.4
+
+Fix de despliegue Vercel / npm:
+- Se fija Node en `22.x` para evitar el bug de npm/Node 24 observado en Vercel.
+- Se fija `packageManager` en `npm@10.9.2`.
+- Se reemplazan dependencias `latest` por versiones exactas ya probadas.
+- Se agrega `.npmrc` para reducir auditoría/fund/progress durante instalación.
+- Se regenera `package-lock.json`.
+- Build probado localmente con `npm ci` + `vite build`.
