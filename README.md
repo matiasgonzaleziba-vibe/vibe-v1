@@ -107,3 +107,26 @@ Fix crítico:
 - El selector de foto estaba llamando `photoImageUrl` sin tener el estado inicializado en algunas versiones.
 - Se agrega `photoImageUrl` / `setPhotoImageUrl`.
 - Se corrige `object-fit: photo` a `object-fit: cover`.
+
+
+## v7.7
+
+VIBEs online + layout más ancho:
+- En Crear VIBE se agrega selector de formato: Presencial / Online.
+- Si eliges Online, el campo Lugar cambia a “Link o plataforma”.
+- Puedes poner un link de Meet, Zoom, Teams o dejar “link por definir”.
+- En el detalle del panorama, si el lugar es una URL, aparece como “Abrir reunión online”.
+- Se ensancha el layout desktop y el modal de creación.
+- No integra Google Meet API ni videollamada nativa todavía; queda preparado para usar links externos.
+
+
+## v7.8
+
+Onboarding inicial por ubicación, idioma, nombre e intereses:
+- Primera pantalla: selector de ubicación con globo visual 3D-style, búsqueda por ciudad/país y selector de idioma.
+- Segunda pantalla: nombre del usuario.
+- Tercera pantalla: intereses / VIBEs con las que vibra.
+- Guarda la configuración en localStorage.
+- Usa la ciudad para personalizar la landing y ordenar panoramas iniciales.
+- Permite terminar en “Descubrir VIBEs” o “Crear mi primera VIBE”.
+- Es un MVP visual de globo; todavía no usa mapas reales, GPS ni reverse geocoding.

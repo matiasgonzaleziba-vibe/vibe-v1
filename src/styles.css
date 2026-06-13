@@ -1569,3 +1569,312 @@ button, input { font: inherit; }
   align-items: center;
   justify-items: center;
 }
+
+
+/* v7.7: wider desktop layout + online VIBE support */
+.container {
+  max-width: min(1480px, calc(100vw - 64px));
+}
+
+.hero-grid,
+.plans-grid,
+.cards-grid,
+.use-grid {
+  max-width: none;
+}
+
+@media (min-width: 1180px) {
+  .plan-grid,
+  .plans-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .create-card,
+  .simple-create-card {
+    width: min(980px, calc(100vw - 48px));
+  }
+}
+
+.event-detail-card a {
+  color: #fff;
+  font-weight: 900;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 760px) {
+  .container {
+    max-width: calc(100vw - 32px);
+  }
+}
+
+
+/* v7.8 onboarding: location, language, name and preferences */
+.onboarding-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255, 122, 48, 0.16), transparent 34%),
+    radial-gradient(circle at 85% 20%, rgba(124, 58, 237, 0.26), transparent 38%),
+    #07050d;
+  color: #fff;
+  padding: 28px;
+  display: grid;
+  align-content: center;
+  gap: 22px;
+}
+
+.onboarding-brand {
+  position: fixed;
+  top: 24px;
+  left: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  letter-spacing: 0.22em;
+  z-index: 3;
+}
+
+.onboarding-card {
+  width: min(1180px, calc(100vw - 48px));
+  margin: 0 auto;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(17, 12, 29, 0.78);
+  backdrop-filter: blur(24px);
+  box-shadow: 0 28px 90px rgba(0,0,0,0.42);
+  border-radius: 34px;
+  padding: clamp(24px, 4vw, 48px);
+}
+
+.location-card {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: clamp(24px, 5vw, 64px);
+  align-items: center;
+}
+
+.onboarding-kicker {
+  color: #ffd0b2;
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+
+.onboarding-card h1 {
+  margin: 12px 0 12px;
+  font-size: clamp(42px, 6vw, 82px);
+  line-height: 0.92;
+}
+
+.onboarding-card p {
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.45;
+  max-width: 620px;
+}
+
+.language-row,
+.location-results,
+.onboarding-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.language-row button,
+.location-results button,
+.onboarding-interest-grid button {
+  border: 1px solid rgba(255,255,255,0.13);
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  border-radius: 999px;
+  min-height: 42px;
+  padding: 0 15px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.language-row button.active,
+.location-results button.active,
+.onboarding-interest-grid button.selected {
+  border-color: rgba(255,255,255,0.32);
+  background: linear-gradient(135deg, rgba(255,122,48,0.28), rgba(124,58,237,0.34));
+}
+
+.location-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  border: 1px solid rgba(255,255,255,0.13);
+  background: rgba(255,255,255,0.07);
+  border-radius: 999px;
+  padding: 0 16px;
+  min-height: 54px;
+}
+
+.location-search input,
+.onboarding-input {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  outline: none;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.onboarding-input {
+  margin-top: 16px;
+  border: 1px solid rgba(255,255,255,0.13);
+  background: rgba(255,255,255,0.07);
+  border-radius: 22px;
+  min-height: 62px;
+  padding: 0 18px;
+}
+
+.onboarding-main-btn {
+  margin-top: 24px;
+}
+
+.globe-stage {
+  position: relative;
+  min-height: 560px;
+  display: grid;
+  place-items: center;
+}
+
+.vibe-globe {
+  --globe-rotation: 0deg;
+  width: min(470px, 76vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 32% 24%, rgba(255,255,255,0.85), transparent 7%),
+    radial-gradient(circle at 35% 36%, rgba(255,122,48,0.72), transparent 11%),
+    radial-gradient(circle at 62% 58%, rgba(124,58,237,0.86), transparent 18%),
+    radial-gradient(circle at 50% 50%, #2b1454, #080514 72%);
+  border: 1px solid rgba(255,255,255,0.20);
+  box-shadow: inset -48px -58px 90px rgba(0,0,0,0.55), 0 34px 90px rgba(124,58,237,0.28);
+  transform: rotate(var(--globe-rotation));
+  transition: transform .55s ease;
+}
+
+.globe-grid {
+  position: absolute;
+  inset: -8%;
+  border-radius: 50%;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.07) 0 1px, transparent 1px 42px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 42px);
+  transform: rotate(-18deg);
+  opacity: .75;
+}
+
+.globe-pin {
+  position: absolute;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,0.45));
+}
+
+.main-pin {
+  left: 50%;
+  top: 44%;
+  transform: translate(-50%, -50%) rotate(calc(var(--globe-rotation) * -1));
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff7a30, #7c3aed);
+}
+
+.pin-two,
+.pin-three {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  opacity: .86;
+}
+.pin-two { left: 28%; top: 58%; }
+.pin-three { right: 24%; top: 34%; }
+
+.globe-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  font-size: 34px;
+  cursor: pointer;
+}
+.globe-control.left { left: 8px; }
+.globe-control.right { right: 8px; }
+
+.globe-location-card {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 260px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(8, 5, 18, 0.78);
+  backdrop-filter: blur(16px);
+  border-radius: 22px;
+  padding: 14px 16px;
+  text-align: center;
+}
+.globe-location-card span,
+.globe-location-card small {
+  color: #ffd0b2;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  font-size: 11px;
+  font-weight: 950;
+}
+.globe-location-card strong {
+  display: block;
+  margin: 6px 0;
+  font-size: 18px;
+}
+
+.compact-onboarding-card {
+  width: min(760px, calc(100vw - 48px));
+}
+.wide-preferences {
+  width: min(940px, calc(100vw - 48px));
+}
+.onboarding-interest-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+@media (max-width: 860px) {
+  .location-card {
+    grid-template-columns: 1fr;
+  }
+  .globe-stage {
+    min-height: 390px;
+  }
+  .vibe-globe {
+    width: min(340px, 78vw);
+  }
+  .onboarding-brand {
+    position: static;
+    margin-bottom: 10px;
+  }
+  .onboarding-shell {
+    align-content: start;
+  }
+}

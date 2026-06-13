@@ -187,6 +187,89 @@ const quickVibes = [
   { label: "Otro VIBE", key: "custom", icon: Plus, plan: "Armar un panorama distinto", hint: "" },
 ];
 
+
+const onboardingKey = "vibe_onboarding_v1";
+
+const onboardingLocations = [
+  { city: "Santiago", country: "Chile", label: "Santiago, Chile", language: "es", lat: -33.45, lng: -70.66 },
+  { city: "Buenos Aires", country: "Argentina", label: "Buenos Aires, Argentina", language: "es", lat: -34.6, lng: -58.38 },
+  { city: "São Paulo", country: "Brasil", label: "São Paulo, Brasil", language: "pt", lat: -23.55, lng: -46.63 },
+  { city: "Ciudad de México", country: "México", label: "Ciudad de México, México", language: "es", lat: 19.43, lng: -99.13 },
+  { city: "Lima", country: "Perú", label: "Lima, Perú", language: "es", lat: -12.05, lng: -77.04 },
+  { city: "Bogotá", country: "Colombia", label: "Bogotá, Colombia", language: "es", lat: 4.71, lng: -74.07 },
+  { city: "Miami", country: "USA", label: "Miami, USA", language: "en", lat: 25.76, lng: -80.19 },
+  { city: "Madrid", country: "España", label: "Madrid, España", language: "es", lat: 40.42, lng: -3.7 },
+];
+
+const languageOptions = [
+  { key: "es", label: "Español" },
+  { key: "en", label: "English" },
+  { key: "pt", label: "Português" },
+];
+
+const onboardingCopy = {
+  es: {
+    locationTitle: "¿Desde dónde te conectas?",
+    locationText: "Pinea tu ubicación para mostrarte VIBEs cercanas y ajustar el idioma.",
+    searchPlaceholder: "Busca ciudad o país",
+    continue: "Continuar",
+    nameTitle: "¿Cómo te llamas?",
+    nameText: "Esto ayuda a que tu perfil se sienta más humano cuando crees o te sumes a una VIBE.",
+    namePlaceholder: "Tu nombre",
+    prefsTitle: "¿Con qué vibras?",
+    prefsText: "Elige algunos intereses para personalizar tus primeras recomendaciones.",
+    discover: "Descubrir VIBEs",
+    create: "Crear mi primera VIBE",
+    back: "Volver",
+  },
+  en: {
+    locationTitle: "Where are you joining from?",
+    locationText: "Pin your location so VIBE can show nearby plans and set your language.",
+    searchPlaceholder: "Search city or country",
+    continue: "Continue",
+    nameTitle: "What should we call you?",
+    nameText: "This helps your profile feel more human when you create or join a VIBE.",
+    namePlaceholder: "Your name",
+    prefsTitle: "What do you vibe with?",
+    prefsText: "Choose a few interests to personalize your first recommendations.",
+    discover: "Discover VIBEs",
+    create: "Create my first VIBE",
+    back: "Back",
+  },
+  pt: {
+    locationTitle: "De onde você está se conectando?",
+    locationText: "Marque sua localização para ver VIBEs próximas e ajustar o idioma.",
+    searchPlaceholder: "Buscar cidade ou país",
+    continue: "Continuar",
+    nameTitle: "Como devemos te chamar?",
+    nameText: "Isso ajuda seu perfil a parecer mais humano ao criar ou entrar numa VIBE.",
+    namePlaceholder: "Seu nome",
+    prefsTitle: "Com o que você vibra?",
+    prefsText: "Escolha alguns interesses para personalizar suas primeiras recomendações.",
+    discover: "Descobrir VIBEs",
+    create: "Criar minha primeira VIBE",
+    back: "Voltar",
+  },
+};
+
+const defaultOnboarding = {
+  completed: false,
+  language: "es",
+  location: onboardingLocations[0],
+  name: "",
+  interests: ["Café", "Outdoor", "Música"],
+};
+
+const loadOnboarding = () => {
+  if (typeof window === "undefined") return defaultOnboarding;
+  try {
+    const raw = window.localStorage.getItem(onboardingKey);
+    return raw ? { ...defaultOnboarding, ...JSON.parse(raw) } : defaultOnboarding;
+  } catch (_error) {
+    return defaultOnboarding;
+  }
+};
+
 const demoPlans = [
   {
     id: 1,
@@ -343,6 +426,7 @@ function App() {
   const [creationMode, setCreationMode] = useState("definido");
   const [callType, setCallType] = useState("abierta");
   const [locationType, setLocationType] = useState("publica");
+  const [eventFormat, setEventFormat] = useState("presencial");
   const [zone, setZone] = useState("Providencia / Ñuñoa");
   const [eventDate, setEventDate] = useState("");
   const [eventTime, setEventTime] = useState("");
@@ -365,6 +449,10 @@ function App() {
   const [showMyEvents, setShowMyEvents] = useState(false);
   const [myEvents, setMyEvents] = useState([]);
   const [loadingMyEvents, setLoadingMyEvents] = useState(false);
+  const [onboarding, setOnboarding] = useState(() => loadOnboarding());
+  const [onboardingStep, setOnboardingStep] = useState(() => loadOnboarding().completed ? "done" : "location");
+  const [locationQuery, setLocationQuery] = useState("");
+  const [globeIndex, setGlobeIndex] = useState(0);
 
 
   useEffect(() => {
@@ -388,6 +476,14 @@ function App() {
 
     return () => authListener.subscription.unsubscribe();
   }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(onboardingKey, JSON.stringify(onboarding));
+    } catch (_error) {
+      // localStorage may be unavailable in private mode.
+    }
+  }, [onboarding]);
 
   useEffect(() => {
     const fetchPanoramas = async () => {
@@ -426,6 +522,7 @@ function App() {
           creationMode,
           callType,
           locationType,
+          eventFormat,
           zone,
           eventDate,
           eventTime,
@@ -749,7 +846,20 @@ function App() {
     setTimeout(() => setNotice(""), 3400);
   };
 
+  const isMeetingUrl = (value) => {
+    if (!value) return false;
+    return /^https?:\/\//i.test(value.trim());
+  };
+
   const createPanorama = async () => {
+    const cleanZone = zone.trim();
+    const finalPlace =
+      eventFormat === "online"
+        ? cleanZone || "Online · link por definir"
+        : cleanZone || "Lugar por confirmar";
+    const finalLocationType =
+      eventFormat === "online" ? "online" : locationType;
+
     if (!session?.user) {
       savePendingCreateDraft();
       setShowAuth(true);
@@ -805,7 +915,7 @@ function App() {
         image_url: photoImageUrl || defaultImageByCategory[categoryKey] || defaultImageByCategory.custom,
         panorama_type: creationMode,
         call_type: callType,
-        location_type: locationType,
+        location_type: finalLocationType,
         zone,
         public_location: locationLabel,
         starts_at: startsAt,
@@ -834,9 +944,18 @@ function App() {
   const activeCategoryInfo = categories.find((c) => c.key === activeCategory) || categories[0];
 
   const filteredPlans = useMemo(() => {
-    if (activeCategory === "all") return plans;
-    return plans.filter((p) => p.category === activeCategory);
-  }, [activeCategory]);
+    const categoryFiltered = activeCategory === "all" ? plans : plans.filter((p) => p.category === activeCategory);
+    const city = onboarding.location?.city?.toLowerCase?.() || "";
+    const prefs = (onboarding.interests || []).join(" ").toLowerCase();
+
+    return [...categoryFiltered].sort((a, b) => {
+      const aText = `${a.place} ${a.title} ${a.subtitle} ${a.category}`.toLowerCase();
+      const bText = `${b.place} ${b.title} ${b.subtitle} ${b.category}`.toLowerCase();
+      const aScore = (city && aText.includes(city) ? 3 : 0) + (prefs && prefs.includes(a.category) ? 1 : 0);
+      const bScore = (city && bText.includes(city) ? 3 : 0) + (prefs && prefs.includes(b.category) ? 1 : 0);
+      return bScore - aScore;
+    });
+  }, [activeCategory, plans, onboarding.location, onboarding.interests]);
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -846,6 +965,53 @@ function App() {
   const openVibeRoom = (plan, roomStatus = "joined") => {
     setActiveRoom({ ...plan, roomStatus });
     setSelectedPlan(null);
+  };
+
+  const updateOnboarding = (patch) => {
+    setOnboarding((prev) => ({ ...prev, ...patch }));
+  };
+
+  const selectedOnboardingLocation = onboarding.location || onboardingLocations[globeIndex] || onboardingLocations[0];
+  const currentOnboardingCopy = onboardingCopy[onboarding.language] || onboardingCopy.es;
+  const locationMatches = onboardingLocations.filter((location) => {
+    const text = `${location.city} ${location.country} ${location.label}`.toLowerCase();
+    return text.includes(locationQuery.toLowerCase());
+  });
+
+  const rotateGlobe = (direction) => {
+    const next = (globeIndex + direction + onboardingLocations.length) % onboardingLocations.length;
+    setGlobeIndex(next);
+    updateOnboarding({ location: onboardingLocations[next], language: onboardingLocations[next].language || onboarding.language });
+  };
+
+  const selectOnboardingLocation = (location) => {
+    const index = onboardingLocations.findIndex((item) => item.label === location.label);
+    setGlobeIndex(index >= 0 ? index : globeIndex);
+    updateOnboarding({ location, language: location.language || onboarding.language });
+  };
+
+  const toggleOnboardingInterest = (interest) => {
+    const current = onboarding.interests || [];
+    updateOnboarding({
+      interests: current.includes(interest)
+        ? current.filter((item) => item !== interest)
+        : [...current, interest],
+    });
+  };
+
+  const finishOnboarding = (openCreate = false) => {
+    const finalOnboarding = { ...onboarding, completed: true };
+    setOnboarding(finalOnboarding);
+    setOnboardingStep("done");
+    setProfileName((prev) => prev || finalOnboarding.name || "");
+    setProfileZone((prev) => prev || finalOnboarding.location?.city || "");
+    setProfileInterests((finalOnboarding.interests || []).join(", "));
+    setActiveCategory("all");
+    if (openCreate) {
+      setTimeout(() => openCreateModal(), 0);
+    } else {
+      setTimeout(() => scrollTo("planes"), 0);
+    }
   };
 
   const joinPlan = async (plan) => {
@@ -901,6 +1067,129 @@ function App() {
 
     setTimeout(() => setNotice(""), 3200);
   };
+
+  if (!onboarding.completed) {
+    return (
+      <div className="onboarding-shell">
+        <div className="onboarding-brand">
+          <span className="brand-mark">V</span>
+          <strong>VIBE</strong>
+        </div>
+
+        {onboardingStep === "location" && (
+          <main className="onboarding-card location-card">
+            <div className="onboarding-copy">
+              <span className="onboarding-kicker">Start VIBE</span>
+              <h1>{currentOnboardingCopy.locationTitle}</h1>
+              <p>{currentOnboardingCopy.locationText}</p>
+
+              <div className="language-row">
+                {languageOptions.map((language) => (
+                  <button
+                    key={language.key}
+                    className={onboarding.language === language.key ? "active" : ""}
+                    onClick={() => updateOnboarding({ language: language.key })}
+                  >
+                    {language.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="location-search">
+                <Globe2 size={18} />
+                <input
+                  value={locationQuery}
+                  onChange={(event) => setLocationQuery(event.target.value)}
+                  placeholder={currentOnboardingCopy.searchPlaceholder}
+                />
+              </div>
+
+              <div className="location-results">
+                {(locationQuery ? locationMatches : onboardingLocations.slice(0, 5)).map((location) => (
+                  <button
+                    key={location.label}
+                    className={selectedOnboardingLocation.label === location.label ? "active" : ""}
+                    onClick={() => selectOnboardingLocation(location)}
+                  >
+                    <MapPin size={15} /> {location.label}
+                  </button>
+                ))}
+              </div>
+
+              <button className="btn btn-primary onboarding-main-btn" onClick={() => setOnboardingStep("name")}>
+                {currentOnboardingCopy.continue} <ArrowRight size={18} />
+              </button>
+            </div>
+
+            <div className="globe-stage">
+              <button className="globe-control left" onClick={() => rotateGlobe(-1)}>‹</button>
+              <div className="vibe-globe" style={{ "--globe-rotation": `${globeIndex * -34}deg` }}>
+                <div className="globe-grid"></div>
+                <div className="globe-pin main-pin"><MapPin size={22} /></div>
+                <div className="globe-pin pin-two"></div>
+                <div className="globe-pin pin-three"></div>
+              </div>
+              <button className="globe-control right" onClick={() => rotateGlobe(1)}>›</button>
+              <div className="globe-location-card">
+                <span>Location</span>
+                <strong>{selectedOnboardingLocation.label}</strong>
+                <small>{onboarding.language.toUpperCase()}</small>
+              </div>
+            </div>
+          </main>
+        )}
+
+        {onboardingStep === "name" && (
+          <main className="onboarding-card compact-onboarding-card">
+            <span className="onboarding-kicker">Profile</span>
+            <h1>{currentOnboardingCopy.nameTitle}</h1>
+            <p>{currentOnboardingCopy.nameText}</p>
+            <input
+              className="onboarding-input"
+              value={onboarding.name}
+              onChange={(event) => updateOnboarding({ name: event.target.value })}
+              placeholder={currentOnboardingCopy.namePlaceholder}
+              autoFocus
+            />
+            <div className="onboarding-actions">
+              <button className="btn btn-gorganizador" onClick={() => setOnboardingStep("location")}>{currentOnboardingCopy.back}</button>
+              <button className="btn btn-primary" onClick={() => setOnboardingStep("preferences")}>{currentOnboardingCopy.continue}</button>
+            </div>
+          </main>
+        )}
+
+        {onboardingStep === "preferences" && (
+          <main className="onboarding-card compact-onboarding-card wide-preferences">
+            <span className="onboarding-kicker">Interests</span>
+            <h1>{currentOnboardingCopy.prefsTitle}</h1>
+            <p>{currentOnboardingCopy.prefsText}</p>
+
+            <div className="onboarding-interest-grid">
+              {profileInterestOptions.slice(0, 18).map((interest) => {
+                const clean = normalizeInterest(interest);
+                const selected = (onboarding.interests || []).includes(clean);
+                return (
+                  <button
+                    key={interest}
+                    className={selected ? "selected" : ""}
+                    onClick={() => toggleOnboardingInterest(clean)}
+                  >
+                    {clean}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="onboarding-actions">
+              <button className="btn btn-gorganizador" onClick={() => setOnboardingStep("name")}>{currentOnboardingCopy.back}</button>
+              <button className="btn btn-gorganizador" onClick={() => finishOnboarding(false)}>{currentOnboardingCopy.discover}</button>
+              <button className="btn btn-primary" onClick={() => finishOnboarding(true)}>{currentOnboardingCopy.create}</button>
+            </div>
+          </main>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="page-shell">
@@ -984,7 +1273,7 @@ function App() {
         <div className="hero-overlay"></div>
         <div className="container hero-grid">
           <div className="hero-copy">
-            <p className="eyebrow">Planes para hacer hoy</p>
+            <p className="eyebrow">{onboarding.location?.city ? `Planes en ${onboarding.location.city}` : "Planes para hacer hoy"}</p>
             <h1>¿Qué haces hoy?</h1>
             <p className="hero-text">
               Encuentra panoramas reales con gente que vibra parecido.
@@ -1056,7 +1345,7 @@ function App() {
         <div className="container">
           <div className="section-head row">
             <div>
-              <span>Cerca de ti</span>
+              <span>{onboarding.location?.label || "Cerca de ti"}</span>
               <h2>Panoramas para partir hoy</h2>
               <p>Elige categoría, revisa el panorama y súmate.</p>
               {loadingPlans && <p className="data-note">Cargando panoramas desde Supabase...</p>}
@@ -1341,8 +1630,12 @@ function App() {
                 </label>
 
                 <label className="fake-label wide">
-                  Lugar
-                  <input value={zone} onChange={(e) => setZone(e.target.value)} placeholder="Ej: Providencia, Ñuñoa, Parque Araucano..." />
+                  {eventFormat === "online" ? "Link o plataforma" : "Lugar"}
+                  <input
+                    value={zone}
+                    onChange={(e) => setZone(e.target.value)}
+                    placeholder={eventFormat === "online" ? "Ej: link de Meet, Zoom o 'link por definir'" : "Ej: Providencia, Ñuñoa, Parque Araucano..."}
+                  />
                 </label>
               </div>
 
@@ -1360,16 +1653,30 @@ function App() {
                 </div>
 
                 <div className="choice-block compact">
-                  <span className="choice-title">Ubicación</span>
+                  <span className="choice-title">Formato</span>
                   <div className="segmented-control">
-                    <button className={locationType === "publica" ? "active" : ""} onClick={() => setLocationType("publica")}>
-                      Pública
+                    <button className={eventFormat === "presencial" ? "active" : ""} onClick={() => setEventFormat("presencial")}>
+                      Presencial
                     </button>
-                    <button className={locationType === "confirmar" ? "active" : ""} onClick={() => setLocationType("confirmar")}>
-                      Al confirmar
+                    <button className={eventFormat === "online" ? "active" : ""} onClick={() => setEventFormat("online")}>
+                      Online
                     </button>
                   </div>
                 </div>
+
+                {eventFormat === "presencial" && (
+                  <div className="choice-block compact">
+                    <span className="choice-title">Ubicación</span>
+                    <div className="segmented-control">
+                      <button className={locationType === "publica" ? "active" : ""} onClick={() => setLocationType("publica")}>
+                        Pública
+                      </button>
+                      <button className={locationType === "confirmar" ? "active" : ""} onClick={() => setLocationType("confirmar")}>
+                        Al confirmar
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
 <div className="preview-vibe compact-preview">
                 <span>Preview</span>
@@ -1377,8 +1684,8 @@ function App() {
                 <p>{customPlan || "Tu panorama"}</p>
                 <div className="preview-meta">
                   <em>{callType === "abierta" ? "Convocatoria abierta" : "Evento cerrado"}</em>
-                  <em>{locationType === "publica" ? "Ubicación pública" : "Dirección al confirmar"}</em>
-                  <em>{zone}</em>
+                  <em>{eventFormat === "online" ? "Online" : locationType === "publica" ? "Ubicación pública" : "Dirección al confirmar"}</em>
+                  <em>{eventFormat === "online" ? (zone || "Link por definir") : zone}</em>
                 </div>
               </div>
 
