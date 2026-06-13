@@ -158,11 +158,10 @@ También se agregan ubicaciones base para:
 El selector de idioma ahora soporta ES / EN / PT / FR / JA / ZH.
 
 
-## v8.1
+## v8.2
 
-Selector de foto más compacto:
-- El bloque “Foto” ahora ocupa el ancho del formulario completo.
-- El preview baja de tamaño para no competir con fecha/hora/lugar.
-- Las fotos sugeridas pasan a una franja horizontal tipo carrusel.
-- “Subir foto” queda como botón pequeño y discreto.
-- En mobile se mantiene compacto y apilado.
+Corrección de regresión:
+- La landing ya no desaparece: el onboarding funciona como capa inicial sobre la landing, no como reemplazo completo de la app.
+- Las opciones de idioma quedan visibles en desktop y también dentro del menú mobile.
+- El selector de foto se mueve después de los campos principales y queda compacto.
+- Se baja el protagonismo visual de la foto para que no compita con Nombre, Panorama, Fecha, Hora y Lugar.

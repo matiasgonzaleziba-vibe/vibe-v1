@@ -1380,9 +1380,8 @@ function App() {
     setTimeout(() => setNotice(""), 3200);
   };
 
-  if (!onboarding.completed) {
-    return (
-      <div className="onboarding-shell">
+  const onboardingGate = !onboarding.completed ? (
+      <div className="onboarding-shell onboarding-gate">
         <div className="onboarding-brand">
           <span className="brand-mark">V</span>
           <strong>VIBE</strong>
@@ -1538,11 +1537,11 @@ function App() {
           </main>
         )}
       </div>
-    );
-  }
+    ) : null;
 
   return (
     <div className="page-shell">
+      {onboardingGate}
       <header className="topbar">
         <div className="container topbar-inner">
           <button className="brand" onClick={() => scrollTo("inicio")}>
@@ -1615,6 +1614,17 @@ function App() {
 
         {menuOpen && (
           <div className="mobile-menu">
+            <div className="mobile-language-switch">
+              {languageOptions.map((language) => (
+                <button
+                  key={language.key}
+                  className={onboarding.language === language.key ? "active" : ""}
+                  onClick={() => updateOnboarding({ language: language.key })}
+                >
+                  {language.key.toUpperCase()}
+                </button>
+              ))}
+            </div>
             <button onClick={() => scrollTo("planes")}>{currentSiteCopy.navExplore}</button>
             <button onClick={openCreateModal}>{currentSiteCopy.create}</button>
             {session?.user && <button onClick={openMyEvents}>{currentSiteCopy.navMyVibes}</button>}
@@ -1909,38 +1919,6 @@ function App() {
                   Panorama
                   <input value={customPlan} onChange={(e) => setCustomPlan(e.target.value)} placeholder="Ej: Café de especialidad + conversación" />
                 </label>
-
-                              <div className="photo-selector-section">
-                <div className="photo-preview">
-                  <img
-                    src={photoImageUrl || defaultImageByCategory[activeCategory === "all" ? "custom" : activeCategory] || defaultImageByCategory.custom}
-                    alt="Preview de foto"
-                  />
-                  <span>Preview</span>
-                </div>
-
-                <div className="photo-options">
-                  <strong>Foto</strong>
-                  <div className="photo-preset-grid">
-                    {photoPresets.map((photo) => (
-                      <button
-                        type="button"
-                        key={photo.label}
-                        className={`photo-preset ${photoImageUrl === photo.url ? "selected" : ""}`}
-                        onClick={() => setPhotoImageUrl(photo.url)}
-                      >
-                        <img src={photo.url} alt={photo.label} />
-                        <span>{photo.label}</span>
-                      </button>
-                    ))}
-
-                    <label className="photo-upload">
-                      <input type="file" accept="image/*" onChange={handlePhotoUpload} />
-                      <span>Subir foto</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
 
 <label className="fake-label">
                   Fecha

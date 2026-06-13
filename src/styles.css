@@ -2031,41 +2031,98 @@ button, input { font: inherit; }
 }
 
 
-/* v8.1: compact photo selector in create flow */
+/* v8.2: landing stays alive behind onboarding */
+.onboarding-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  min-height: 100vh;
+  overflow-y: auto;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(124,58,237,0.34), transparent 36%),
+    radial-gradient(circle at 92% 25%, rgba(255,122,48,0.20), transparent 30%),
+    #07040d;
+}
+
+/* v8.2: keep language options accessible */
+.header-language-switch {
+  display: flex !important;
+  max-width: 280px;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  scrollbar-width: none;
+}
+
+.header-language-switch::-webkit-scrollbar {
+  display: none;
+}
+
+.header-language-switch button {
+  flex: 0 0 auto;
+}
+
+.mobile-language-switch {
+  display: flex;
+  gap: 6px;
+  padding: 8px 12px;
+  overflow-x: auto;
+}
+
+.mobile-language-switch button {
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  border-radius: 999px;
+  min-height: 34px;
+  padding: 0 11px;
+  font-weight: 950;
+}
+
+.mobile-language-switch button.active {
+  background: rgba(255,255,255,0.18);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.16);
+}
+
+/* v8.2: photo selector compact and lower priority */
 .create-form-grid .photo-selector-section {
-  grid-column: 1 / -1;
+  grid-column: 1 / -1 !important;
 }
 
 .photo-selector-section {
   display: grid !important;
-  grid-template-columns: 170px 1fr !important;
-  gap: 14px !important;
-  margin: 8px 0 12px !important;
-  padding: 12px !important;
-  border-radius: 20px !important;
-  align-items: stretch !important;
+  grid-template-columns: 128px minmax(0, 1fr) !important;
+  gap: 12px !important;
+  margin: 8px 0 8px !important;
+  padding: 10px !important;
+  border-radius: 18px !important;
+  align-items: center !important;
+  min-height: auto !important;
 }
 
 .photo-preview {
-  min-height: 118px !important;
-  height: 118px !important;
-  border-radius: 16px !important;
+  width: 128px !important;
+  height: 92px !important;
+  min-height: 92px !important;
+  border-radius: 14px !important;
 }
 
 .photo-preview img {
-  min-height: 118px !important;
-  height: 118px !important;
+  width: 100% !important;
+  height: 92px !important;
+  min-height: 92px !important;
   object-fit: cover !important;
 }
 
 .photo-preview span {
-  font-size: 11px !important;
-  padding: 6px 9px !important;
+  font-size: 10.5px !important;
+  padding: 5px 8px !important;
+  left: 8px !important;
+  bottom: 8px !important;
 }
 
 .photo-options {
-  min-width: 0;
-  gap: 8px !important;
+  min-width: 0 !important;
+  gap: 6px !important;
 }
 
 .photo-options > strong {
@@ -2076,66 +2133,77 @@ button, input { font: inherit; }
 .photo-preset-grid {
   display: flex !important;
   grid-template-columns: none !important;
-  gap: 8px !important;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 2px 2px 8px;
+  gap: 7px !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  padding: 2px 2px 7px !important;
   scrollbar-width: thin;
 }
 
 .photo-preset,
 .photo-upload {
-  flex: 0 0 76px;
-  width: 76px;
-  min-height: 76px !important;
-  height: 76px !important;
-  border-radius: 14px !important;
+  flex: 0 0 68px !important;
+  width: 68px !important;
+  min-height: 68px !important;
+  height: 68px !important;
+  border-radius: 13px !important;
 }
 
 .photo-preset img {
-  min-height: 76px !important;
-  height: 76px !important;
+  min-height: 68px !important;
+  height: 68px !important;
+  object-fit: cover !important;
 }
 
 .photo-preset span,
 .photo-upload span {
-  font-size: 10.5px !important;
-  line-height: 1.08 !important;
-  left: 7px !important;
-  right: 7px !important;
-  bottom: 7px !important;
+  font-size: 9.8px !important;
+  line-height: 1.05 !important;
+  left: 6px !important;
+  right: 6px !important;
+  bottom: 6px !important;
 }
 
 .photo-upload {
-  background: rgba(255,255,255,0.07) !important;
+  background: rgba(255,255,255,0.065) !important;
 }
 
 .photo-upload span {
   position: static !important;
   text-align: center !important;
-}
-
-@media (min-width: 920px) {
-  .simple-create-card .create-form-grid,
-  .create-card .create-form-grid {
-    align-items: start;
-  }
+  text-shadow: none !important;
 }
 
 @media (max-width: 760px) {
+  .header-language-switch {
+    display: none !important;
+  }
+
   .photo-selector-section {
     grid-template-columns: 1fr !important;
   }
 
-  .photo-preview,
+  .photo-preview {
+    width: 100% !important;
+    height: 128px !important;
+    min-height: 128px !important;
+  }
+
   .photo-preview img {
-    min-height: 132px !important;
-    height: 132px !important;
+    height: 128px !important;
+    min-height: 128px !important;
   }
 
   .photo-preset,
   .photo-upload {
-    flex-basis: 82px;
-    width: 82px;
+    flex-basis: 76px !important;
+    width: 76px !important;
+    height: 76px !important;
+    min-height: 76px !important;
+  }
+
+  .photo-preset img {
+    height: 76px !important;
+    min-height: 76px !important;
   }
 }
