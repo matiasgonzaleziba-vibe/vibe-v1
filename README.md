@@ -181,10 +181,24 @@ Versión de reseteo estable:
 - Se agrega SQL `v85_delete_own_panoramas_policy.sql` para permitir cancelar/eliminar panoramas propios.
 
 
-## v8.6
+## v8.8 clean source / pnpm Vercel
 
-Fix específico para Vercel:
-- Se agrega `vercel.json` para forzar `installCommand: npm ci --no-audit --no-fund --progress=false`.
-- Esto evita el default de Vercel (`npm install`), que estaba fallando con `Exit handler never called`.
-- Se mantiene Node 22.x, npm 10.9.2, dependencias exactas y `.npmrc`.
-- Build probado localmente con `npm ci` + `npm run build`.
+Esta versión mantiene el código fuente editable y evita la ruta estática.
+
+Estructura esperada:
+- `src/main.jsx`
+- `src/styles.css`
+- `supabase/`
+- `package.json`
+- `package-lock.json`
+- `vercel.json`
+- `.npmrc`
+
+Vercel:
+- Install Command: `corepack enable && corepack prepare pnpm@9.15.4 --activate && pnpm install --no-frozen-lockfile`
+- Build Command: `pnpm build`
+- Output Directory: `dist`
+
+Motivo:
+- Vercel estaba fallando con el bug interno de npm: `Exit handler never called`.
+- Esta versión mantiene React/Vite como fuente, pero usa pnpm en Vercel para saltarse npm.
