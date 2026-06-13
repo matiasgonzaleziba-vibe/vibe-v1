@@ -202,3 +202,28 @@ Vercel:
 Motivo:
 - Vercel estaba fallando con el bug interno de npm: `Exit handler never called`.
 - Esta versión mantiene React/Vite como fuente, pero usa pnpm en Vercel para saltarse npm.
+
+
+## v8.9 clean source / Yarn Vercel
+
+Esta versión mantiene el código fuente editable y evita npm/pnpm en Vercel.
+
+Motivo:
+- npm fallaba con `Exit handler never called`.
+- pnpm fallaba con `ERR_PNPM_META_FETCH_FAIL` / `ERR_INVALID_THIS`.
+- Yarn classic usa otra ruta de instalación y suele evitar ese bug de fetch.
+
+Vercel:
+- Node: 20.x
+- Install Command: `corepack enable && corepack prepare yarn@1.22.22 --activate && yarn install --ignore-engines --network-timeout 600000`
+- Build Command: `yarn build`
+- Output Directory: `dist`
+
+Estructura correcta:
+- `src/main.jsx`
+- `src/styles.css`
+- `supabase/`
+- `index.html`
+- `package.json`
+- `vercel.json`
+- `.yarnrc`
