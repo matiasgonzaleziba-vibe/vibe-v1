@@ -179,3 +179,12 @@ Versión de reseteo estable:
 - Se compacta y reubica Foto después de Lugar/Link.
 - Se fija Node/npm/dependencias para evitar errores de deploy en Vercel.
 - Se agrega SQL `v85_delete_own_panoramas_policy.sql` para permitir cancelar/eliminar panoramas propios.
+
+
+## v8.6
+
+Fix específico para Vercel:
+- Se agrega `vercel.json` para forzar `installCommand: npm ci --no-audit --no-fund --progress=false`.
+- Esto evita el default de Vercel (`npm install`), que estaba fallando con `Exit handler never called`.
+- Se mantiene Node 22.x, npm 10.9.2, dependencias exactas y `.npmrc`.
+- Build probado localmente con `npm ci` + `npm run build`.
