@@ -252,3 +252,12 @@ Cambio acotado sobre v9.1 estable:
 - Traducción básica de eventos creados que coinciden con títulos demo conocidos.
 - Traducción de etiquetas de cupos, ubicación y organizador.
 - Globo con puntos extra y giro con rueda del mouse, sin reescribir la lógica de onboarding.
+
+
+## v9.3 incremental
+
+Cambios acotados sobre v9.2:
+- Traducción adicional de categorías, chips de intereses, create modal y auth modal.
+- Traducción de etiquetas visibles como “Preview”, “Participación”, “Formato”, “Ubicación”, “Publicar”, “Cerrar”.
+- Globo visualmente más trabajado: más profundidad, meridianos, labels de ciudad y ciudad activa.
+- Sin reescribir la lógica principal para mantener estabilidad.

@@ -750,6 +750,172 @@ const translatePlan = (plan, language = "es") => {
 };
 
 
+const categoryCopy = {
+  es: {
+    all: "Todos", cafe: "VIBE Café", juegos: "VIBE Juegos", musica: "VIBE Música", outdoor: "VIBE Outdoor",
+    deporte: "VIBE Deporte", fiesta: "VIBE Fiesta", literario: "VIBE Literario", negocios: "VIBE Negocios", custom: "Otro VIBE",
+  },
+  en: {
+    all: "All", cafe: "Coffee VIBE", juegos: "Games VIBE", musica: "Music VIBE", outdoor: "Outdoor VIBE",
+    deporte: "Sports VIBE", fiesta: "Party VIBE", literario: "Literary VIBE", negocios: "Business VIBE", custom: "Other VIBE",
+  },
+  pt: {
+    all: "Todos", cafe: "VIBE Café", juegos: "VIBE Jogos", musica: "VIBE Música", outdoor: "VIBE Outdoor",
+    deporte: "VIBE Esporte", fiesta: "VIBE Festa", literario: "VIBE Literário", negocios: "VIBE Negócios", custom: "Outra VIBE",
+  },
+  fr: {
+    all: "Tout", cafe: "VIBE Café", juegos: "VIBE Jeux", musica: "VIBE Musique", outdoor: "VIBE Outdoor",
+    deporte: "VIBE Sport", fiesta: "VIBE Fête", literario: "VIBE Littéraire", negocios: "VIBE Business", custom: "Autre VIBE",
+  },
+  ja: {
+    all: "すべて", cafe: "カフェVIBE", juegos: "ゲームVIBE", musica: "音楽VIBE", outdoor: "アウトドアVIBE",
+    deporte: "スポーツVIBE", fiesta: "パーティーVIBE", literario: "読書VIBE", negocios: "ビジネスVIBE", custom: "その他VIBE",
+  },
+  zh: {
+    all: "全部", cafe: "咖啡 VIBE", juegos: "游戏 VIBE", musica: "音乐 VIBE", outdoor: "户外 VIBE",
+    deporte: "运动 VIBE", fiesta: "派对 VIBE", literario: "文学 VIBE", negocios: "商业 VIBE", custom: "其他 VIBE",
+  },
+};
+
+const interestCopy = {
+  en: {
+    "Panoramas cerca": "Nearby plans", "Planes para hoy": "Plans for today", "Nuevas VIBEs": "New VIBEs",
+    "Café de especialidad": "Specialty coffee", "Tasting": "Tasting", "Brunch": "Brunch", "Conversación": "Conversation",
+    "Juegos de mesa": "Board games", "Consola": "Console", "Cartas": "Cards", "Trivia": "Trivia",
+    "Tocatas": "Live shows", "Festivales": "Festivals", "Música en vivo": "Live music", "Jam session": "Jam session",
+    "Caminatas": "Walks", "Fotos urbanas": "Urban photos", "Cerros": "Hills", "Parques": "Parks",
+    "Fútbol": "Football", "Básquetbol": "Basketball", "Pádel": "Padel", "Running": "Running",
+    "La previa": "Pre-game", "Baile": "Dance", "Carrete": "Night out", "Eventos": "Events",
+    "Libros": "Books", "Escritura": "Writing", "Club de lectura": "Reading club", "Poesía": "Poetry",
+    "Ideas": "Ideas", "Networking": "Networking", "Founder coffee": "Founder coffee", "Carrera": "Career",
+  },
+  pt: {
+    "Panoramas cerca": "Planos por perto", "Planes para hoy": "Planos para hoje", "Nuevas VIBEs": "Novas VIBEs",
+    "Café de especialidad": "Café especial", "Tasting": "Degustação", "Brunch": "Brunch", "Conversación": "Conversa",
+    "Juegos de mesa": "Jogos de mesa", "Consola": "Console", "Cartas": "Cartas", "Trivia": "Quiz",
+    "Tocatas": "Shows", "Festivales": "Festivais", "Música en vivo": "Música ao vivo", "Jam session": "Jam session",
+    "Caminatas": "Caminhadas", "Fotos urbanas": "Fotos urbanas", "Cerros": "Trilhas", "Parques": "Parques",
+    "Fútbol": "Futebol", "Básquetbol": "Basquete", "Pádel": "Padel", "Running": "Corrida",
+    "La previa": "Pré", "Baile": "Dança", "Carrete": "Noite", "Eventos": "Eventos",
+    "Libros": "Livros", "Escritura": "Escrita", "Club de lectura": "Clube de leitura", "Poesía": "Poesia",
+    "Ideas": "Ideias", "Networking": "Networking", "Founder coffee": "Founder coffee", "Carrera": "Carreira",
+  },
+  fr: {
+    "Panoramas cerca": "Plans proches", "Planes para hoy": "Plans pour aujourd’hui", "Nuevas VIBEs": "Nouvelles VIBEs",
+    "Café de especialidad": "Café de spécialité", "Tasting": "Dégustation", "Brunch": "Brunch", "Conversación": "Conversation",
+    "Juegos de mesa": "Jeux de société", "Consola": "Console", "Cartas": "Cartes", "Trivia": "Quiz",
+    "Tocatas": "Concerts", "Festivales": "Festivals", "Música en vivo": "Musique live", "Jam session": "Jam session",
+    "Caminatas": "Balades", "Fotos urbanas": "Photos urbaines", "Cerros": "Collines", "Parques": "Parcs",
+    "Fútbol": "Football", "Básquetbol": "Basket", "Pádel": "Padel", "Running": "Running",
+    "La previa": "Avant-soirée", "Baile": "Danse", "Carrete": "Sortie", "Eventos": "Événements",
+    "Libros": "Livres", "Escritura": "Écriture", "Club de lectura": "Club de lecture", "Poesía": "Poésie",
+    "Ideas": "Idées", "Networking": "Networking", "Founder coffee": "Founder coffee", "Carrera": "Carrière",
+  },
+  ja: {
+    "Panoramas cerca": "近くのプラン", "Planes para hoy": "今日のプラン", "Nuevas VIBEs": "新しいVIBE",
+    "Café de especialidad": "スペシャルティコーヒー", "Tasting": "テイスティング", "Brunch": "ブランチ", "Conversación": "会話",
+    "Juegos de mesa": "ボードゲーム", "Consola": "ゲーム機", "Cartas": "カード", "Trivia": "クイズ",
+    "Tocatas": "ライブ", "Festivales": "フェス", "Música en vivo": "ライブ音楽", "Jam session": "ジャムセッション",
+    "Caminatas": "散歩", "Fotos urbanas": "街の写真", "Cerros": "山", "Parques": "公園",
+    "Fútbol": "サッカー", "Básquetbol": "バスケ", "Pádel": "パデル", "Running": "ランニング",
+    "La previa": "プレ会", "Baile": "ダンス", "Carrete": "夜遊び", "Eventos": "イベント",
+    "Libros": "本", "Escritura": "文章", "Club de lectura": "読書会", "Poesía": "詩",
+    "Ideas": "アイデア", "Networking": "ネットワーキング", "Founder coffee": "起業家コーヒー", "Carrera": "キャリア",
+  },
+  zh: {
+    "Panoramas cerca": "附近计划", "Planes para hoy": "今天的计划", "Nuevas VIBEs": "新的 VIBE",
+    "Café de especialidad": "精品咖啡", "Tasting": "品鉴", "Brunch": "早午餐", "Conversación": "聊天",
+    "Juegos de mesa": "桌游", "Consola": "主机游戏", "Cartas": "卡牌", "Trivia": "问答",
+    "Tocatas": "现场演出", "Festivales": "音乐节", "Música en vivo": "现场音乐", "Jam session": "即兴演奏",
+    "Caminatas": "散步", "Fotos urbanas": "城市摄影", "Cerros": "山丘", "Parques": "公园",
+    "Fútbol": "足球", "Básquetbol": "篮球", "Pádel": "板式网球", "Running": "跑步",
+    "La previa": "出门前小聚", "Baile": "舞蹈", "Carrete": "夜生活", "Eventos": "活动",
+    "Libros": "书", "Escritura": "写作", "Club de lectura": "读书会", "Poesía": "诗歌",
+    "Ideas": "想法", "Networking": "社交拓展", "Founder coffee": "创业咖啡", "Carrera": "职业",
+  },
+};
+
+const createCopy = {
+  es: {
+    topCreate: "Crear una VIBE", youOrganize: "Tú organizas", title: "Crear VIBE", text: "{currentCreateCopy.text}",
+    chooseCategory: "Elige categoría", name: "Nombre", plan: "Panorama", date: "Fecha", time: "Hora", place: "Lugar",
+    linkPlatform: "Link o plataforma", participation: "Participación", openCall: "{currentCreateCopy.openCall}", closedEvent: "{currentCreateCopy.closedEvent}",
+    format: "Formato", inPerson: "{currentCreateCopy.inPerson}", online: "Online", location: "Ubicación", public: "{currentCreateCopy.public}", confirm: "{currentCreateCopy.confirm}",
+    preview: "Preview", yourPlan: "Tu panorama", linkPending: "Link por definir", close: "Cerrar", publish: "Publicar",
+    namePlaceholder: "Café, Trekking, Cultura Pop...", planPlaceholder: "Ej: Café de especialidad + conversación",
+    linkPlaceholder: "Ej: link de Meet, Zoom o 'link por definir'", placePlaceholder: "Ej: Providencia, Ñuñoa, Parque Araucano...",
+  },
+  en: {
+    topCreate: "Create a VIBE", youOrganize: "You organize", title: "Create VIBE", text: "Choose an option and complete the basics.",
+    chooseCategory: "Choose category", name: "Name", plan: "Plan", date: "Date", time: "Time", place: "Place",
+    linkPlatform: "Link or platform", participation: "Participation", openCall: "Open call", closedEvent: "Closed event",
+    format: "Format", inPerson: "In person", online: "Online", location: "Location", public: "Public", confirm: "After confirmation",
+    preview: "Preview", yourPlan: "Your plan", linkPending: "Link pending", close: "Close", publish: "Publish",
+    namePlaceholder: "Coffee, Trekking, Pop Culture...", planPlaceholder: "Ex: Specialty coffee + conversation",
+    linkPlaceholder: "Ex: Meet link, Zoom or 'link pending'", placePlaceholder: "Ex: Providencia, Ñuñoa, Parque Araucano...",
+  },
+  pt: {
+    topCreate: "Criar uma VIBE", youOrganize: "Você organiza", title: "Criar VIBE", text: "Escolha uma opção e complete o básico.",
+    chooseCategory: "Escolha categoria", name: "Nome", plan: "Plano", date: "Data", time: "Hora", place: "Lugar",
+    linkPlatform: "Link ou plataforma", participation: "Participação", openCall: "Convite aberto", closedEvent: "Evento fechado",
+    format: "Formato", inPerson: "Presencial", online: "Online", location: "Localização", public: "Pública", confirm: "Ao confirmar",
+    preview: "Prévia", yourPlan: "Seu plano", linkPending: "Link a definir", close: "Fechar", publish: "Publicar",
+    namePlaceholder: "Café, trilha, cultura pop...", planPlaceholder: "Ex: café especial + conversa",
+    linkPlaceholder: "Ex: link do Meet, Zoom ou 'link a definir'", placePlaceholder: "Ex: Providencia, Ñuñoa, Parque Araucano...",
+  },
+  fr: {
+    topCreate: "Créer une VIBE", youOrganize: "Tu organises", title: "Créer VIBE", text: "Choisis une option et complète l’essentiel.",
+    chooseCategory: "Choisis une catégorie", name: "Nom", plan: "Plan", date: "Date", time: "Heure", place: "Lieu",
+    linkPlatform: "Lien ou plateforme", participation: "Participation", openCall: "Appel ouvert", closedEvent: "Événement fermé",
+    format: "Format", inPerson: "Présentiel", online: "En ligne", location: "Lieu", public: "Public", confirm: "Après confirmation",
+    preview: "Aperçu", yourPlan: "Ton plan", linkPending: "Lien à définir", close: "Fermer", publish: "Publier",
+    namePlaceholder: "Café, rando, culture pop...", planPlaceholder: "Ex : café de spécialité + conversation",
+    linkPlaceholder: "Ex : lien Meet, Zoom ou 'lien à définir'", placePlaceholder: "Ex : Providencia, Ñuñoa, Parque Araucano...",
+  },
+  ja: {
+    topCreate: "VIBEを作る", youOrganize: "あなたが主催", title: "VIBEを作る", text: "オプションを選んで基本情報を入力します。",
+    chooseCategory: "カテゴリを選ぶ", name: "名前", plan: "プラン", date: "日付", time: "時間", place: "場所",
+    linkPlatform: "リンクまたは平台", participation: "参加形式", openCall: "オープン募集", closedEvent: "クローズドイベント",
+    format: "形式", inPerson: "対面", online: "オンライン", location: "場所", public: "公開", confirm: "承認後",
+    preview: "プレビュー", yourPlan: "あなたのプラン", linkPending: "リンク未定", close: "閉じる", publish: "公開",
+    namePlaceholder: "カフェ、トレッキング、ポップカルチャー...", planPlaceholder: "例：スペシャルティコーヒー＋会話",
+    linkPlaceholder: "例：Meetリンク、Zoom、またはリンク未定", placePlaceholder: "例：渋谷、新宿、公園...",
+  },
+  zh: {
+    topCreate: "创建 VIBE", youOrganize: "你来组织", title: "创建 VIBE", text: "选择一个选项并填写基本信息。",
+    chooseCategory: "选择类别", name: "名称", plan: "计划", date: "日期", time: "时间", place: "地点",
+    linkPlatform: "链接或平台", participation: "参与方式", openCall: "开放报名", closedEvent: "封闭活动",
+    format: "形式", inPerson: "线下", online: "线上", location: "地点", public: "公开", confirm: "确认后显示",
+    preview: "预览", yourPlan: "你的计划", linkPending: "链接待定", close: "关闭", publish: "发布",
+    namePlaceholder: "咖啡、徒步、流行文化...", planPlaceholder: "例：精品咖啡 + 聊天",
+    linkPlaceholder: "例：Meet 链接、Zoom 或链接待定", placePlaceholder: "例：商圈、公园、咖啡馆...",
+  },
+};
+
+const authCopy = {
+  es: { access: "Acceso VIBE", title: "Inicia sesión en VIBE", text: "{currentAuthCopy.text}", login: "Iniciar sesión", signup: "Crear cuenta", email: "Correo", password: "Contraseña", newPassword: "Crea una contraseña", yourPassword: "Tu contraseña", show: "Ver", hide: "Ocultar", forgot: "Olvidé mi contraseña" },
+  en: { access: "VIBE access", title: "Log in to VIBE", text: "Use your email and password. If you forgot it, you can recover it here.", login: "Log in", signup: "Create account", email: "Email", password: "Password", newPassword: "Create a password", yourPassword: "Your password", show: "Show", hide: "Hide", forgot: "Forgot my password" },
+  pt: { access: "Acesso VIBE", title: "Entrar na VIBE", text: "Use seu e-mail e senha. Se esqueceu, pode recuperar aqui.", login: "Entrar", signup: "Criar conta", email: "E-mail", password: "Senha", newPassword: "Crie uma senha", yourPassword: "Sua senha", show: "Ver", hide: "Ocultar", forgot: "Esqueci minha senha" },
+  fr: { access: "Accès VIBE", title: "Connexion à VIBE", text: "Utilise ton e-mail et ton mot de passe. Si tu l’as oublié, tu peux le récupérer ici.", login: "Se connecter", signup: "Créer un compte", email: "E-mail", password: "Mot de passe", newPassword: "Créer un mot de passe", yourPassword: "Ton mot de passe", show: "Voir", hide: "Masquer", forgot: "Mot de passe oublié" },
+  ja: { access: "VIBEアクセス", title: "VIBEにログイン", text: "メールとパスワードでログインします。忘れた場合はここから再設定できます。", login: "ログイン", signup: "アカウント作成", email: "メール", password: "パスワード", newPassword: "パスワードを作成", yourPassword: "パスワード", show: "表示", hide: "非表示", forgot: "パスワードを忘れた" },
+  zh: { access: "VIBE 访问", title: "登录 VIBE", text: "使用邮箱和密码登录。如果忘记密码，可以在这里找回。", login: "登录", signup: "创建账户", email: "邮箱", password: "密码", newPassword: "创建密码", yourPassword: "你的密码", show: "显示", hide: "隐藏", forgot: "忘记密码" },
+};
+
+const miscCopy = {
+  es: { featured: "Panorama destacado", featuredTitle: "Cuando nadie se organiza, crea un plan.", featuredText: "Con VIBE transformas un deseo o una intención en una acción concreta.", loading: "Cargando panoramas desde Supabase...", planFallback: "Plan", verified: "Organizador verificado" },
+  en: { featured: "Featured plan", featuredTitle: "When no one organizes it, create the plan.", featuredText: "With VIBE you turn a wish or intention into a concrete action.", loading: "Loading plans from Supabase...", planFallback: "Plan", verified: "Verified organizer" },
+  pt: { featured: "Plano em destaque", featuredTitle: "Quando ninguém organiza, crie o plano.", featuredText: "Com VIBE você transforma vontade em ação concreta.", loading: "Carregando planos do Supabase...", planFallback: "Plano", verified: "Organizador verificado" },
+  fr: { featured: "Plan en vedette", featuredTitle: "Quand personne n’organise, crée le plan.", featuredText: "Avec VIBE, tu transformes une envie en action concrète.", loading: "Chargement des plans depuis Supabase...", planFallback: "Plan", verified: "Organisateur vérifié" },
+  ja: { featured: "注目プラン", featuredTitle: "誰も企画しないなら、自分で作ろう。", featuredText: "VIBEは思いつきを具体的な行動に変えます。", loading: "Supabaseからプランを読み込み中...", planFallback: "プラン", verified: "確認済みの主催者" },
+  zh: { featured: "精选计划", featuredTitle: "没人组织时，就创建一个计划。", featuredText: "用 VIBE 把想法变成具体行动。", loading: "正在从 Supabase 加载计划...", planFallback: "计划", verified: "已验证组织者" },
+};
+
+const getLangCopy = (dictionary, language, fallback = "es") => dictionary[language] || dictionary[fallback] || {};
+const getCategoryLabel = (key, fallback, language) => getLangCopy(categoryCopy, language)[key] || fallback || key;
+const getInterestLabel = (interest, language) => getLangCopy(interestCopy, language)[interest] || interest;
+const getQuickVibeLabel = (vibe, language) => getCategoryLabel(vibe.key, vibe.label, language);
+
+
 const demoPlans = [
   {
     id: 1,
@@ -1471,6 +1637,9 @@ function App() {
   const selectedOnboardingLocation = onboarding.location || onboardingLocations[globeIndex] || onboardingLocations[0];
   const currentOnboardingCopy = onboardingCopy[onboarding.language] || onboardingCopy.es;
   const currentSiteCopy = siteCopy[onboarding.language] || siteCopy.es;
+  const currentCreateCopy = getLangCopy(createCopy, onboarding.language);
+  const currentAuthCopy = getLangCopy(authCopy, onboarding.language);
+  const currentMiscCopy = getLangCopy(miscCopy, onboarding.language);
   const locationMatches = onboardingLocations.filter((location) => {
     const text = `${location.city} ${location.country} ${location.label}`.toLowerCase();
     return text.includes(locationQuery.toLowerCase());
@@ -1656,6 +1825,12 @@ function App() {
                 <div className="globe-dot dot-four"></div>
                 <div className="globe-dot dot-five"></div>
                 <div className="globe-dot dot-six"></div>
+                <div className="globe-meridian meridian-one"></div>
+                <div className="globe-meridian meridian-two"></div>
+                <div className="globe-city-name active-city-name">{selectedOnboardingLocation.city}</div>
+                <div className="globe-city-name city-name-one">Tokyo</div>
+                <div className="globe-city-name city-name-two">Amsterdam</div>
+                <div className="globe-city-name city-name-three">California</div>
               </div>
               <button className="globe-control right" onClick={() => rotateGlobe(1)}>›</button>
               <div className="globe-location-card">
@@ -1892,9 +2067,9 @@ function App() {
               alt="Grupo de personas compartiendo un panorama"
             />
             <div className="hero-card-content">
-              <span className="hero-badge">Panorama destacado</span>
-              <h3>Cuando nadie se organiza, crea un plan.</h3>
-              <p>Con VIBE transformas un deseo o una intención en una acción concreta.</p>
+              <span className="hero-badge">{currentMiscCopy.featured}</span>
+              <h3>{currentMiscCopy.featuredTitle}</h3>
+              <p>{currentMiscCopy.featuredText}</p>
             </div>
           </div>
         </div>
@@ -1903,8 +2078,8 @@ function App() {
       <section className="category-strip" id="categorias">
         <div className="container">
           <div className="mini-head">
-            <span>Elige categoría</span>
-            <p>Las categorías son amplias. Al entrar, puedes explorar intereses más específicos o crear una VIBE propia.</p>
+            <span>{currentSiteCopy.categoryKicker}</span>
+            <p>{currentSiteCopy.categoryText}</p>
           </div>
           <div className="category-row">
             {categories.map(({ key, label, icon: Icon }) => (
@@ -1917,14 +2092,14 @@ function App() {
                 }}
               >
                 <Icon size={16} />
-                <span>{label}</span>
+                <span>{getCategoryLabel(key, label, onboarding.language)}</span>
               </button>
             ))}
           </div>
 
           <div className="interest-pills">
             {activeCategoryInfo.interests.map((interest) => (
-              <span key={interest}>{interest}</span>
+              <span key={interest}>{getInterestLabel(interest, onboarding.language)}</span>
             ))}
           </div>
         </div>
@@ -1935,9 +2110,9 @@ function App() {
           <div className="section-head row">
             <div>
               <span>{onboarding.location?.label || "Cerca de ti"}</span>
-              <h2>Panoramas para partir hoy</h2>
-              <p>Elige categoría, revisa el panorama y súmate.</p>
-              {loadingPlans && <p className="data-note">Cargando panoramas desde Supabase...</p>}
+              <h2>{currentSiteCopy.plansTitle}</h2>
+              <p>{currentSiteCopy.plansText}</p>
+              {loadingPlans && <p className="data-note">{currentMiscCopy.loading}</p>}
               {supabaseError && <p className="data-note warning">{supabaseError}</p>}
             </div>
             <button className="btn btn-gorganizador small" onClick={() => setActiveCategory("all")}>{currentSiteCopy.viewAll}</button>
@@ -1948,9 +2123,9 @@ function App() {
               <article className="plan-card" key={plan.id}>
                 <div className="plan-image">
                   <img src={plan.image} alt={plan.title} />
-                  <span className="plan-tag">{categories.find(c => c.key === plan.category)?.label || "Plan"}</span>
+                  <span className="plan-tag">{getCategoryLabel(plan.category, categories.find(c => c.key === plan.category)?.label || currentMiscCopy.planFallback, onboarding.language)}</span>
                   {plan.organizador === "Organizador verificado" && (
-                    <span className="verified-badge"><CheckCircle2 size={14} /> Organizador verificado</span>
+                    <span className="verified-badge"><CheckCircle2 size={14} /> {currentMiscCopy.verified}</span>
                   )}
                 </div>
                 <div className="plan-body">
@@ -2027,7 +2202,7 @@ function App() {
               <div className={`plan-actions ${canManagePlan(selectedPlan) ? "two" : "one"}`}>
                 {canManagePlan(selectedPlan) ? (
                   <>
-                    <button className="btn btn-gorganizador full" onClick={() => setSelectedPlan(null)}>Cerrar</button>
+                    <button className="btn btn-gorganizador full" onClick={() => setSelectedPlan(null)}>{currentCreateCopy.close}</button>
                     <button
                       className="btn btn-danger full"
                       onClick={() => {
@@ -2105,17 +2280,17 @@ function App() {
             </button>
             <div className="modal-content">
               <div className="modal-topline">
-                <span><Plus size={15} /> Crear una VIBE</span>
-                <span><UserCheck size={15} /> Tú organizas</span>
+                <span><Plus size={15} /> {currentCreateCopy.topCreate}</span>
+                <span><UserCheck size={15} /> {currentCreateCopy.youOrganize}</span>
               </div>
 
-              <h3>Crear VIBE</h3>
+              <h3>{currentCreateCopy.title}</h3>
               <p className="modal-vibe">
                 Toca una opción y completa lo básico.
               </p>
 
               <div className="quick-vibe-section">
-                <span className="choice-title">Elige categoría</span>
+                <span className="choice-title">{currentCreateCopy.chooseCategory}</span>
                 <div className="quick-vibe-grid">
                   {quickVibes.map((vibe) => {
                     const Icon = vibe.icon;
@@ -2127,7 +2302,7 @@ function App() {
                         onClick={() => selectQuickVibe(vibe)}
                       >
                         <Icon size={18} />
-                        <strong>{vibe.label}</strong>
+                        <strong>{getQuickVibeLabel(vibe, onboarding.language)}</strong>
                         <small>{vibe.hint}</small>
                       </button>
                     );
@@ -2137,34 +2312,34 @@ function App() {
 
               <div className="create-form-grid">
                 <label className="fake-label">
-                  Nombre
+                  {currentCreateCopy.name}
                   <div className="vibe-name-input">
                     <span>VIBE</span>
                     <input
                       value={customVibe.replace(/^VIBE\s*/i, "")}
                       onChange={(e) => setCustomVibe(`VIBE ${e.target.value}`)}
-                      placeholder="Café, Trekking, Cultura Pop..."
+                      placeholder={currentCreateCopy.namePlaceholder}
                     />
                   </div>
                 </label>
 
                 <label className="fake-label">
-                  Panorama
-                  <input value={customPlan} onChange={(e) => setCustomPlan(e.target.value)} placeholder="Ej: Café de especialidad + conversación" />
+                  {currentCreateCopy.plan}
+                  <input value={customPlan} onChange={(e) => setCustomPlan(e.target.value)} placeholder={currentCreateCopy.planPlaceholder} />
                 </label>
 
 <label className="fake-label">
-                  Fecha
+                  {currentCreateCopy.date}
                   <input type="date" value={eventDate} onChange={(e) => setEventDate(e.target.value)} />
                 </label>
 
                 <label className="fake-label">
-                  Hora
+                  {currentCreateCopy.time}
                   <input type="time" value={eventTime} onChange={(e) => setEventTime(e.target.value)} />
                 </label>
 
                 <label className="fake-label wide">
-                  {eventFormat === "online" ? "Link o plataforma" : "Lugar"}
+                  {eventFormat === "online" ? currentCreateCopy.linkPlatform : currentCreateCopy.place}
                   <input
                     value={zone}
                     onChange={(e) => setZone(e.target.value)}
@@ -2175,7 +2350,7 @@ function App() {
 
               <div className="compact-options">
                 <div className="choice-block compact">
-                  <span className="choice-title">Participación</span>
+                  <span className="choice-title">{currentCreateCopy.participation}</span>
                   <div className="segmented-control">
                     <button className={callType === "abierta" ? "active" : ""} onClick={() => setCallType("abierta")}>
                       Convocatoria abierta
@@ -2187,7 +2362,7 @@ function App() {
                 </div>
 
                 <div className="choice-block compact">
-                  <span className="choice-title">Formato</span>
+                  <span className="choice-title">{currentCreateCopy.format}</span>
                   <div className="segmented-control">
                     <button className={eventFormat === "presencial" ? "active" : ""} onClick={() => setEventFormat("presencial")}>
                       Presencial
@@ -2200,7 +2375,7 @@ function App() {
 
                 {eventFormat === "presencial" && (
                   <div className="choice-block compact">
-                    <span className="choice-title">Ubicación</span>
+                    <span className="choice-title">{currentCreateCopy.location}</span>
                     <div className="segmented-control">
                       <button className={locationType === "publica" ? "active" : ""} onClick={() => setLocationType("publica")}>
                         Pública
@@ -2213,19 +2388,19 @@ function App() {
                 )}
               </div>
 <div className="preview-vibe compact-preview">
-                <span>Preview</span>
+                <span>{currentCreateCopy.preview}</span>
                 <strong>{customVibe || "VIBE"}</strong>
-                <p>{customPlan || "Tu panorama"}</p>
+                <p>{customPlan || currentCreateCopy.yourPlan}</p>
                 <div className="preview-meta">
-                  <em>{callType === "abierta" ? "Convocatoria abierta" : "Evento cerrado"}</em>
-                  <em>{eventFormat === "online" ? "Online" : locationType === "publica" ? "Ubicación pública" : "Dirección al confirmar"}</em>
-                  <em>{eventFormat === "online" ? (zone || "Link por definir") : zone}</em>
+                  <em>{callType === "abierta" ? currentCreateCopy.openCall : currentCreateCopy.closedEvent}</em>
+                  <em>{eventFormat === "online" ? currentCreateCopy.online : locationType === "publica" ? currentCreateCopy.public : currentCreateCopy.confirm}</em>
+                  <em>{eventFormat === "online" ? (zone || currentCreateCopy.linkPending) : zone}</em>
                 </div>
               </div>
 
               <div className="plan-actions">
                 <button type="button" className="btn btn-gorganizador full" onClick={() => setShowCreate(false)}>Cerrar</button>
-                <button type="button" className="btn btn-primary full" onClick={createPanorama}>Publicar</button>
+                <button type="button" className="btn btn-primary full" onClick={createPanorama}>{currentCreateCopy.publish}</button>
               </div>
             </div>
           </div>
@@ -2241,10 +2416,10 @@ function App() {
             </button>
             <div className="modal-content">
               <div className="modal-topline">
-                <span><Mail size={15} /> Acceso VIBE</span>
+                <span><Mail size={15} /> {currentAuthCopy.access}</span>
               </div>
 
-              <h3>Inicia sesión en VIBE</h3>
+              <h3>{currentAuthCopy.title}</h3>
               <p className="modal-vibe">
                 Usa tu correo y contraseña. Si la olvidaste, puedes recuperarla desde aquí.
               </p>
@@ -2265,7 +2440,7 @@ function App() {
               </div>
 
               <label className="fake-label">
-                Correo
+                {currentAuthCopy.email}
                 <input
                   type="email"
                   value={authEmail}
@@ -2275,21 +2450,21 @@ function App() {
               </label>
 
               <label className="fake-label">
-                Contraseña
+                {currentAuthCopy.password}
                 <div className="password-input-wrap">
                   <input
                     type={showAuthPassword ? "text" : "password"}
                     value={authPassword}
                     onChange={(e) => setAuthPassword(e.target.value)}
-                    placeholder={authMode === "signup" ? "Crea una contraseña" : "Tu contraseña"}
+                    placeholder={authMode === "signup" ? currentAuthCopy.newPassword : currentAuthCopy.yourPassword}
                   />
                   <button
                     type="button"
                     onClick={() => setShowAuthPassword((current) => !current)}
-                    aria-label={showAuthPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                    aria-label={showAuthPassword ? currentAuthCopy.hide : currentAuthCopy.show}
                   >
                     {showAuthPassword ? <EyeOff size={17} /> : <Eye size={17} />}
-                    {showAuthPassword ? "Ocultar" : "Ver"}
+                    {showAuthPassword ? currentAuthCopy.hide : currentAuthCopy.show}
                   </button>
                 </div>
               </label>
@@ -2297,17 +2472,17 @@ function App() {
               <div className="plan-actions one">
                 {authMode === "signup" ? (
                   <button className="btn btn-primary full" onClick={signUpWithPassword}>
-                    Crear cuenta
+                    {currentAuthCopy.signup}
                   </button>
                 ) : (
                   <button className="btn btn-primary full" onClick={signInWithPassword}>
-                    Iniciar sesión
+                    {currentAuthCopy.login}
                   </button>
                 )}
               </div>
 
               <div className="auth-secondary-actions">
-                <button onClick={resetPassword}>Olvidé mi contraseña</button>
+                <button onClick={resetPassword}>{currentAuthCopy.forgot}</button>
               </div>
             </div>
           </div>

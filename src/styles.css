@@ -2600,3 +2600,109 @@ button, input { font: inherit; }
 .plan-detail p {
   line-height: 1.32;
 }
+
+
+/* v9.3: more complete language treatment and richer globe */
+.category-chip span,
+.plan-tag,
+.quick-vibe-card strong,
+.segmented-control button,
+.auth-tabs button {
+  white-space: normal;
+}
+
+.quick-vibe-card {
+  min-height: 86px;
+}
+
+.vibe-globe {
+  background:
+    radial-gradient(circle at 29% 21%, rgba(255,255,255,0.96), transparent 5%),
+    radial-gradient(circle at 35% 36%, rgba(255,122,48,0.70), transparent 10%),
+    radial-gradient(circle at 67% 63%, rgba(124,58,237,0.95), transparent 20%),
+    radial-gradient(circle at 55% 48%, #331661, #090516 68%) !important;
+  box-shadow:
+    inset 26px 20px 42px rgba(255,255,255,0.055),
+    inset -78px -82px 118px rgba(0,0,0,0.68),
+    0 42px 130px rgba(124,58,237,0.34) !important;
+}
+
+.vibe-globe::before {
+  content: "";
+  position: absolute;
+  inset: 7%;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 34% 38%, rgba(255,255,255,0.11), transparent 16%),
+    radial-gradient(ellipse at 63% 34%, rgba(255,122,48,0.11), transparent 18%),
+    radial-gradient(ellipse at 46% 69%, rgba(255,255,255,0.08), transparent 15%),
+    radial-gradient(ellipse at 73% 66%, rgba(124,58,237,0.18), transparent 18%);
+  filter: blur(1.5px);
+  transform: rotate(-18deg);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.globe-meridian {
+  position: absolute;
+  inset: 13%;
+  border: 1px solid rgba(255,255,255,0.075);
+  border-radius: 50%;
+  transform: rotate(29deg) scaleX(.45);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.meridian-two {
+  transform: rotate(-32deg) scaleX(.55);
+  opacity: .75;
+}
+
+.globe-city-name {
+  position: absolute;
+  z-index: 8;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(7,4,13,0.74);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .02em;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.24);
+  pointer-events: none;
+}
+
+.active-city-name {
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, rgba(255,122,48,0.74), rgba(124,58,237,0.78));
+}
+
+.city-name-one { left: 64%; top: 28%; opacity: .75; }
+.city-name-two { left: 22%; top: 44%; opacity: .68; }
+.city-name-three { left: 55%; top: 73%; opacity: .68; }
+
+.globe-control {
+  z-index: 12;
+}
+
+.create-form-grid .fake-label,
+.compact-options .choice-block {
+  min-width: 0;
+}
+
+.password-input-wrap button {
+  min-width: 82px;
+}
+
+@media (max-width: 760px) {
+  .globe-city-name:not(.active-city-name) {
+    display: none;
+  }
+
+  .quick-vibe-card {
+    min-height: 76px;
+  }
+}
