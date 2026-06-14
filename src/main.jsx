@@ -893,12 +893,12 @@ const createCopy = {
 };
 
 const authCopy = {
-  es: { access: "Acceso VIBE", title: "Inicia sesión en VIBE", text: "{currentAuthCopy.text}", login: "Iniciar sesión", signup: "Crear cuenta", email: "Correo", password: "Contraseña", newPassword: "Crea una contraseña", yourPassword: "Tu contraseña", show: "Ver", hide: "Ocultar", forgot: "Olvidé mi contraseña" },
-  en: { access: "VIBE access", title: "Log in to VIBE", text: "Use your email and password. If you forgot it, you can recover it here.", login: "Log in", signup: "Create account", email: "Email", password: "Password", newPassword: "Create a password", yourPassword: "Your password", show: "Show", hide: "Hide", forgot: "Forgot my password" },
-  pt: { access: "Acesso VIBE", title: "Entrar na VIBE", text: "Use seu e-mail e senha. Se esqueceu, pode recuperar aqui.", login: "Entrar", signup: "Criar conta", email: "E-mail", password: "Senha", newPassword: "Crie uma senha", yourPassword: "Sua senha", show: "Ver", hide: "Ocultar", forgot: "Esqueci minha senha" },
-  fr: { access: "Accès VIBE", title: "Connexion à VIBE", text: "Utilise ton e-mail et ton mot de passe. Si tu l’as oublié, tu peux le récupérer ici.", login: "Se connecter", signup: "Créer un compte", email: "E-mail", password: "Mot de passe", newPassword: "Créer un mot de passe", yourPassword: "Ton mot de passe", show: "Voir", hide: "Masquer", forgot: "Mot de passe oublié" },
-  ja: { access: "VIBEアクセス", title: "VIBEにログイン", text: "メールとパスワードでログインします。忘れた場合はここから再設定できます。", login: "ログイン", signup: "アカウント作成", email: "メール", password: "パスワード", newPassword: "パスワードを作成", yourPassword: "パスワード", show: "表示", hide: "非表示", forgot: "パスワードを忘れた" },
-  zh: { access: "VIBE 访问", title: "登录 VIBE", text: "使用邮箱和密码登录。如果忘记密码，可以在这里找回。", login: "登录", signup: "创建账户", email: "邮箱", password: "密码", newPassword: "创建密码", yourPassword: "你的密码", show: "显示", hide: "隐藏", forgot: "忘记密码" },
+  es: { access: "Acceso VIBE", title: "Inicia sesión en VIBE", text: "{currentAuthCopy.text}", login: "Iniciar sesión", signup: "Crear cuenta", email: "Correo", password: "Contraseña", newPassword: "Crea una contraseña", yourPassword: "Tu contraseña", show: "Ver", hide: "Ocultar", forgot: "Olvidé mi contraseña", updateTitle: "Crea una nueva contraseña", updateText: "Escribe una nueva clave para recuperar el acceso a tu cuenta.", updatePassword: "Actualizar contraseña" },
+  en: { access: "VIBE access", title: "Log in to VIBE", text: "Use your email and password. If you forgot it, you can recover it here.", login: "Log in", signup: "Create account", email: "Email", password: "Password", newPassword: "Create a password", yourPassword: "Your password", show: "Show", hide: "Hide", forgot: "Forgot my password", updateTitle: "Create a new password", updateText: "Enter a new password to recover access to your account.", updatePassword: "Update password" },
+  pt: { access: "Acesso VIBE", title: "Entrar na VIBE", text: "Use seu e-mail e senha. Se esqueceu, pode recuperar aqui.", login: "Entrar", signup: "Criar conta", email: "E-mail", password: "Senha", newPassword: "Crie uma senha", yourPassword: "Sua senha", show: "Ver", hide: "Ocultar", forgot: "Esqueci minha senha", updateTitle: "Crie uma nova senha", updateText: "Digite uma nova senha para recuperar o acesso à sua conta.", updatePassword: "Atualizar senha" },
+  fr: { access: "Accès VIBE", title: "Connexion à VIBE", text: "Utilise ton e-mail et ton mot de passe. Si tu l’as oublié, tu peux le récupérer ici.", login: "Se connecter", signup: "Créer un compte", email: "E-mail", password: "Mot de passe", newPassword: "Créer un mot de passe", yourPassword: "Ton mot de passe", show: "Voir", hide: "Masquer", forgot: "Mot de passe oublié", updateTitle: "Créer un nouveau mot de passe", updateText: "Saisis un nouveau mot de passe pour récupérer ton compte.", updatePassword: "Mettre à jour le mot de passe" },
+  ja: { access: "VIBEアクセス", title: "VIBEにログイン", text: "メールとパスワードでログインします。忘れた場合はここから再設定できます。", login: "ログイン", signup: "アカウント作成", email: "メール", password: "パスワード", newPassword: "パスワードを作成", yourPassword: "パスワード", show: "表示", hide: "非表示", forgot: "パスワードを忘れた", updateTitle: "新しいパスワードを作成", updateText: "アカウントを復旧するための新しいパスワードを入力してください。", updatePassword: "パスワードを更新" },
+  zh: { access: "VIBE 访问", title: "登录 VIBE", text: "使用邮箱和密码登录。如果忘记密码，可以在这里找回。", login: "登录", signup: "创建账户", email: "邮箱", password: "密码", newPassword: "创建密码", yourPassword: "你的密码", show: "显示", hide: "隐藏", forgot: "忘记密码", updateTitle: "创建新密码", updateText: "输入新密码以恢复账户访问。", updatePassword: "更新密码" },
 };
 
 const miscCopy = {
@@ -910,9 +910,150 @@ const miscCopy = {
   zh: { featured: "精选计划", featuredTitle: "没人组织时，就创建一个计划。", featuredText: "用 VIBE 把想法变成具体行动。", loading: "正在从 Supabase 加载计划...", planFallback: "计划", verified: "已验证组织者" },
 };
 
+
+const onboardingUiCopy = {
+  es: {
+    skipLanding: "{currentOnboardingUiCopy.skipLanding}", start: "Start VIBE", profile: "Perfil", interests: "Intereses",
+    exploreNow: "Explorar ahora", createNow: "Crear VIBE", photo: "Foto", uploadPhoto: "Subir foto",
+    profilePreview: "Tu perfil queda listo para partir", locationPreview: "Ciudad", interestsPreview: "Intereses",
+    miniProfile: "Mini perfil", addPhotoHint: "Opcional. Ayuda a que tu perfil se sienta más humano.",
+    chooseAtLeast: "Toca una o más opciones. Puedes cambiarlas después.",
+    plansIn: (city) => `Planes en ${city}`,
+  },
+  en: {
+    skipLanding: "View landing", start: "Start VIBE", profile: "Profile", interests: "Interests",
+    exploreNow: "Explore now", createNow: "Create VIBE", photo: "Photo", uploadPhoto: "Upload photo",
+    profilePreview: "Your profile is ready to start", locationPreview: "City", interestsPreview: "Interests",
+    miniProfile: "Mini profile", addPhotoHint: "Optional. It helps your profile feel more human.",
+    chooseAtLeast: "Tap one or more options. You can change them later.",
+    plansIn: (city) => `Plans in ${city}`,
+  },
+  pt: {
+    skipLanding: "Ver landing", start: "Start VIBE", profile: "Perfil", interests: "Interesses",
+    exploreNow: "Explorar agora", createNow: "Criar VIBE", photo: "Foto", uploadPhoto: "Enviar foto",
+    profilePreview: "Seu perfil fica pronto para começar", locationPreview: "Cidade", interestsPreview: "Interesses",
+    miniProfile: "Mini perfil", addPhotoHint: "Opcional. Ajuda o perfil a parecer mais humano.",
+    chooseAtLeast: "Toque em uma ou mais opções. Você pode mudar depois.",
+    plansIn: (city) => `Planos em ${city}`,
+  },
+  fr: {
+    skipLanding: "Voir la landing", start: "Start VIBE", profile: "Profil", interests: "Intérêts",
+    exploreNow: "Explorer maintenant", createNow: "Créer VIBE", photo: "Photo", uploadPhoto: "Ajouter une photo",
+    profilePreview: "Ton profil est prêt pour commencer", locationPreview: "Ville", interestsPreview: "Intérêts",
+    miniProfile: "Mini profil", addPhotoHint: "Optionnel. Cela rend ton profil plus humain.",
+    chooseAtLeast: "Choisis une ou plusieurs options. Tu peux les modifier ensuite.",
+    plansIn: (city) => `Plans à ${city}`,
+  },
+  ja: {
+    skipLanding: "ランディングを見る", start: "Start VIBE", profile: "プロフィール", interests: "興味",
+    exploreNow: "今すぐ探す", createNow: "VIBEを作る", photo: "写真", uploadPhoto: "写真を追加",
+    profilePreview: "プロフィールの準備ができました", locationPreview: "都市", interestsPreview: "興味",
+    miniProfile: "ミニプロフィール", addPhotoHint: "任意。プロフィールがより自然に見えます。",
+    chooseAtLeast: "1つ以上選んでください。後で変更できます。",
+    plansIn: (city) => `${city}のプラン`,
+  },
+  zh: {
+    skipLanding: "查看首页", start: "Start VIBE", profile: "个人资料", interests: "兴趣",
+    exploreNow: "立即探索", createNow: "创建 VIBE", photo: "照片", uploadPhoto: "上传照片",
+    profilePreview: "你的个人资料已准备好", locationPreview: "城市", interestsPreview: "兴趣",
+    miniProfile: "迷你资料", addPhotoHint: "可选。让你的资料更真实。",
+    chooseAtLeast: "选择一个或多个选项。之后可以修改。",
+    plansIn: (city) => `${city} 的计划`,
+  },
+};
+
+const profileUiCopy = {
+  es: {
+    profile: "Mi perfil", profileTitle: "Mi perfil VIBE", profileText: "{currentProfileUiCopy.profileText}",
+    who: "Quién soy", city: "Ciudad", saveWhoCity: "{currentProfileUiCopy.saveWhoCity}", myInterests: "Mis intereses",
+    interestsHelp: "{currentProfileUiCopy.interestsHelp}", saveInterests: "{currentProfileUiCopy.saveInterests}", myData: "Mis datos",
+    dataHelp: "{currentProfileUiCopy.dataHelp}", email: "Mi correo", whatsapp: "WhatsApp",
+    configured: "Configurado", notConfigured: "No configurado", alerts: "Alertas", enabled: "Activadas", disabled: "Desactivadas",
+    logout: "Cerrar sesión", editProfile: "Editar perfil",
+  },
+  en: {
+    profile: "My profile", profileTitle: "My VIBE profile", profileText: "Your VIBE summary. You can edit interests, data and alerts whenever you need.",
+    who: "Who I am", city: "City", saveWhoCity: "Save who I am and city", myInterests: "My interests",
+    interestsHelp: "These interests help suggest more relevant plans.", saveInterests: "Save interests", myData: "My data",
+    dataHelp: "Your basic data and contact preferences remain private.", email: "My email", whatsapp: "WhatsApp",
+    configured: "Configured", notConfigured: "Not configured", alerts: "Alerts", enabled: "Enabled", disabled: "Disabled",
+    logout: "Log out", editProfile: "Edit profile",
+  },
+  pt: {
+    profile: "Meu perfil", profileTitle: "Meu perfil VIBE", profileText: "Seu resumo VIBE. Você pode editar interesses, dados e alertas quando precisar.",
+    who: "Quem sou", city: "Cidade", saveWhoCity: "Salvar quem sou e cidade", myInterests: "Meus interesses",
+    interestsHelp: "Esses interesses ajudam a sugerir planos mais afins.", saveInterests: "Salvar interesses", myData: "Meus dados",
+    dataHelp: "Seus dados básicos e preferências de contato ficam privados.", email: "Meu e-mail", whatsapp: "WhatsApp",
+    configured: "Configurado", notConfigured: "Não configurado", alerts: "Alertas", enabled: "Ativados", disabled: "Desativados",
+    logout: "Sair", editProfile: "Editar perfil",
+  },
+  fr: {
+    profile: "Mon profil", profileTitle: "Mon profil VIBE", profileText: "Ton résumé VIBE. Tu peux modifier intérêts, données et alertes quand tu veux.",
+    who: "Qui je suis", city: "Ville", saveWhoCity: "Enregistrer profil et ville", myInterests: "Mes intérêts",
+    interestsHelp: "Ces intérêts aident à proposer des plans plus pertinents.", saveInterests: "Enregistrer les intérêts", myData: "Mes données",
+    dataHelp: "Tes données et préférences de contact restent privées.", email: "Mon e-mail", whatsapp: "WhatsApp",
+    configured: "Configuré", notConfigured: "Non configuré", alerts: "Alertes", enabled: "Activées", disabled: "Désactivées",
+    logout: "Se déconnecter", editProfile: "Modifier le profil",
+  },
+  ja: {
+    profile: "プロフィール", profileTitle: "VIBEプロフィール", profileText: "VIBEの概要です。興味、情報、通知はいつでも編集できます。",
+    who: "自己紹介", city: "都市", saveWhoCity: "自己紹介と都市を保存", myInterests: "興味",
+    interestsHelp: "より合うプランをおすすめするために使います。", saveInterests: "興味を保存", myData: "データ",
+    dataHelp: "基本情報と連絡先設定は非公開です。", email: "メール", whatsapp: "WhatsApp",
+    configured: "設定済み", notConfigured: "未設定", alerts: "通知", enabled: "有効", disabled: "無効",
+    logout: "ログアウト", editProfile: "プロフィール編集",
+  },
+  zh: {
+    profile: "我的资料", profileTitle: "我的 VIBE 资料", profileText: "你的 VIBE 摘要。你可以随时编辑兴趣、数据和提醒。",
+    who: "我是谁", city: "城市", saveWhoCity: "保存介绍和城市", myInterests: "我的兴趣",
+    interestsHelp: "这些兴趣帮助推荐更合适的计划。", saveInterests: "保存兴趣", myData: "我的数据",
+    dataHelp: "你的基本信息和联系方式偏好保持私密。", email: "我的邮箱", whatsapp: "WhatsApp",
+    configured: "已配置", notConfigured: "未配置", alerts: "提醒", enabled: "已开启", disabled: "已关闭",
+    logout: "退出登录", editProfile: "编辑资料",
+  },
+};
+
+const extraInterestLabels = {
+  en: {
+    "Café": "Coffee", "Viajes": "Travel", "Negocios": "Business", "Comida": "Food", "Outdoor": "Outdoor",
+    "Deportes": "Sports", "Juegos de mesa": "Board games", "Gaming": "Gaming", "Música": "Music", "Fiesta": "Party",
+    "VIBE Literario": "Literary VIBE", "Cine": "Cinema", "Danza": "Dance", "Cultura Pop": "Pop culture", "Cultura": "Culture",
+    "Bienestar": "Wellbeing", "Mascotas": "Pets", "Fotografía": "Photography", "Arte": "Art", "Idiomas": "Languages",
+    "Voluntariado": "Volunteering", "Otros": "Other",
+  },
+  pt: {
+    "Café": "Café", "Viajes": "Viagens", "Negocios": "Negócios", "Comida": "Comida", "Outdoor": "Outdoor",
+    "Deportes": "Esportes", "Juegos de mesa": "Jogos de mesa", "Gaming": "Gaming", "Música": "Música", "Fiesta": "Festa",
+    "VIBE Literario": "VIBE Literário", "Cine": "Cinema", "Danza": "Dança", "Cultura Pop": "Cultura Pop", "Cultura": "Cultura",
+    "Bienestar": "Bem-estar", "Mascotas": "Pets", "Fotografía": "Fotografia", "Arte": "Arte", "Idiomas": "Idiomas",
+    "Voluntariado": "Voluntariado", "Otros": "Outros",
+  },
+  fr: {
+    "Café": "Café", "Viajes": "Voyages", "Negocios": "Business", "Comida": "Food", "Outdoor": "Outdoor",
+    "Deportes": "Sports", "Juegos de mesa": "Jeux de société", "Gaming": "Gaming", "Música": "Musique", "Fiesta": "Fête",
+    "VIBE Literario": "VIBE Littéraire", "Cine": "Cinéma", "Danza": "Danse", "Cultura Pop": "Culture pop", "Cultura": "Culture",
+    "Bienestar": "Bien-être", "Mascotas": "Animaux", "Fotografía": "Photographie", "Arte": "Art", "Idiomas": "Langues",
+    "Voluntariado": "Bénévolat", "Otros": "Autres",
+  },
+  ja: {
+    "Café": "カフェ", "Viajes": "旅行", "Negocios": "ビジネス", "Comida": "食事", "Outdoor": "アウトドア",
+    "Deportes": "スポーツ", "Juegos de mesa": "ボードゲーム", "Gaming": "ゲーム", "Música": "音楽", "Fiesta": "パーティー",
+    "VIBE Literario": "読書VIBE", "Cine": "映画", "Danza": "ダンス", "Cultura Pop": "ポップカルチャー", "Cultura": "文化",
+    "Bienestar": "ウェルビーイング", "Mascotas": "ペット", "Fotografía": "写真", "Arte": "アート", "Idiomas": "言語",
+    "Voluntariado": "ボランティア", "Otros": "その他",
+  },
+  zh: {
+    "Café": "咖啡", "Viajes": "旅行", "Negocios": "商业", "Comida": "美食", "Outdoor": "户外",
+    "Deportes": "运动", "Juegos de mesa": "桌游", "Gaming": "游戏", "Música": "音乐", "Fiesta": "派对",
+    "VIBE Literario": "文学 VIBE", "Cine": "电影", "Danza": "舞蹈", "Cultura Pop": "流行文化", "Cultura": "文化",
+    "Bienestar": "身心健康", "Mascotas": "宠物", "Fotografía": "摄影", "Arte": "艺术", "Idiomas": "语言",
+    "Voluntariado": "志愿服务", "Otros": "其他",
+  },
+};
+
 const getLangCopy = (dictionary, language, fallback = "es") => dictionary[language] || dictionary[fallback] || {};
 const getCategoryLabel = (key, fallback, language) => getLangCopy(categoryCopy, language)[key] || fallback || key;
-const getInterestLabel = (interest, language) => getLangCopy(interestCopy, language)[interest] || interest;
+const getInterestLabel = (interest, language) => getLangCopy(extraInterestLabels, language)[interest] || getLangCopy(interestCopy, language)[interest] || interest;
 const getQuickVibeLabel = (vibe, language) => getCategoryLabel(vibe.key, vibe.label, language);
 
 
@@ -1084,6 +1225,7 @@ function App() {
   const [authPassword, setAuthPassword] = useState("");
   const [showAuthPassword, setShowAuthPassword] = useState(false);
   const [authMode, setAuthMode] = useState("login");
+  const [onboardingAvatarUrl, setOnboardingAvatarUrl] = useState("");
   const [profileName, setProfileName] = useState("");
   const [profileBio, setProfileBio] = useState("");
   const [profileWhatsapp, setProfileWhatsapp] = useState("");
@@ -1103,21 +1245,37 @@ function App() {
 
 
   useEffect(() => {
+    const recoveryFromUrl = window.location.hash.includes("type=recovery") || window.location.search.includes("type=recovery");
+
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session || null);
       if (data.session?.user) {
         ensureUserProfile(data.session.user);
         setAuthEmail(data.session.user.email || "");
-        restorePendingCreateDraft();
+        if (recoveryFromUrl) {
+          setAuthMode("updatePassword");
+          setShowAuth(true);
+          setAuthPassword("");
+          setNotice("Ingresa una nueva contraseña para tu cuenta.");
+        } else {
+          restorePendingCreateDraft();
+        }
       }
     });
 
-    const { data: authListener } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, nextSession) => {
       setSession(nextSession || null);
       if (nextSession?.user) {
         ensureUserProfile(nextSession.user);
         setAuthEmail(nextSession.user.email || "");
-        restorePendingCreateDraft();
+        if (event === "PASSWORD_RECOVERY") {
+          setAuthMode("updatePassword");
+          setShowAuth(true);
+          setAuthPassword("");
+          setNotice("Ingresa una nueva contraseña para tu cuenta.");
+        } else {
+          restorePendingCreateDraft();
+        }
       }
     });
 
@@ -1283,6 +1441,28 @@ function App() {
       setNotice("No pude enviar el correo de recuperación.");
     } else {
       setNotice("Te envié un correo para cambiar tu contraseña.");
+    }
+
+    setTimeout(() => setNotice(""), 3600);
+  };
+
+  const updatePassword = async () => {
+    if (!authPassword.trim() || authPassword.length < 6) {
+      setNotice("La nueva contraseña debe tener al menos 6 caracteres.");
+      setTimeout(() => setNotice(""), 3000);
+      return;
+    }
+
+    const { error } = await supabase.auth.updateUser({ password: authPassword });
+
+    if (error) {
+      console.error("Update password error:", error);
+      setNotice("No pude actualizar la contraseña. Vuelve a pedir el correo de recuperación.");
+    } else {
+      setNotice("Contraseña actualizada. Ya puedes seguir en VIBE.");
+      setAuthMode("login");
+      setShowAuth(false);
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
 
     setTimeout(() => setNotice(""), 3600);
@@ -1499,6 +1679,12 @@ function App() {
     setTimeout(() => setNotice(""), 3400);
   };
 
+  const handleOnboardingAvatarUpload = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setOnboardingAvatarUrl(URL.createObjectURL(file));
+  };
+
   const isMeetingUrl = (value) => {
     if (!value) return false;
     return /^https?:\/\//i.test(value.trim());
@@ -1640,6 +1826,8 @@ function App() {
   const currentCreateCopy = getLangCopy(createCopy, onboarding.language);
   const currentAuthCopy = getLangCopy(authCopy, onboarding.language);
   const currentMiscCopy = getLangCopy(miscCopy, onboarding.language);
+  const currentOnboardingUiCopy = getLangCopy(onboardingUiCopy, onboarding.language);
+  const currentProfileUiCopy = getLangCopy(profileUiCopy, onboarding.language);
   const locationMatches = onboardingLocations.filter((location) => {
     const text = `${location.city} ${location.country} ${location.label}`.toLowerCase();
     return text.includes(locationQuery.toLowerCase());
@@ -1764,7 +1952,7 @@ function App() {
         {onboardingStep === "location" && (
           <main className="onboarding-card location-card">
             <div className="onboarding-copy">
-              <span className="onboarding-kicker">Start VIBE</span>
+              <span className="onboarding-kicker">{currentOnboardingUiCopy.start}</span>
               <h1>{currentOnboardingCopy.locationTitle}</h1>
               <p>{currentOnboardingCopy.locationText}</p>
 
@@ -1790,7 +1978,7 @@ function App() {
               </div>
 
               <div className="location-results">
-                {(locationQuery ? locationMatches : onboardingLocations.slice(0, 8)).map((location) => (
+                {(locationQuery ? locationMatches : onboardingLocations.slice(0, 6)).map((location) => (
                   <button
                     key={location.label}
                     className={selectedOnboardingLocation.label === location.label ? "active" : ""}
@@ -1881,29 +2069,52 @@ function App() {
         )}
 
         {onboardingStep === "name" && (
-          <main className="onboarding-card compact-onboarding-card">
-            <span className="onboarding-kicker">Profile</span>
-            <h1>{currentOnboardingCopy.nameTitle}</h1>
-            <p>{currentOnboardingCopy.nameText}</p>
-            <input
-              className="onboarding-input"
-              value={onboarding.name}
-              onChange={(event) => updateOnboarding({ name: event.target.value })}
-              placeholder={currentOnboardingCopy.namePlaceholder}
-              autoFocus
-            />
-            <div className="onboarding-actions">
-              <button className="btn btn-gorganizador" onClick={() => setOnboardingStep("intro")}>{currentOnboardingCopy.back}</button>
-              <button className="btn btn-primary" onClick={() => setOnboardingStep("preferences")}>{currentOnboardingCopy.continue}</button>
-            </div>
+          <main className="onboarding-card compact-onboarding-card profile-onboarding-card">
+            <section className="profile-onboarding-main">
+              <span className="onboarding-kicker">{currentOnboardingUiCopy.profile}</span>
+              <h1>{currentOnboardingCopy.nameTitle}</h1>
+              <p>{currentOnboardingCopy.nameText}</p>
+              <input
+                className="onboarding-input"
+                value={onboarding.name}
+                onChange={(event) => updateOnboarding({ name: event.target.value })}
+                placeholder={currentOnboardingCopy.namePlaceholder}
+                autoFocus
+              />
+
+              <div className="onboarding-actions">
+                <button className="btn btn-gorganizador" onClick={() => setOnboardingStep("intro")}>{currentOnboardingCopy.back}</button>
+                <button className="btn btn-primary" onClick={() => setOnboardingStep("preferences")}>{currentOnboardingCopy.continue}</button>
+              </div>
+            </section>
+
+            <aside className="onboarding-profile-preview">
+              <span>{currentOnboardingUiCopy.miniProfile}</span>
+              <label className="avatar-uploader">
+                <input type="file" accept="image/*" onChange={handleOnboardingAvatarUpload} />
+                {onboardingAvatarUrl ? (
+                  <img src={onboardingAvatarUrl} alt={currentOnboardingUiCopy.photo} />
+                ) : (
+                  <strong>{(onboarding.name || "V").slice(0, 1).toUpperCase()}</strong>
+                )}
+                <em>{currentOnboardingUiCopy.uploadPhoto}</em>
+              </label>
+              <h3>{onboarding.name || currentOnboardingCopy.namePlaceholder}</h3>
+              <p>{currentOnboardingUiCopy.profilePreview}</p>
+              <div className="mini-profile-tags">
+                <small>{currentOnboardingUiCopy.locationPreview}: {selectedOnboardingLocation.city}</small>
+                <small>{currentOnboardingUiCopy.interestsPreview}: {(onboarding.interests || []).slice(0, 3).join(", ")}</small>
+              </div>
+            </aside>
           </main>
         )}
 
         {onboardingStep === "preferences" && (
           <main className="onboarding-card compact-onboarding-card wide-preferences">
-            <span className="onboarding-kicker">Interests</span>
+            <span className="onboarding-kicker">{currentOnboardingUiCopy.interests}</span>
             <h1>{currentOnboardingCopy.prefsTitle}</h1>
             <p>{currentOnboardingCopy.prefsText}</p>
+            <p className="onboarding-subhint">{currentOnboardingUiCopy.chooseAtLeast}</p>
 
             <div className="onboarding-interest-grid">
               {profileInterestOptions.slice(0, 18).map((interest) => {
@@ -1915,7 +2126,8 @@ function App() {
                     className={selected ? "selected" : ""}
                     onClick={() => toggleOnboardingInterest(clean)}
                   >
-                    {clean}
+                    <span>{getInterestLabel(clean, onboarding.language)}</span>
+                    {selected && <em>✓</em>}
                   </button>
                 );
               })}
@@ -2037,7 +2249,7 @@ function App() {
         <div className="hero-overlay"></div>
         <div className="container hero-grid">
           <div className="hero-copy">
-            <p className="eyebrow">{onboarding.location?.city ? `Planes en ${onboarding.location.city}` : "Planes para hacer hoy"}</p>
+            <p className="eyebrow">{onboarding.location?.city ? currentOnboardingUiCopy.plansIn(onboarding.location.city) : currentSiteCopy.heroBadge}</p>
             <h1>{currentSiteCopy.heroTitle}</h1>
             <p className="hero-text">
               {currentSiteCopy.heroText}
@@ -2047,10 +2259,10 @@ function App() {
             </p>
             <div className="hero-actions">
               <button className="btn btn-primary" onClick={() => scrollTo("planes")}>
-                Ver panoramas cerca <ArrowRight size={17} />
+                {currentSiteCopy.heroExplore} <ArrowRight size={17} />
               </button>
               <button className="btn btn-gorganizador" onClick={openCreateModal}>
-                Crear mi VIBE
+                {currentSiteCopy.heroCreate}
               </button>
             </div>
 
@@ -2456,7 +2668,7 @@ function App() {
                     type={showAuthPassword ? "text" : "password"}
                     value={authPassword}
                     onChange={(e) => setAuthPassword(e.target.value)}
-                    placeholder={authMode === "signup" ? currentAuthCopy.newPassword : currentAuthCopy.yourPassword}
+                    placeholder={authMode === "signup" || authMode === "updatePassword" ? currentAuthCopy.newPassword : currentAuthCopy.yourPassword}
                   />
                   <button
                     type="button"
@@ -2470,7 +2682,11 @@ function App() {
               </label>
 
               <div className="plan-actions one">
-                {authMode === "signup" ? (
+                {authMode === "updatePassword" ? (
+                  <button className="btn btn-primary full" onClick={updatePassword}>
+                    {currentAuthCopy.updatePassword}
+                  </button>
+                ) : authMode === "signup" ? (
                   <button className="btn btn-primary full" onClick={signUpWithPassword}>
                     {currentAuthCopy.signup}
                   </button>
@@ -2481,9 +2697,11 @@ function App() {
                 )}
               </div>
 
-              <div className="auth-secondary-actions">
-                <button onClick={resetPassword}>{currentAuthCopy.forgot}</button>
-              </div>
+              {authMode !== "updatePassword" && (
+                <div className="auth-secondary-actions">
+                  <button onClick={resetPassword}>{currentAuthCopy.forgot}</button>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -2498,20 +2716,20 @@ function App() {
 
             <div className="modal-content">
               <div className="modal-topline">
-                <span><UserCircle size={15} /> Mi perfil</span>
+                <span><UserCircle size={15} /> {currentProfileUiCopy.profile}</span>
                 {session?.user && <span>{session.user.email}</span>}
               </div>
 
               {!profileEditMode ? (
                 <>
-                  <h3>Mi perfil VIBE</h3>
+                  <h3>{currentProfileUiCopy.profileTitle}</h3>
                   <p className="modal-vibe">
                     Tu resumen VIBE. Puedes editar intereses, datos y alertas cuando lo necesites.
                   </p>
 
                   <section className="profile-summary-hero editable-summary">
                     <label>
-                      <span className="summary-kicker">Quién soy</span>
+                      <span className="summary-kicker">{currentProfileUiCopy.who}</span>
                       <textarea
                         value={profileBio}
                         onChange={(e) => setProfileBio(e.target.value)}
@@ -2520,7 +2738,7 @@ function App() {
                       />
                     </label>
                     <label className="summary-side">
-                      <span>Ciudad</span>
+                      <span>{currentProfileUiCopy.city}</span>
                       <input
                         value={profileZone}
                         onChange={(e) => setProfileZone(e.target.value)}
@@ -2534,7 +2752,7 @@ function App() {
 
                   <section className="profile-section compact-profile-section">
                     <div className="profile-section-head">
-                      <span>Mis intereses</span>
+                      <span>{currentProfileUiCopy.myInterests}</span>
                       <small>Estos intereses ayudan a sugerirte panoramas más afines.</small>
                     </div>
 
@@ -2553,7 +2771,7 @@ function App() {
                             className={`summary-interest-chip ${selected ? "selected" : ""}`}
                             onClick={() => toggleProfileInterest(interest)}
                           >
-                            {interest}
+                            {getInterestLabel(normalizeInterest(interest), onboarding.language)}
                           </button>
                         );
                       })}
@@ -2565,29 +2783,29 @@ function App() {
 
                   <section className="profile-section compact-profile-section">
                     <div className="profile-section-head">
-                      <span>Mis datos</span>
+                      <span>{currentProfileUiCopy.myData}</span>
                       <small>Tus datos básicos y preferencias de contacto quedan privados.</small>
                     </div>
 
                     <div className="profile-summary-grid three">
                       <div>
-                        <span>Mi correo</span>
-                        <strong>{session?.user?.email || "Configurado"}</strong>
+                        <span>{currentProfileUiCopy.email}</span>
+                        <strong>{session?.user?.email || currentProfileUiCopy.configured}</strong>
                       </div>
                       <div>
                         <span>WhatsApp</span>
-                        <strong>{profileWhatsapp ? "Configurado" : "No configurado"}</strong>
+                        <strong>{profileWhatsapp ? currentProfileUiCopy.configured : currentProfileUiCopy.notConfigured}</strong>
                       </div>
                       <div>
-                        <span>Alertas</span>
-                        <strong>{profileAlerts ? "Activadas" : "Desactivadas"}</strong>
+                        <span>{currentProfileUiCopy.alerts}</span>
+                        <strong>{profileAlerts ? currentProfileUiCopy.enabled : currentProfileUiCopy.disabled}</strong>
                       </div>
                     </div>
                   </section>
 
                   <div className="plan-actions">
-                    <button className="btn btn-gorganizador full" onClick={signOut}><LogOut size={16} /> Cerrar sesión</button>
-                    <button className="btn btn-primary full" onClick={() => setProfileEditMode(true)}>Editar perfil</button>
+                    <button className="btn btn-gorganizador full" onClick={signOut}><LogOut size={16} /> {currentProfileUiCopy.logout}</button>
+                    <button className="btn btn-primary full" onClick={() => setProfileEditMode(true)}>{currentProfileUiCopy.editProfile}</button>
                   </div>
                 </>
               ) : (

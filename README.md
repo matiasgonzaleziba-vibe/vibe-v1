@@ -261,3 +261,15 @@ Cambios acotados sobre v9.2:
 - Traducción de etiquetas visibles como “Preview”, “Participación”, “Formato”, “Ubicación”, “Publicar”, “Cerrar”.
 - Globo visualmente más trabajado: más profundidad, meridianos, labels de ciudad y ciudad activa.
 - Sin reescribir la lógica principal para mantener estabilidad.
+
+
+## v9.4 onboarding / recovery / i18n
+
+Cambios:
+- Hero: botones y badge de ciudad traducidos.
+- Onboarding: location menos saturado, menos ciudades visibles de entrada y CTAs directos.
+- Onboarding paso perfil: nombre + preview de mini perfil + opción de foto local.
+- Onboarding intereses: cards visuales, menos plano, con selección más clara.
+- Recuperación de contraseña: si el link de Supabase llega con `type=recovery`, se abre modo para crear nueva contraseña.
+- Traducciones adicionales para perfil, intereses y labels visibles.
+- Ajuste de tamaños de letra para evitar desbordes.
