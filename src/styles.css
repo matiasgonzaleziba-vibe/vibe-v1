@@ -2538,3 +2538,65 @@ button, input { font: inherit; }
   .plan-actions.two { grid-template-columns: 1fr; }
   .onboarding-card h1 { font-size: clamp(42px, 13vw, 58px) !important; }
 }
+
+
+/* v9.2: safe globe upgrade with static city lights */
+.vibe-globe {
+  cursor: grab;
+}
+
+.vibe-globe:active {
+  cursor: grabbing;
+}
+
+.globe-dot {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.82);
+  box-shadow:
+    0 0 0 4px rgba(255,255,255,0.055),
+    0 0 18px rgba(255,255,255,0.32);
+  z-index: 4;
+  transform: rotate(calc(var(--globe-rotation) * -1));
+  animation: globeDotGlow 2.5s ease-in-out infinite;
+}
+
+.dot-one { left: 24%; top: 29%; animation-delay: .1s; }
+.dot-two { left: 35%; top: 62%; animation-delay: .3s; }
+.dot-three { left: 71%; top: 40%; animation-delay: .5s; }
+.dot-four { left: 58%; top: 24%; animation-delay: .7s; }
+.dot-five { left: 77%; top: 68%; animation-delay: .9s; }
+.dot-six { left: 47%; top: 77%; animation-delay: 1.1s; }
+
+@keyframes globeDotGlow {
+  0%, 100% { opacity: .58; transform: scale(.9) rotate(calc(var(--globe-rotation) * -1)); }
+  50% { opacity: 1; transform: scale(1.14) rotate(calc(var(--globe-rotation) * -1)); }
+}
+
+.vibe-globe::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow:
+    inset 26px 18px 38px rgba(255,255,255,0.07),
+    inset -64px -70px 88px rgba(0,0,0,0.56);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.main-pin {
+  z-index: 7 !important;
+}
+
+.plan-card h3 {
+  word-break: normal;
+  hyphens: auto;
+}
+
+.plan-card p,
+.plan-detail p {
+  line-height: 1.32;
+}

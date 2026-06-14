@@ -243,3 +243,12 @@ Cambios seguros:
 - SQL `v91_manage_own_panoramas_host_id.sql`.
 
 No se incluyó todavía la traducción dinámica de todos los eventos para evitar repetir el blank screen de v9.0.
+
+
+## v9.2 incremental
+
+Cambio acotado sobre v9.1 estable:
+- Traducción de panoramas precargados al cambiar idioma.
+- Traducción básica de eventos creados que coinciden con títulos demo conocidos.
+- Traducción de etiquetas de cupos, ubicación y organizador.
+- Globo con puntos extra y giro con rueda del mouse, sin reescribir la lógica de onboarding.
