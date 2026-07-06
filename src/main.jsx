@@ -913,7 +913,7 @@ const miscCopy = {
 
 const onboardingUiCopy = {
   es: {
-    skipLanding: "{currentOnboardingUiCopy.skipLanding}", start: "Start VIBE", profile: "Perfil", interests: "Intereses",
+    skipLanding: "Ver landing", start: "Start VIBE", profile: "Perfil", interests: "Intereses",
     exploreNow: "Explorar ahora", createNow: "Crear VIBE", photo: "Foto", uploadPhoto: "Subir foto",
     profilePreview: "Tu perfil queda listo para partir", locationPreview: "Ciudad", interestsPreview: "Intereses",
     miniProfile: "Mini perfil", addPhotoHint: "Opcional. Ayuda a que tu perfil se sienta más humano.",
@@ -964,7 +964,7 @@ const onboardingUiCopy = {
 
 const profileUiCopy = {
   es: {
-    profile: "Mi perfil", profileTitle: "Mi perfil VIBE", profileText: "{currentProfileUiCopy.profileText}",
+    profile: "Mi perfil", profileTitle: "Mi perfil VIBE", profileText: "Tu resumen VIBE. Puedes editar intereses, datos y alertas cuando lo necesites.",
     who: "Quién soy", city: "Ciudad", saveWhoCity: "{currentProfileUiCopy.saveWhoCity}", myInterests: "Mis intereses",
     interestsHelp: "{currentProfileUiCopy.interestsHelp}", saveInterests: "{currentProfileUiCopy.saveInterests}", myData: "Mis datos",
     dataHelp: "{currentProfileUiCopy.dataHelp}", email: "Mi correo", whatsapp: "WhatsApp",
@@ -1978,7 +1978,7 @@ function App() {
               </div>
 
               <div className="location-results">
-                {(locationQuery ? locationMatches : onboardingLocations.slice(0, 6)).map((location) => (
+                {(locationQuery ? locationMatches : onboardingLocations.slice(0, 4)).map((location) => (
                   <button
                     key={location.label}
                     className={selectedOnboardingLocation.label === location.label ? "active" : ""}
@@ -1989,9 +1989,17 @@ function App() {
                 ))}
               </div>
 
-              <button className="btn btn-primary onboarding-main-btn" onClick={() => setOnboardingStep("intro")}>
-                {currentOnboardingCopy.continue} <ArrowRight size={18} />
-              </button>
+              <div className="onboarding-main-actions">
+                <button className="btn btn-primary onboarding-main-btn" onClick={() => setOnboardingStep("name")}>
+                  {currentOnboardingCopy.continue} <ArrowRight size={18} />
+                </button>
+                <button className="btn btn-gorganizador onboarding-main-btn" onClick={() => finishOnboarding(false)}>
+                  {currentOnboardingUiCopy.exploreNow}
+                </button>
+                <button className="btn btn-gorganizador onboarding-main-btn" onClick={() => finishOnboarding(true)}>
+                  {currentOnboardingUiCopy.createNow}
+                </button>
+              </div>
             </div>
 
             <div
@@ -2022,7 +2030,7 @@ function App() {
               </div>
               <button className="globe-control right" onClick={() => rotateGlobe(1)}>›</button>
               <div className="globe-location-card">
-                <span>Location</span>
+                <span>{currentOnboardingUiCopy.locationPreview}</span>
                 <strong>{selectedOnboardingLocation.label}</strong>
                 <small>{onboarding.language.toUpperCase()}</small>
               </div>
@@ -2083,7 +2091,7 @@ function App() {
               />
 
               <div className="onboarding-actions">
-                <button className="btn btn-gorganizador" onClick={() => setOnboardingStep("intro")}>{currentOnboardingCopy.back}</button>
+                <button className="btn btn-gorganizador" onClick={() => setOnboardingStep("location")}>{currentOnboardingCopy.back}</button>
                 <button className="btn btn-primary" onClick={() => setOnboardingStep("preferences")}>{currentOnboardingCopy.continue}</button>
               </div>
             </section>
@@ -2101,9 +2109,10 @@ function App() {
               </label>
               <h3>{onboarding.name || currentOnboardingCopy.namePlaceholder}</h3>
               <p>{currentOnboardingUiCopy.profilePreview}</p>
+              <p className="avatar-hint">{currentOnboardingUiCopy.addPhotoHint}</p>
               <div className="mini-profile-tags">
                 <small>{currentOnboardingUiCopy.locationPreview}: {selectedOnboardingLocation.city}</small>
-                <small>{currentOnboardingUiCopy.interestsPreview}: {(onboarding.interests || []).slice(0, 3).join(", ")}</small>
+                <small>{currentOnboardingUiCopy.interestsPreview}: {(onboarding.interests || []).slice(0, 3).map((item) => getInterestLabel(item, onboarding.language)).join(", ")}</small>
               </div>
             </aside>
           </main>
@@ -2631,25 +2640,27 @@ function App() {
                 <span><Mail size={15} /> {currentAuthCopy.access}</span>
               </div>
 
-              <h3>{currentAuthCopy.title}</h3>
+              <h3>{authMode === "updatePassword" ? currentAuthCopy.updateTitle : currentAuthCopy.title}</h3>
               <p className="modal-vibe">
-                Usa tu correo y contraseña. Si la olvidaste, puedes recuperarla desde aquí.
+                {authMode === "updatePassword" ? currentAuthCopy.updateText : currentAuthCopy.text}
               </p>
 
-              <div className="auth-tabs">
-                <button
-                  className={authMode === "login" ? "active" : ""}
-                  onClick={() => setAuthMode("login")}
-                >
-                  Iniciar sesión
-                </button>
-                <button
-                  className={authMode === "signup" ? "active" : ""}
-                  onClick={() => setAuthMode("signup")}
-                >
-                  Crear cuenta
-                </button>
-              </div>
+              {authMode !== "updatePassword" && (
+                <div className="auth-tabs">
+                  <button
+                    className={authMode === "login" ? "active" : ""}
+                    onClick={() => setAuthMode("login")}
+                  >
+                    {currentAuthCopy.login}
+                  </button>
+                  <button
+                    className={authMode === "signup" ? "active" : ""}
+                    onClick={() => setAuthMode("signup")}
+                  >
+                    {currentAuthCopy.signup}
+                  </button>
+                </div>
+              )}
 
               <label className="fake-label">
                 {currentAuthCopy.email}
@@ -2724,7 +2735,7 @@ function App() {
                 <>
                   <h3>{currentProfileUiCopy.profileTitle}</h3>
                   <p className="modal-vibe">
-                    Tu resumen VIBE. Puedes editar intereses, datos y alertas cuando lo necesites.
+                    {currentProfileUiCopy.profileText}
                   </p>
 
                   <section className="profile-summary-hero editable-summary">

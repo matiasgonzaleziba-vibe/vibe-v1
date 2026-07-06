@@ -273,3 +273,32 @@ Cambios:
 - Recuperación de contraseña: si el link de Supabase llega con `type=recovery`, se abre modo para crear nueva contraseña.
 - Traducciones adicionales para perfil, intereses y labels visibles.
 - Ajuste de tamaños de letra para evitar desbordes.
+
+
+## v9.6
+
+Base: v9.4, que cargó correctamente.
+
+Cambios:
+- Corrige strings placeholder que quedaron visibles en diccionarios ES.
+- Onboarding más corto: ubicación → perfil → intereses. La intro queda en la landing, no interrumpe el flujo.
+- Menos ciudades visibles de entrada para que location no se vea tan saturado.
+- Agrega acciones directas desde ubicación: continuar, explorar ahora o crear VIBE.
+- Corrige header/logo del onboarding para que no tape la pregunta principal.
+- Ajusta tamaños de texto y alto de tarjetas para que quepa mejor en pantalla.
+- Hace el paso “¿Con qué vibras?” más visual, en formato cards clickeables.
+- Mejora el modal de recuperación de contraseña mostrando título/texto de nueva contraseña.
+
+
+## v9.7 mobile landing safe
+
+Cambios:
+- Optimización responsive para celular.
+- Evita overflow horizontal global.
+- Landing/hero pasa a una columna en mobile.
+- Botones del hero se apilan en celular.
+- Cards de panoramas y grillas pasan a una columna.
+- Chips de categorías quedan en scroll horizontal controlado.
+- Onboarding se compacta y evita que globo/cards escapen de los márgenes.
+- Modales se comportan como bottom sheets en mobile, con ancho 100% y sin overflow horizontal.
+- Formularios de crear VIBE/perfil/login pasan a una columna.
